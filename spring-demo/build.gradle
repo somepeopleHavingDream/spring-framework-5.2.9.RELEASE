@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+group 'org.springframework'
+version '5.2.9.RELEASE'
+
+repositories {
+    maven { url 'https://maven.aliyun.com/repository/public' }
+    maven { url 'https://maven.aliyun.com/repository/central'}
+    maven { url 'https://maven.aliyun.com/repository/google'}
+    mavenCentral()
+}
+
+dependencies {
+    compile(project(":spring-context"))
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
