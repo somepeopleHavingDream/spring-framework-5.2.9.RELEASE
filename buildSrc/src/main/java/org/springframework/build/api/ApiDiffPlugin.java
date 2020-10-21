@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import me.champeau.gradle.japicmp.JapicmpPlugin;
 import me.champeau.gradle.japicmp.JapicmpTask;
@@ -44,6 +45,7 @@ import org.gradle.jvm.tasks.Jar;
  *
  * @author Brian Clozel
  */
+@SuppressWarnings("UnstableApiUsage")
 public class ApiDiffPlugin implements Plugin<Project> {
 
 	public static final String TASK_NAME = "apiDiff";
@@ -62,7 +64,7 @@ public class ApiDiffPlugin implements Plugin<Project> {
 	}
 
 	private void applyApiDiffConventions(Project project) {
-		String baselineVersion = project.property(BASELINE_VERSION_PROPERTY).toString();
+		String baselineVersion = Objects.requireNonNull(project.property(BASELINE_VERSION_PROPERTY)).toString();
 		project.subprojects(subProject -> createApiDiffTask(baselineVersion, subProject));
 	}
 
