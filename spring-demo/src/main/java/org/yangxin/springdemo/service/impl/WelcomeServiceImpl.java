@@ -1,11 +1,13 @@
 package org.yangxin.springdemo.service.impl;
 
+import org.springframework.stereotype.Service;
 import org.yangxin.springdemo.service.WelcomeService;
 
 /**
  * @author yangxin
  * 2020/10/20 21:01
  */
+@Service
 public class WelcomeServiceImpl implements WelcomeService {
 
 	@Override
