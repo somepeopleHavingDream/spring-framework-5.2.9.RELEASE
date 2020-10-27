@@ -31,11 +31,17 @@ import org.springframework.lang.Nullable;
  * implementations, drawing configuration from XML documents containing bean definitions
  * understood by an {@link org.springframework.beans.factory.xml.XmlBeanDefinitionReader}.
  *
+ * 对于org.springframework.context.ApplicationContext实现的便捷基类，描绘来自于包含bean定义的xml文档的配置，
+ * 而这些bean定义能被org.springframework.beans.factory.xml.XmlBeanDefinitionReader类理解。
+ *
  * <p>Subclasses just have to implement the {@link #getConfigResources} and/or
  * the {@link #getConfigLocations} method. Furthermore, they might override
  * the {@link #getResourceByPath} hook to interpret relative paths in an
  * environment-specific fashion, and/or {@link #getResourcePatternResolver}
  * for extended pattern resolution.
+ *
+ * 此外，子类只需要实现getConfigResource和getConfigLocation方法。
+ * 更进一步，它们可能覆写getResourceByPath钩子方法以解释在指定环境风格下的相对路径，或者覆写getResourcePatternResolver以扩展模式处理。
  *
  * @author Rod Johnson
  * @author Juergen Hoeller

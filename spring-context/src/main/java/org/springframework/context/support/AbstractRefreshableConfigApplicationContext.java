@@ -30,6 +30,9 @@ import org.springframework.util.StringUtils;
  * {@link FileSystemXmlApplicationContext}, as well as
  * {@link org.springframework.web.context.support.XmlWebApplicationContext}.
  *
+ * AbstractRefreshableApplicationContext子类添加了指定配置路径的公共处理。
+ * 作为基类服务于基于xml的应用环境，例如ClassPathXmlApplicationContext和FileSystemXmlApplicationContext、org.springframework.web.context.support.XmlWebApplicationContext
+ *
  * @author Juergen Hoeller
  * @since 2.5.2
  * @see #setConfigLocation
