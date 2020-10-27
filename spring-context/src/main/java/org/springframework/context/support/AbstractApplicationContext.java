@@ -89,6 +89,11 @@ import org.springframework.util.ReflectionUtils;
  * implements common context functionality. Uses the Template Method design pattern,
  * requiring concrete subclasses to implement abstract methods.
  *
+ * org.springframework.context.ApplicationContext接口的抽象实现。
+ * 不强制用于配置的存储的类型；
+ * 简单地实现公共上下文功能性。
+ * 使用模板方法设计模式，要求具体子类实现抽象方法。
+ *
  * <p>In contrast to a plain BeanFactory, an ApplicationContext is supposed
  * to detect special beans defined in its internal bean factory:
  * Therefore, this class automatically registers
@@ -96,6 +101,10 @@ import org.springframework.util.ReflectionUtils;
  * {@link org.springframework.beans.factory.config.BeanPostProcessor BeanPostProcessors},
  * and {@link org.springframework.context.ApplicationListener ApplicationListeners}
  * which are defined as beans in the context.
+ *
+ * 与普通的BeanFactory相反，ApplicationContext应当侦测在其内部bean工厂里被定义的特别类：
+ * 因此，此类自动注册org.spring.framework.beans.factory.config.BeanFactoryPostProcessor和org.springframework.beans.factory.config.BeanPostProcessor和org.springframework.context.ApplicationListener，
+ * 而这些在上下文中被定义为bean。
  *
  * <p>A {@link org.springframework.context.MessageSource} may also be supplied
  * as a bean in the context, with the name "messageSource"; otherwise, message
@@ -105,12 +114,20 @@ import org.springframework.util.ReflectionUtils;
  * in the context; otherwise, a default multicaster of type
  * {@link org.springframework.context.event.SimpleApplicationEventMulticaster} will be used.
  *
+ * org.springframework.context.MessageSource也可能在上下文里作为bean被提供出去，名称为“messageSource”；
+ * 否则，信息解析被委托给父上下文。
+ * 此外，对于应用事件的多播器能在上下文里作为org.springframework.context.event.ApplicationEventMulticaster类的“applicationEventMulticaster”bean而被提供；
+ * 否则，类org.springframework.context.event.SimpleApplicationEventMulticaster的默认多播器将被使用。
+ *
  * <p>Implements resource loading by extending
  * {@link org.springframework.core.io.DefaultResourceLoader}.
  * Consequently treats non-URL resource paths as class path resources
  * (supporting full class path resource names that include the package path,
  * e.g. "mypackage/myresource.dat"), unless the {@link #getResourceByPath}
  * method is overridden in a subclass.
+ *
+ * 通过继承org.springframework.core.io.DefaultResourceLoader实现资源加载。
+ * 所以，将非url资源路径视为字节码路径资源（支持包括包路径的全类路径资源命名，例如："mypackage/myresource.dat），除非getResourceByPath方法在子类里被覆写。
  *
  * @author Rod Johnson
  * @author Juergen Hoeller

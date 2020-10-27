@@ -32,11 +32,18 @@ import org.springframework.lang.Nullable;
  * Typically (but not necessarily), such a context will be driven by
  * a set of config locations to load bean definitions from.
  *
+ * org.springframework.context.ApplicationContext实现的基类，它应当支持对刷新方法的多次调用，并且每次创建一个新的内部工厂实例。
+ * 通常来说（但不是必要），这样的上下文会被一系列配置位置驱动以从中加载bean定义。
+ *
  * <p>The only method to be implemented by subclasses is {@link #loadBeanDefinitions},
  * which gets invoked on each refresh. A concrete implementation is supposed to load
  * bean definitions into the given
  * {@link org.springframework.beans.factory.support.DefaultListableBeanFactory},
  * typically delegating to one or more specific bean definition readers.
+ *
+ * 被子类实现的唯一方法是loadBeanDefinitions，它在每次刷新时得到调用。
+ * 具体的实现应该是将bean定义加载进给予的org.springframework.beans.factory.support.DefaultListableBeanFactory，
+ * 这通常委托给一个或多个指定的bean定义阅读者。
  *
  * <p><b>Note that there is a similar base class for WebApplicationContexts.</b>
  * {@link org.springframework.web.context.support.AbstractRefreshableWebApplicationContext}
@@ -44,12 +51,19 @@ import org.springframework.lang.Nullable;
  * all context functionality for web environments. There is also a
  * pre-defined way to receive config locations for a web context.
  *
+ * 注意，对于WebApplicationContexts，有一个相似的基类。
+ * org.springframework.web.context.support.AbstractRefreshableWebApplicationContext提供了相同的子类化策略，还额外预实现了用于web环境的所有上下文功能。
+ * 有一个预定义的方法，以接收对于web上下文的配置位置。
+ *
  * <p>Concrete standalone subclasses of this base class, reading in a
  * specific bean definition format, are {@link ClassPathXmlApplicationContext}
  * and {@link FileSystemXmlApplicationContext}, which both derive from the
  * common {@link AbstractXmlApplicationContext} base class;
  * {@link org.springframework.context.annotation.AnnotationConfigApplicationContext}
  * supports {@code @Configuration}-annotated classes as a source of bean definitions.
+ *
+ * 以指定bean定义格式读取的基类的具体单独子类，是ClassPathXmlApplicationContext和FileSystemXmlApplication，它们都派生于公共的基类AbstractXmlApplicationContext；
+ * org.springframework.context.annotation.AnnotationConfigApplicationContext支持把被@Configuration注解的类当作bean定义源。
  *
  * @author Juergen Hoeller
  * @author Chris Beams
