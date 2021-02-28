@@ -83,9 +83,11 @@ public class PropertyPlaceholderHelper {
 	 */
 	public PropertyPlaceholderHelper(String placeholderPrefix, String placeholderSuffix,
 			@Nullable String valueSeparator, boolean ignoreUnresolvablePlaceholders) {
-
+		// 断言占位符前缀和后缀不为空
 		Assert.notNull(placeholderPrefix, "'placeholderPrefix' must not be null");
 		Assert.notNull(placeholderSuffix, "'placeholderSuffix' must not be null");
+
+		// 设置占位符前缀和后缀、简单前缀、值分隔符、是否忽略不可解析的占位符
 		this.placeholderPrefix = placeholderPrefix;
 		this.placeholderSuffix = placeholderSuffix;
 		String simplePrefixForSuffix = wellKnownSimplePrefixes.get(this.placeholderSuffix);
@@ -121,6 +123,8 @@ public class PropertyPlaceholderHelper {
 	 */
 	public String replacePlaceholders(String value, PlaceholderResolver placeholderResolver) {
 		Assert.notNull(value, "'value' must not be null");
+
+		// 解析字符串值
 		return parseStringValue(value, placeholderResolver, null);
 	}
 

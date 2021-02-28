@@ -242,17 +242,25 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * Create a new AbstractApplicationContext with no parent.
+	 *
+	 * 创建一个不带父xx的抽象应用上下文。
 	 */
 	public AbstractApplicationContext() {
+		// 设置资源路径解析器
 		this.resourcePatternResolver = getResourcePatternResolver();
 	}
 
 	/**
 	 * Create a new AbstractApplicationContext with the given parent context.
+	 *
+	 * 用给定的父上下文创建一个新的抽象应用上下文。
+	 *
 	 * @param parent the parent context
 	 */
 	public AbstractApplicationContext(@Nullable ApplicationContext parent) {
+		// 调用空构造方法（实际上是设置资源路径解析器）
 		this();
+		// 设置父上下文
 		setParent(parent);
 	}
 
@@ -332,9 +340,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	@Override
 	public ConfigurableEnvironment getEnvironment() {
+		// 如果此实例的环境为空，则创建环境
 		if (this.environment == null) {
 			this.environment = createEnvironment();
 		}
+
+		// 返回此实例的环境
 		return this.environment;
 	}
 
@@ -342,6 +353,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Create and return a new {@link StandardEnvironment}.
 	 * <p>Subclasses may override this method in order to supply
 	 * a custom {@link ConfigurableEnvironment} implementation.
+	 *
+	 * 创建并返回一个新的标准环境。
+	 * 子类也能覆写此方法以提供自定义的ConfigurableEnvironment实现。
 	 */
 	protected ConfigurableEnvironment createEnvironment() {
 		return new StandardEnvironment();
@@ -473,6 +487,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see org.springframework.core.io.support.PathMatchingResourcePatternResolver
 	 */
 	protected ResourcePatternResolver getResourcePatternResolver() {
+		// 创建并返回一个路径匹配资源模式解析器
 		return new PathMatchingResourcePatternResolver(this);
 	}
 
@@ -491,9 +506,15 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	@Override
 	public void setParent(@Nullable ApplicationContext parent) {
+		// 设置父类上下文
 		this.parent = parent;
+
+		// 如果父类上下文不为空，则做一些处理
 		if (parent != null) {
+			// 获得父类环境
 			Environment parentEnvironment = parent.getEnvironment();
+
+			// 如果父类环境实例是ConfigurableEnvironment类或者子类实例，则将父类环境与本实例的环境合并
 			if (parentEnvironment instanceof ConfigurableEnvironment) {
 				getEnvironment().merge((ConfigurableEnvironment) parentEnvironment);
 			}
