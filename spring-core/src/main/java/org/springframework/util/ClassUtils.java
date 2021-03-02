@@ -186,26 +186,40 @@ public abstract class ClassUtils {
 	 */
 	@Nullable
 	public static ClassLoader getDefaultClassLoader() {
+		// 声明一个类加载器
 		ClassLoader cl = null;
+
 		try {
+			// 获得当前线程的上下文类加载器
 			cl = Thread.currentThread().getContextClassLoader();
 		}
 		catch (Throwable ex) {
 			// Cannot access thread context ClassLoader - falling back...
+			// 不能访问线程上下文类加载器 - 失败回滚
 		}
+
+		// 如果类加载器为空
 		if (cl == null) {
 			// No thread context class loader -> use class loader of this class.
+			// 如果没有线程上下文类加载器，则使用此类的类加载器
 			cl = ClassUtils.class.getClassLoader();
+
+			// 如果此类的类加载器也为空
 			if (cl == null) {
 				// getClassLoader() returning null indicates the bootstrap ClassLoader
+				// getClassLoader()返回空指示引导类加载器
 				try {
+					// 获得系统类加载器
 					cl = ClassLoader.getSystemClassLoader();
 				}
 				catch (Throwable ex) {
 					// Cannot access system ClassLoader - oh well, maybe the caller can live with null...
+					// 不能访问系统类加载器？好吧，也许调用者能忍受空（返回空值）……
 				}
 			}
 		}
+
+		// 返回类加载器
 		return cl;
 	}
 
