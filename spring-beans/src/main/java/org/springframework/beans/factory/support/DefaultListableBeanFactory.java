@@ -136,11 +136,15 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	}
 
 
-	/** Map from serialized id to factory instance. */
+	/** Map from serialized id to factory instance.
+	 * 从序列化Id到工厂实例的映射。
+	 * */
 	private static final Map<String, Reference<DefaultListableBeanFactory>> serializableFactories =
 			new ConcurrentHashMap<>(8);
 
-	/** Optional id for this factory, for serialization purposes. */
+	/** Optional id for this factory, for serialization purposes.
+	 * 用于此工厂的可选Id，用于序列化目的。
+	 * */
 	@Nullable
 	private String serializationId;
 
@@ -207,12 +211,17 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	 * deserialized from this id back into the BeanFactory object, if needed.
 	 */
 	public void setSerializationId(@Nullable String serializationId) {
+		// 如果入参序列化Id不为空
 		if (serializationId != null) {
+			// 保存映射关系：入参序列化Id -> 对此默认可监听Bean工厂实例的弱引用
 			serializableFactories.put(serializationId, new WeakReference<>(this));
 		}
 		else if (this.serializationId != null) {
+			// 如果入参序列化Id为空，但此实例的序列化Id不为空，则从序列化工厂映射中移除此序列化Id映射
 			serializableFactories.remove(this.serializationId);
 		}
+
+		// 设置此实例的序列化Id
 		this.serializationId = serializationId;
 	}
 

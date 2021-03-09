@@ -94,6 +94,11 @@ public class FileSystemXmlApplicationContext extends AbstractXmlApplicationConte
 	/**
 	 * Create a new FileSystemXmlApplicationContext, loading the definitions
 	 * from the given XML file and automatically refreshing the context.
+	 *
+	 * 创建一个新的FileSystemXmlApplicationContext，
+	 * 加载来自给定xml文件的定义，
+	 * 并且自动刷新上下文
+	 *
 	 * @param configLocation file path
 	 * @throws BeansException if context creation failed
 	 */
@@ -153,10 +158,13 @@ public class FileSystemXmlApplicationContext extends AbstractXmlApplicationConte
 			throws BeansException {
 		// 调用父类的构造方法（其中设置好了资源模式解析器）
 		super(parent);
+
 		// 设置配置路径
 		setConfigLocations(configLocations);
+
 		// 如果需要刷新上下文，则刷新上下文
 		if (refresh) {
+			// 刷新上下文
 			refresh();
 		}
 	}

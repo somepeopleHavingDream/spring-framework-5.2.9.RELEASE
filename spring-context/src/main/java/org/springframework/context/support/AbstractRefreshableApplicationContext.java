@@ -84,7 +84,9 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	@Nullable
 	private Boolean allowCircularReferences;
 
-	/** Bean factory for this context. */
+	/** Bean factory for this context.
+	 * 用于此上下文的Bean工厂
+	 * */
 	@Nullable
 	private volatile DefaultListableBeanFactory beanFactory;
 
@@ -133,8 +135,11 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 */
 	@Override
 	protected final void refreshBeanFactory() throws BeansException {
+		// 如果有Bean工厂
 		if (hasBeanFactory()) {
+			// 销毁Bean工厂
 			destroyBeans();
+			// 关闭Bean工厂
 			closeBeanFactory();
 		}
 		try {
@@ -160,8 +165,12 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 
 	@Override
 	protected final void closeBeanFactory() {
+		// 获得Bean工厂
 		DefaultListableBeanFactory beanFactory = this.beanFactory;
+
+		// 如果Bean工厂不为空
 		if (beanFactory != null) {
+			// Bean工厂设置序列化Id
 			beanFactory.setSerializationId(null);
 			this.beanFactory = null;
 		}
@@ -177,11 +186,16 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 
 	@Override
 	public final ConfigurableListableBeanFactory getBeanFactory() {
+		// 获得本实例的Bean工厂
 		DefaultListableBeanFactory beanFactory = this.beanFactory;
+
+		// 如果Bean工厂为空，则抛出违规状态异常
 		if (beanFactory == null) {
 			throw new IllegalStateException("BeanFactory not initialized or already closed - " +
 					"call 'refresh' before accessing beans via the ApplicationContext");
 		}
+
+		// 返回Bean工厂
 		return beanFactory;
 	}
 
