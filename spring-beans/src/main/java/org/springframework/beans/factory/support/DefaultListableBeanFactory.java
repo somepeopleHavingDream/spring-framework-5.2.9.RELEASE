@@ -137,6 +137,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 
 	/** Map from serialized id to factory instance.
+	 *
 	 * 从序列化Id到工厂实例的映射。
 	 * */
 	private static final Map<String, Reference<DefaultListableBeanFactory>> serializableFactories =
@@ -199,6 +200,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	/**
 	 * Create a new DefaultListableBeanFactory with the given parent.
+	 *
+	 * 用给定的父Bean工厂，创建新的默认可监听Bean工厂。
+	 *
 	 * @param parentBeanFactory the parent BeanFactory
 	 */
 	public DefaultListableBeanFactory(@Nullable BeanFactory parentBeanFactory) {

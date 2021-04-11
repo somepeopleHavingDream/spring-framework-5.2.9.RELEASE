@@ -212,6 +212,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	 * @see org.springframework.core.io.DefaultResourceLoader
 	 */
 	public PathMatchingResourcePatternResolver() {
+		// 生成默认资源加载器
 		this.resourceLoader = new DefaultResourceLoader();
 	}
 

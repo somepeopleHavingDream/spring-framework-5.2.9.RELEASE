@@ -78,6 +78,9 @@ import org.springframework.lang.Nullable;
  */
 public abstract class AbstractRefreshableApplicationContext extends AbstractApplicationContext {
 
+	/**
+	 * 是否允许Bean定义覆盖
+	 */
 	@Nullable
 	private Boolean allowBeanDefinitionOverriding;
 
@@ -143,8 +146,11 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 			closeBeanFactory();
 		}
 		try {
+			// 创建Bean工厂
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
+			// 设置该工厂的序列化Id
 			beanFactory.setSerializationId(getId());
+			// 定制Bean工厂（实际上就是给入参Bean工厂设置两个标记）
 			customizeBeanFactory(beanFactory);
 			loadBeanDefinitions(beanFactory);
 			this.beanFactory = beanFactory;
@@ -222,6 +228,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#setAllowRawInjectionDespiteWrapping
 	 */
 	protected DefaultListableBeanFactory createBeanFactory() {
+		// 先取得内部父Bean工厂,再创建默认可监听Bean工厂
 		return new DefaultListableBeanFactory(getInternalParentBeanFactory());
 	}
 
@@ -240,9 +247,11 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @see DefaultListableBeanFactory#setAllowEagerClassLoading
 	 */
 	protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
+		// 设置是否允许Bean定义覆盖标记
 		if (this.allowBeanDefinitionOverriding != null) {
 			beanFactory.setAllowBeanDefinitionOverriding(this.allowBeanDefinitionOverriding);
 		}
+		// 设置是否允许循环引用标记
 		if (this.allowCircularReferences != null) {
 			beanFactory.setAllowCircularReferences(this.allowCircularReferences);
 		}
@@ -251,6 +260,9 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	/**
 	 * Load bean definitions into the given bean factory, typically through
 	 * delegating to one or more bean definition readers.
+	 *
+	 * 将Bean定义加载进给定的Bean工厂，通常通过委派给一个或多个Bean工厂定义阅读器。
+	 *
 	 * @param beanFactory the bean factory to load bean definitions into
 	 * @throws BeansException if parsing of the bean definitions failed
 	 * @throws IOException if loading of bean definition files failed

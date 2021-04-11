@@ -178,10 +178,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 
 	/** Logger used by this class. Available to subclasses. */
-	// 被此类使用的日志器。对子类也可用
+	// 被此类使用的日志器。对子类也可用。
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	/** Unique id for this context, if any. */
+	// 用于此上下文的唯一Id，如果存在的话。
 	private String id = ObjectUtils.identityToString(this);
 
 	/** Display name. */
@@ -700,7 +701,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see #getBeanFactory()
 	 */
 	protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
-		// 刷新bean工厂
+		// 刷新bean工厂（此为抽象方法，由子类继承实现）
 		refreshBeanFactory();
 		return getBeanFactory();
 	}
@@ -1364,10 +1365,15 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Return the internal bean factory of the parent context if it implements
 	 * ConfigurableApplicationContext; else, return the parent context itself.
+	 *
+	 * 如果当前上下文实例实现了可配置应用上下文，则返回父类上下文的内部Bean工厂；
+	 * 否则，返回它本身的父类上下文。
 	 * @see org.springframework.context.ConfigurableApplicationContext#getBeanFactory
 	 */
 	@Nullable
 	protected BeanFactory getInternalParentBeanFactory() {
+		// 如果父类上下文实例是可配置应用上下文实例，则将此父类上下文实例强转为可配置应用上下文实例后再调用获得Bean工厂方法，
+		// 否则，直接调用获取应用上下文的方法。
 		return (getParent() instanceof ConfigurableApplicationContext ?
 				((ConfigurableApplicationContext) getParent()).getBeanFactory() : getParent());
 	}

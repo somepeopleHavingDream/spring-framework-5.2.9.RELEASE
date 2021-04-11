@@ -138,6 +138,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Create new XmlBeanDefinitionReader for the given bean factory.
+	 *
+	 * 为给定的Bean工厂创建一个新的可扩展标记语言Bean定义阅读器。
 	 * @param registry the BeanFactory to load bean definitions into,
 	 * in the form of a BeanDefinitionRegistry
 	 */
@@ -307,24 +309,31 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 */
 	@Override
 	public int loadBeanDefinitions(Resource resource) throws BeanDefinitionStoreException {
+		// 实例一个已编码资源实例，继而加载Bean定义
 		return loadBeanDefinitions(new EncodedResource(resource));
 	}
 
 	/**
 	 * Load bean definitions from the specified XML file.
+	 *
+	 * 从指定可扩展标记语言文件中加载Bean定义。
+	 *
 	 * @param encodedResource the resource descriptor for the XML file,
 	 * allowing to specify an encoding to use for parsing the file
 	 * @return the number of bean definitions found
 	 * @throws BeanDefinitionStoreException in case of loading or parsing errors
 	 */
 	public int loadBeanDefinitions(EncodedResource encodedResource) throws BeanDefinitionStoreException {
+		// 断言入参已加载资源实例不为null
 		Assert.notNull(encodedResource, "EncodedResource must not be null");
 		if (logger.isTraceEnabled()) {
 			logger.trace("Loading XML bean definitions from " + encodedResource);
 		}
 
+		// 获得当前正在被加载的资源
 		Set<EncodedResource> currentResources = this.resourcesCurrentlyBeingLoaded.get();
 
+		// 如果入参已编码资源没有正在被加载，则抛出Bean定义存储异常
 		if (!currentResources.add(encodedResource)) {
 			throw new BeanDefinitionStoreException(
 					"Detected cyclic loading of " + encodedResource + " - check your import definitions!");

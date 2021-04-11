@@ -82,18 +82,24 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	 * @see #setEnvironment
 	 */
 	protected AbstractBeanDefinitionReader(BeanDefinitionRegistry registry) {
+		// 断言入参Bean定义注册表不为空，若为空则抛出异常，异常描述为：Bean定义注册表必须不为空。
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
+		// 将此实例的注册表设置为入参注册表
 		this.registry = registry;
 
 		// Determine ResourceLoader to use.
+		// 决定将要使用的资源加载器。
+		// 如果入参注册表是资源加载器实例，则将入参注册表强转为资源加载器类型后赋值给此资源加载器成员变量
 		if (this.registry instanceof ResourceLoader) {
 			this.resourceLoader = (ResourceLoader) this.registry;
 		}
 		else {
+			// 否则，将路径匹配资源模式解析器赋值给此资源加载器成员变量
 			this.resourceLoader = new PathMatchingResourcePatternResolver();
 		}
 
 		// Inherit Environment if possible
+		// 如果可能的话，继承环境
 		if (this.registry instanceof EnvironmentCapable) {
 			this.environment = ((EnvironmentCapable) this.registry).getEnvironment();
 		}
@@ -182,9 +188,13 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 
 	@Override
 	public int loadBeanDefinitions(Resource... resources) throws BeanDefinitionStoreException {
+		// 断言入参资源数组不为null
 		Assert.notNull(resources, "Resource array must not be null");
+
+		// 计数已加载的Bean定义数量
 		int count = 0;
 		for (Resource resource : resources) {
+			// 加载该资源的Bean定义
 			count += loadBeanDefinitions(resource);
 		}
 		return count;

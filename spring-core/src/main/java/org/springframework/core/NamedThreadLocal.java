@@ -34,6 +34,9 @@ public class NamedThreadLocal<T> extends ThreadLocal<T> {
 
 	/**
 	 * Create a new NamedThreadLocal with the given name.
+	 *
+	 * 用给定名称创建一个新的被命名线程本地实例。
+	 *
 	 * @param name a descriptive name for this ThreadLocal
 	 */
 	public NamedThreadLocal(String name) {

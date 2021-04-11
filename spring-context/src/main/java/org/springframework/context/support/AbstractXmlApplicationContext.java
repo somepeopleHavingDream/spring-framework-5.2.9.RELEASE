@@ -79,6 +79,9 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 
 	/**
 	 * Loads the bean definitions via an XmlBeanDefinitionReader.
+	 *
+	 * 通过可扩展标记语言Bean定义阅读器加载Bean定义。
+	 *
 	 * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader
 	 * @see #initBeanDefinitionReader
 	 * @see #loadBeanDefinitions
@@ -86,17 +89,23 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	@Override
 	protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) throws BeansException, IOException {
 		// Create a new XmlBeanDefinitionReader for the given BeanFactory.
+		// 为给定的Bean工厂创建一个新的可扩展标记语言Bean定义阅读器。
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 
 		// Configure the bean definition reader with this context's
 		// resource loading environment.
+		// 用此上下文的资源加载环境配置Bean定义阅读器。
+		// 给bean定义阅读器设置环境、资源加载器、资源实体解析器
 		beanDefinitionReader.setEnvironment(this.getEnvironment());
 		beanDefinitionReader.setResourceLoader(this);
 		beanDefinitionReader.setEntityResolver(new ResourceEntityResolver(this));
 
 		// Allow a subclass to provide custom initialization of the reader,
 		// then proceed with actually loading the bean definitions.
+		// 允许子类去提供阅读器的定制初始化，然后实际地加载bean定义来处理。
+		// 初始化Bean定义阅读器
 		initBeanDefinitionReader(beanDefinitionReader);
+		// 加载Bean定义
 		loadBeanDefinitions(beanDefinitionReader);
 	}
 
@@ -109,6 +118,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader#setDocumentReaderClass
 	 */
 	protected void initBeanDefinitionReader(XmlBeanDefinitionReader reader) {
+		// 给入参可扩展标记语言Bean定义阅读器设置有效性标记
 		reader.setValidating(this.validating);
 	}
 
@@ -125,8 +135,10 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * @see #getResourcePatternResolver
 	 */
 	protected void loadBeanDefinitions(XmlBeanDefinitionReader reader) throws BeansException, IOException {
+		// 获得配置资源
 		Resource[] configResources = getConfigResources();
 		if (configResources != null) {
+			// 如果配置资源不为空，则入参可扩展标记语言Bean定义阅读器加载配置资源的Bean定义
 			reader.loadBeanDefinitions(configResources);
 		}
 		String[] configLocations = getConfigLocations();
