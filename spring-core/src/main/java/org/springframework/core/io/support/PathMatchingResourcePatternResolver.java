@@ -264,6 +264,8 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 
 	/**
 	 * Return the PathMatcher that this resource pattern resolver uses.
+	 *
+	 * 返回该资源模式解析器使用的路径匹配器
 	 */
 	public PathMatcher getPathMatcher() {
 		return this.pathMatcher;
@@ -277,11 +279,17 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 
 	@Override
 	public Resource[] getResources(String locationPattern) throws IOException {
+		// 断言路径模式必不为空
 		Assert.notNull(locationPattern, "Location pattern must not be null");
+
+		// 如果该路径模式以classpath*:开始
 		if (locationPattern.startsWith(CLASSPATH_ALL_URL_PREFIX)) {
 			// a class path resource (multiple resources for same name possible)
+			// 一个类路径资源（多个资源可能有相同的名字）
+			// 获得路径匹配器，用该路径匹配器判断该入参路径模式前缀是不是一个模式
 			if (getPathMatcher().isPattern(locationPattern.substring(CLASSPATH_ALL_URL_PREFIX.length()))) {
 				// a class path resource pattern
+				// 如果该入参路径模式前缀是一个模式，则找到路径匹配资源
 				return findPathMatchingResources(locationPattern);
 			}
 			else {
