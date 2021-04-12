@@ -128,27 +128,37 @@ public class TransactionTemplate extends DefaultTransactionDefinition
 	@Override
 	@Nullable
 	public <T> T execute(TransactionCallback<T> action) throws TransactionException {
+		// 断言，事务管理器不为空，如果为空，则抛出异常，异常说明为“没有设置平台事务管理器”
 		Assert.state(this.transactionManager != null, "No PlatformTransactionManager set");
 
+		// 如果此事务管理器是偏向于回调的平台事务管理器，则将此实例的事务管理器强转后执行事务回调
 		if (this.transactionManager instanceof CallbackPreferringPlatformTransactionManager) {
 			return ((CallbackPreferringPlatformTransactionManager) this.transactionManager).execute(this, action);
 		}
 		else {
+			// 事务管理器获得一个事务
 			TransactionStatus status = this.transactionManager.getTransaction(this);
 			T result;
 			try {
+				// 将事务传入事务回调方法执行，并返回结果实例
 				result = action.doInTransaction(status);
 			}
 			catch (RuntimeException | Error ex) {
 				// Transactional code threw application exception -> rollback
+				// 事务性的代码抛出应用异常 -> 回滚
 				rollbackOnException(status, ex);
+				// 抛出异常
 				throw ex;
 			}
 			catch (Throwable ex) {
 				// Transactional code threw unexpected exception -> rollback
+				// 事务性代码抛出预期之外的异常 -> 回滚
 				rollbackOnException(status, ex);
+				// 抛出未声明的可抛出的异常
 				throw new UndeclaredThrowableException(ex, "TransactionCallback threw undeclared checked exception");
 			}
+
+			// 如果代码执行到这一步，说明事务操作一切正常，此时，事务管理器提交事务，返回事务回调方法执行结果
 			this.transactionManager.commit(status);
 			return result;
 		}
@@ -156,23 +166,30 @@ public class TransactionTemplate extends DefaultTransactionDefinition
 
 	/**
 	 * Perform a rollback, handling rollback exceptions properly.
+	 *
+	 * 执行一个回滚操作，正确地处理回滚异常。
+	 *
 	 * @param status object representing the transaction
 	 * @param ex the thrown application exception or error
 	 * @throws TransactionException in case of a rollback error
 	 */
 	private void rollbackOnException(TransactionStatus status, Throwable ex) throws TransactionException {
+		// 断言事务管理器不为空，若为空，则抛出异常，异常描述为“没有设置平台事务管理器”
 		Assert.state(this.transactionManager != null, "No PlatformTransactionManager set");
 
 		logger.debug("Initiating transaction rollback on application exception", ex);
 		try {
+			// 事务管理器执行回滚事务操作
 			this.transactionManager.rollback(status);
 		}
 		catch (TransactionSystemException ex2) {
+			// 这里的异常暂不研究
 			logger.error("Application exception overridden by rollback exception", ex);
 			ex2.initApplicationException(ex);
 			throw ex2;
 		}
 		catch (RuntimeException | Error ex2) {
+			// 这里的异常暂不研究
 			logger.error("Application exception overridden by rollback exception", ex);
 			throw ex2;
 		}

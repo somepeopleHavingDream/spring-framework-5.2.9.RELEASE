@@ -97,6 +97,8 @@ public class EncodedResource implements InputStreamSource {
 
 	/**
 	 * Return the {@code Resource} held by this {@code EncodedResource}.
+	 *
+	 * 返回被此已编码资源拥有的资源。
 	 */
 	public final Resource getResource() {
 		return this.resource;
