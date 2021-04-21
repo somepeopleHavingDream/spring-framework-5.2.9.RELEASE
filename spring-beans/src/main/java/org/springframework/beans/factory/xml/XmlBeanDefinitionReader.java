@@ -139,7 +139,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/**
 	 * Create new XmlBeanDefinitionReader for the given bean factory.
 	 *
-	 * 为给定的Bean工厂创建一个新的可扩展标记语言Bean定义阅读器。
+	 * 为给定的Bean工厂创建一个新的可扩展标记语言Bean定义阅读器
 	 *
 	 * @param registry the BeanFactory to load bean definitions into,
 	 * in the form of a BeanDefinitionRegistry
@@ -334,7 +334,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 		// 获得当前正在被加载的资源集合
 		Set<EncodedResource> currentResources = this.resourcesCurrentlyBeingLoaded.get();
 
-		// 如果入参已编码资源没有正在被加载，则抛出Bean定义存储异常
+		// 将入参已编码资源对象添加进当前正在被加载的资源集合，如果加入集合失败，则抛出Bean定义存储异常
 		if (!currentResources.add(encodedResource)) {
 			throw new BeanDefinitionStoreException(
 					"Detected cyclic loading of " + encodedResource + " - check your import definitions!");

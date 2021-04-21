@@ -241,6 +241,8 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 
 	/**
 	 * Return the ResourceLoader that this pattern resolver works with.
+	 *
+	 * 返回与此模式解析器工作的资源加载器
 	 */
 	public ResourceLoader getResourceLoader() {
 		return this.resourceLoader;
@@ -282,32 +284,38 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 		// 断言路径模式必不为空
 		Assert.notNull(locationPattern, "Location pattern must not be null");
 
-		// 如果该路径模式以classpath*:开始
+		// 如果该路径模式以classpath*:开始（暂不研究此条件分支的代码）
 		if (locationPattern.startsWith(CLASSPATH_ALL_URL_PREFIX)) {
 			// a class path resource (multiple resources for same name possible)
 			// 一个类路径资源（多个资源可能有相同的名字）
 			// 获得路径匹配器，用该路径匹配器判断该入参路径模式前缀是不是一个模式
 			if (getPathMatcher().isPattern(locationPattern.substring(CLASSPATH_ALL_URL_PREFIX.length()))) {
 				// a class path resource pattern
-				// 如果该入参路径模式前缀是一个模式，则找到路径匹配资源
+				// 如果该入参路径模式前缀是一个模式，则找到路径匹配资源（暂时不研究）
 				return findPathMatchingResources(locationPattern);
 			}
 			else {
 				// all class path resources with the given name
+				// 给定名字的所有类路径资源
 				return findAllClassPathResources(locationPattern.substring(CLASSPATH_ALL_URL_PREFIX.length()));
 			}
 		}
 		else {
 			// Generally only look for a pattern after a prefix here,
 			// and on Tomcat only after the "*/" separator for its "war:" protocol.
+			// 通常在这里只查找前缀后面的模式，在tomcat上只在*/之后才使用”war:"协议
+			// 找到前缀结束的下一个索引下标位置
 			int prefixEnd = (locationPattern.startsWith("war:") ? locationPattern.indexOf("*/") + 1 :
 					locationPattern.indexOf(':') + 1);
+
+			// 如果子串是个模式（文件模式）（暂不研究）
 			if (getPathMatcher().isPattern(locationPattern.substring(prefixEnd))) {
 				// a file pattern
 				return findPathMatchingResources(locationPattern);
 			}
 			else {
 				// a single resource with the given name
+				// 给定名称的单个资源
 				return new Resource[] {getResourceLoader().getResource(locationPattern)};
 			}
 		}

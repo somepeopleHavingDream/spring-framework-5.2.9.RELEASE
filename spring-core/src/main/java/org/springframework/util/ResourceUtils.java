@@ -47,7 +47,9 @@ import org.springframework.lang.Nullable;
  */
 public abstract class ResourceUtils {
 
-	/** Pseudo URL prefix for loading from the class path: "classpath:". */
+	/** Pseudo URL prefix for loading from the class path: "classpath:".
+	 * 用于从类路径classpath:加载的假的统一资源定位符前缀
+	 * */
 	public static final String CLASSPATH_URL_PREFIX = "classpath:";
 
 	/** URL prefix for loading from the file system: "file:". */
@@ -59,7 +61,9 @@ public abstract class ResourceUtils {
 	/** URL prefix for loading from a war file on Tomcat: "war:". */
 	public static final String WAR_URL_PREFIX = "war:";
 
-	/** URL protocol for a file in the file system: "file". */
+	/** URL protocol for a file in the file system: "file".
+	 * 用于文件系统文件的统一资源定位符协议：file
+	 * */
 	public static final String URL_PROTOCOL_FILE = "file";
 
 	/** URL protocol for an entry from a jar file: "jar". */
@@ -77,10 +81,14 @@ public abstract class ResourceUtils {
 	/** URL protocol for an entry from a JBoss jar file: "vfszip". */
 	public static final String URL_PROTOCOL_VFSZIP = "vfszip";
 
-	/** URL protocol for a JBoss file system resource: "vfsfile". */
+	/** URL protocol for a JBoss file system resource: "vfsfile".
+	 * 用于JBoss文件系统资源的统一资源定位符：vfsfile
+	 * */
 	public static final String URL_PROTOCOL_VFSFILE = "vfsfile";
 
-	/** URL protocol for a general JBoss VFS resource: "vfs". */
+	/** URL protocol for a general JBoss VFS resource: "vfs".
+	 * 用于通用JBoss VFS资源的统一资源定位符：vfs
+	 * */
 	public static final String URL_PROTOCOL_VFS = "vfs";
 
 	/** File extension for a regular jar file: ".jar". */
@@ -268,6 +276,7 @@ public abstract class ResourceUtils {
 	 * @return whether the URL has been identified as a file system URL
 	 */
 	public static boolean isFileURL(URL url) {
+		// 获得入参统一资源定位符的协议
 		String protocol = url.getProtocol();
 		return (URL_PROTOCOL_FILE.equals(protocol) || URL_PROTOCOL_VFSFILE.equals(protocol) ||
 				URL_PROTOCOL_VFS.equals(protocol));

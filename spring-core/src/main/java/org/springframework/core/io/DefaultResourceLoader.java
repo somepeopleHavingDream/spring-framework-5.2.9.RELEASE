@@ -121,6 +121,8 @@ public class DefaultResourceLoader implements ResourceLoader {
 	/**
 	 * Return the collection of currently registered protocol resolvers,
 	 * allowing for introspection as well as modification.
+	 *
+	 * 返回当前已注册的协议解析器集，以允许内省和修改。
 	 * @since 4.3
 	 */
 	public Collection<ProtocolResolver> getProtocolResolvers() {
@@ -150,8 +152,10 @@ public class DefaultResourceLoader implements ResourceLoader {
 
 	@Override
 	public Resource getResource(String location) {
+		// 断言，路径必不为空
 		Assert.notNull(location, "Location must not be null");
 
+		// 获得所有协议解析器，只要有一个协议解析器能从该入参路径中解析出资源，则直接返回该资源
 		for (ProtocolResolver protocolResolver : getProtocolResolvers()) {
 			Resource resource = protocolResolver.resolve(location, this);
 			if (resource != null) {
@@ -159,20 +163,26 @@ public class DefaultResourceLoader implements ResourceLoader {
 			}
 		}
 
+		// 如果路径以“/”开头
 		if (location.startsWith("/")) {
 			return getResourceByPath(location);
 		}
+		// 如果路径以“classpath”开头
 		else if (location.startsWith(CLASSPATH_URL_PREFIX)) {
 			return new ClassPathResource(location.substring(CLASSPATH_URL_PREFIX.length()), getClassLoader());
 		}
 		else {
 			try {
 				// Try to parse the location as a URL...
+				// 尝试将路径解析为一个统一资源定位地址
 				URL url = new URL(location);
+				// 根据该统一资源定位地址是文件统一资源定位地址还是普通资源定位地址，返回响应的资源实例
 				return (ResourceUtils.isFileURL(url) ? new FileUrlResource(url) : new UrlResource(url));
 			}
 			catch (MalformedURLException ex) {
 				// No URL -> resolve as resource path.
+				// 如果不是统一资源定位符，则解析为资源路径
+				// 通过路径获得资源，此资源为类路径环境资源
 				return getResourceByPath(location);
 			}
 		}

@@ -235,6 +235,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 			try {
 				// 将该资源加载器实例强转为资源模式解析器实例后，获取该路径的所有资源
 				Resource[] resources = ((ResourcePatternResolver) resourceLoader).getResources(location);
+				// 从资源数组中加载Bean定义
 				int count = loadBeanDefinitions(resources);
 				if (actualResources != null) {
 					Collections.addAll(actualResources, resources);
