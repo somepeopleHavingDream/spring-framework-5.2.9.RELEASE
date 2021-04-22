@@ -103,6 +103,7 @@ public class FileSystemXmlApplicationContext extends AbstractXmlApplicationConte
 	 * @throws BeansException if context creation failed
 	 */
 	public FileSystemXmlApplicationContext(String configLocation) throws BeansException {
+		// 入参：配置地址、刷新、无父类上下文
 		this(new String[] {configLocation}, true, null);
 	}
 

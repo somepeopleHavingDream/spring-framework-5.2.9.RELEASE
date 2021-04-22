@@ -199,6 +199,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Return whether or not the XML parser should be XML namespace aware.
+	 *
+	 * 返回是否可扩展标记语言解析器应该是可扩展标记语言命名空间感知
 	 */
 	public boolean isNamespaceAware() {
 		return this.namespaceAware;
@@ -264,18 +266,28 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/**
 	 * Return the EntityResolver to use, building a default resolver
 	 * if none specified.
+	 *
+	 * 返回将要使用的实体解析器，如果没有指定则构建默认的解析器
 	 */
 	protected EntityResolver getEntityResolver() {
+		// 如果实体解析器为null
 		if (this.entityResolver == null) {
 			// Determine default EntityResolver to use.
+			// 决定将要使用的默认实体解析器
+
+			// 获得资源加载器
 			ResourceLoader resourceLoader = getResourceLoader();
 			if (resourceLoader != null) {
+				// 如果资源加载器不为null，则使用资源实体解析器
 				this.entityResolver = new ResourceEntityResolver(resourceLoader);
 			}
 			else {
+				// 如果资源加载器为null，则使用委托实体解析器
 				this.entityResolver = new DelegatingEntityResolver(getBeanClassLoader());
 			}
 		}
+
+		// 返回实体解析器
 		return this.entityResolver;
 	}
 
@@ -343,10 +355,15 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 		// 代码执行到此，说明入参已编码资源正在被加载
 		// 尝试拿到此资源的输入流
 		try (InputStream inputStream = encodedResource.getResource().getInputStream()) {
+			// 根据输入流实例化输入源
 			InputSource inputSource = new InputSource(inputStream);
+
+			// 如果被编码资源有编码，则设置输入源的编码
 			if (encodedResource.getEncoding() != null) {
 				inputSource.setEncoding(encodedResource.getEncoding());
 			}
+
+			// 加载Bean定义
 			return doLoadBeanDefinitions(inputSource, encodedResource.getResource());
 		}
 		catch (IOException ex) {
@@ -388,6 +405,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Actually load bean definitions from the specified XML file.
+	 *
+	 * 从指定的可扩展标记语言文件中实际地加载bean定义
+	 *
 	 * @param inputSource the SAX InputSource to read from
 	 * @param resource the resource descriptor for the XML file
 	 * @return the number of bean definitions found
@@ -399,6 +419,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			throws BeanDefinitionStoreException {
 
 		try {
+			// 加载文档
 			Document doc = doLoadDocument(inputSource, resource);
 			int count = registerBeanDefinitions(doc, resource);
 			if (logger.isDebugEnabled()) {
@@ -433,6 +454,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Actually load the specified document using the configured DocumentLoader.
+	 *
+	 * 使用被配置的文档加载器实际地加载指定文档
+	 *
 	 * @param inputSource the SAX InputSource to read from
 	 * @param resource the resource descriptor for the XML file
 	 * @return the DOM Document
@@ -441,6 +465,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see DocumentLoader#loadDocument
 	 */
 	protected Document doLoadDocument(InputSource inputSource, Resource resource) throws Exception {
+		// 入参：输入源、实体解析器、错误处理器、校验模式（暂不研究）、是否感知命名空间
 		return this.documentLoader.loadDocument(inputSource, getEntityResolver(), this.errorHandler,
 				getValidationModeForResource(resource), isNamespaceAware());
 	}

@@ -250,7 +250,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Create a new AbstractApplicationContext with no parent.
 	 *
-	 * 创建一个不带父xx的抽象应用上下文。
+	 * 创建一个不带父上下文的抽象应用上下文
 	 */
 	public AbstractApplicationContext() {
 		// 设置资源路径解析器
@@ -260,7 +260,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Create a new AbstractApplicationContext with the given parent context.
 	 *
-	 * 用给定的父上下文创建一个新的抽象应用上下文。
+	 * 用给定的父上下文创建一个新的抽象应用上下文
 	 *
 	 * @param parent the parent context
 	 */
@@ -497,7 +497,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see org.springframework.core.io.support.PathMatchingResourcePatternResolver
 	 */
 	protected ResourcePatternResolver getResourcePatternResolver() {
-		// 创建并返回一个路径匹配资源模式解析器
+		// 创建并返回一个路径匹配资源模式解析器，入参资源加载器为当前应用上下文
 		return new PathMatchingResourcePatternResolver(this);
 	}
 

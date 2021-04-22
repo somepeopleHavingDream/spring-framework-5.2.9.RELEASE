@@ -64,21 +64,30 @@ public class DefaultDocumentLoader implements DocumentLoader {
 	/**
 	 * Load the {@link Document} at the supplied {@link InputSource} using the standard JAXP-configured
 	 * XML parser.
+	 *
+	 * 使用标准的JAXP-configured的可扩展标记语言解析器，在提供的输入源上加载文档
 	 */
 	@Override
 	public Document loadDocument(InputSource inputSource, EntityResolver entityResolver,
 			ErrorHandler errorHandler, int validationMode, boolean namespaceAware) throws Exception {
-
+		// 创建文档建造者工厂
 		DocumentBuilderFactory factory = createDocumentBuilderFactory(validationMode, namespaceAware);
 		if (logger.isTraceEnabled()) {
 			logger.trace("Using JAXP provider [" + factory.getClass().getName() + "]");
 		}
+
+		// 创建文档建造者
 		DocumentBuilder builder = createDocumentBuilder(factory, entityResolver, errorHandler);
+
+		// 文档建造者解析输入源，返回文档
 		return builder.parse(inputSource);
 	}
 
 	/**
 	 * Create the {@link DocumentBuilderFactory} instance.
+	 *
+	 * 创建文档建造者工厂实例
+	 *
 	 * @param validationMode the type of validation: {@link XmlValidationModeDetector#VALIDATION_DTD DTD}
 	 * or {@link XmlValidationModeDetector#VALIDATION_XSD XSD})
 	 * @param namespaceAware whether the returned factory is to provide support for XML namespaces
@@ -87,10 +96,13 @@ public class DefaultDocumentLoader implements DocumentLoader {
 	 */
 	protected DocumentBuilderFactory createDocumentBuilderFactory(int validationMode, boolean namespaceAware)
 			throws ParserConfigurationException {
-
+		// 实例化一个文档建造者工厂实例
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+		// 设置工厂是否感知命名空间
 		factory.setNamespaceAware(namespaceAware);
 
+		// 设置其他属性（暂不研究）
 		if (validationMode != XmlValidationModeDetector.VALIDATION_NONE) {
 			factory.setValidating(true);
 			if (validationMode == XmlValidationModeDetector.VALIDATION_XSD) {
@@ -110,6 +122,7 @@ public class DefaultDocumentLoader implements DocumentLoader {
 			}
 		}
 
+		// 返回文档建造者工厂实例
 		return factory;
 	}
 
@@ -127,14 +140,20 @@ public class DefaultDocumentLoader implements DocumentLoader {
 	protected DocumentBuilder createDocumentBuilder(DocumentBuilderFactory factory,
 			@Nullable EntityResolver entityResolver, @Nullable ErrorHandler errorHandler)
 			throws ParserConfigurationException {
-
+		// 实例化一个文档构建者
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
+
+		// 如果实体解析器不为null，则设置实体解析器
 		if (entityResolver != null) {
 			docBuilder.setEntityResolver(entityResolver);
 		}
+
+		// 如果错误处理者不为null，则设置错误处理者
 		if (errorHandler != null) {
 			docBuilder.setErrorHandler(errorHandler);
 		}
+
+		// 返回文档构建者
 		return docBuilder;
 	}
 

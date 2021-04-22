@@ -62,6 +62,9 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 
 	/**
 	 * Create a new AbstractXmlApplicationContext with the given parent context.
+	 *
+	 * 用给定的父上下文创建新的抽象可扩展标记语言应用上下文
+	 *
 	 * @param parent the parent context
 	 */
 	public AbstractXmlApplicationContext(@Nullable ApplicationContext parent) {
@@ -89,7 +92,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	@Override
 	protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) throws BeansException, IOException {
 		// Create a new XmlBeanDefinitionReader for the given BeanFactory.
-		// 为给定的Bean工厂创建一个新的可扩展标记语言Bean定义阅读器。
+		// 为给定的Bean工厂创建一个新的可扩展标记语言Bean定义阅读器
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 
 		// Configure the bean definition reader with this context's
@@ -102,7 +105,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 
 		// Allow a subclass to provide custom initialization of the reader,
 		// then proceed with actually loading the bean definitions.
-		// 允许子类去提供阅读器的定制初始化，然后实际地加载bean定义来处理。
+		// 允许子类去提供阅读器的定制初始化，然后实际地加载bean定义来处理
 		// 初始化Bean定义阅读器
 		initBeanDefinitionReader(beanDefinitionReader);
 		// 加载Bean定义
