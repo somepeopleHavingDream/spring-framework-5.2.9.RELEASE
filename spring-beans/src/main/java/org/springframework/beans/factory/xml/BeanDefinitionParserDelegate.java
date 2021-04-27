@@ -1528,8 +1528,11 @@ public class BeanDefinitionParserDelegate {
 
 	/**
 	 * Determine whether the given node indicates the default namespace.
+	 *
+	 * 决定是否给定结点表示默认空间
 	 */
 	public boolean isDefaultNamespace(Node node) {
+		// 获得入参结点的命名空间统一资源标识符，返回当前命名空间是否是默认命名空间
 		return isDefaultNamespace(getNamespaceURI(node));
 	}
 

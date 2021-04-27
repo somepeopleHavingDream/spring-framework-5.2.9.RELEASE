@@ -79,7 +79,7 @@ public class DefaultDocumentLoader implements DocumentLoader {
 		// 创建文档建造者
 		DocumentBuilder builder = createDocumentBuilder(factory, entityResolver, errorHandler);
 
-		// 文档建造者解析输入源，返回文档
+		// 文档建造者解析输入源，返回文档实例
 		return builder.parse(inputSource);
 	}
 

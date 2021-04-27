@@ -197,6 +197,11 @@ public abstract class ReflectionUtils {
 	 */
 	@SuppressWarnings("deprecation")  // on JDK 9
 	public static void makeAccessible(Constructor<?> ctor) {
+		/*
+			当入参构造器满足以下条件时，将构造设置为可访问的。
+			1：构造方法不是公共的或者构造器所在的类不是公共的
+			2：构造器不是可访问的
+		 */
 		if ((!Modifier.isPublic(ctor.getModifiers()) ||
 				!Modifier.isPublic(ctor.getDeclaringClass().getModifiers())) && !ctor.isAccessible()) {
 			ctor.setAccessible(true);

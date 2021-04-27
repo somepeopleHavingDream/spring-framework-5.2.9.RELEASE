@@ -62,9 +62,12 @@ public class XmlReaderContext extends ReaderContext {
 			Resource resource, ProblemReporter problemReporter,
 			ReaderEventListener eventListener, SourceExtractor sourceExtractor,
 			XmlBeanDefinitionReader reader, NamespaceHandlerResolver namespaceHandlerResolver) {
-
+		// 调用父类的构造方法
 		super(resource, problemReporter, eventListener, sourceExtractor);
+
+		// 设置可扩展标记语言Bean定义阅读器
 		this.reader = reader;
+		// 设置命名空间处理者解析器
 		this.namespaceHandlerResolver = namespaceHandlerResolver;
 	}
 

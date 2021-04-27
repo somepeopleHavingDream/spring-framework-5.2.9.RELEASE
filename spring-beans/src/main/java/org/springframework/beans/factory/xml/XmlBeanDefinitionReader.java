@@ -106,6 +106,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	private boolean namespaceAware = false;
 
+	/**
+	 * 默认Bean定义文档阅读器的字节码对象
+	 */
 	private Class<? extends BeanDefinitionDocumentReader> documentReaderClass =
 			DefaultBeanDefinitionDocumentReader.class;
 
@@ -363,7 +366,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 				inputSource.setEncoding(encodedResource.getEncoding());
 			}
 
-			// 加载Bean定义
+			// 处理加载Bean定义
 			return doLoadBeanDefinitions(inputSource, encodedResource.getResource());
 		}
 		catch (IOException ex) {
@@ -419,8 +422,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			throws BeanDefinitionStoreException {
 
 		try {
-			// 加载文档
+			// 处理加载文档
 			Document doc = doLoadDocument(inputSource, resource);
+			// 注册Bean定义
 			int count = registerBeanDefinitions(doc, resource);
 			if (logger.isDebugEnabled()) {
 				logger.debug("Loaded " + count + " bean definitions from " + resource);
@@ -543,8 +547,12 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see BeanDefinitionDocumentReader#registerBeanDefinitions
 	 */
 	public int registerBeanDefinitions(Document doc, Resource resource) throws BeanDefinitionStoreException {
+		// 创建并获得Bean定义文档阅读器
 		BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader();
+		// 获得Bean注册中心，拿到Bean定义数量（默认是0）
 		int countBefore = getRegistry().getBeanDefinitionCount();
+
+		// 文档阅读器注册Bean定义，传入参数：文档对象、阅读器上下文
 		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
 		return getRegistry().getBeanDefinitionCount() - countBefore;
 	}
@@ -556,22 +564,30 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see #setDocumentReaderClass
 	 */
 	protected BeanDefinitionDocumentReader createBeanDefinitionDocumentReader() {
+		// 实例化一个文档阅读器实例
 		return BeanUtils.instantiateClass(this.documentReaderClass);
 	}
 
 	/**
 	 * Create the {@link XmlReaderContext} to pass over to the document reader.
+	 *
+	 * 创建可扩展标记语言阅读器上下文，以传递文档阅读器
 	 */
 	public XmlReaderContext createReaderContext(Resource resource) {
+		// 实例化并返回可扩展标记语言阅读器上下文
 		return new XmlReaderContext(resource, this.problemReporter, this.eventListener,
 				this.sourceExtractor, this, getNamespaceHandlerResolver());
 	}
 
 	/**
 	 * Lazily create a default NamespaceHandlerResolver, if not set before.
+	 *
+	 * 懒加载地创建默认命名空间处理者解析器，如果之前没有设置的话
+	 *
 	 * @see #createDefaultNamespaceHandlerResolver()
 	 */
 	public NamespaceHandlerResolver getNamespaceHandlerResolver() {
+		// 如果命名空间处理者解析器为null，则创建一个默认命名空间处理者解析器，并返回
 		if (this.namespaceHandlerResolver == null) {
 			this.namespaceHandlerResolver = createDefaultNamespaceHandlerResolver();
 		}
@@ -584,6 +600,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see DefaultNamespaceHandlerResolver#DefaultNamespaceHandlerResolver(ClassLoader)
 	 */
 	protected NamespaceHandlerResolver createDefaultNamespaceHandlerResolver() {
+		// 获得类加载器，如果资源类加载器不为null，则用资源类加载器，否则用Bean类加载器
 		ClassLoader cl = (getResourceLoader() != null ? getResourceLoader().getClassLoader() : getBeanClassLoader());
 		return new DefaultNamespaceHandlerResolver(cl);
 	}
