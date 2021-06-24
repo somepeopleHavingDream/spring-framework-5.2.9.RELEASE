@@ -220,6 +220,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 			processAliasRegistration(ele);
 		}
 		else if (delegate.nodeNameEquals(ele, BEAN_ELEMENT)) {
+			// 处理Bean标签的结点
 			processBeanDefinition(ele, delegate);
 		}
 		else if (delegate.nodeNameEquals(ele, NESTED_BEANS_ELEMENT)) {
@@ -331,18 +332,25 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 * 处理给定的Bean元素，解析Bean定义并将其注册到注册表中
 	 */
 	protected void processBeanDefinition(Element ele, BeanDefinitionParserDelegate delegate) {
+		// 代理解析一个入参Bean定义元素，获取Bean定义拥有者
 		BeanDefinitionHolder bdHolder = delegate.parseBeanDefinitionElement(ele);
+
+		// 如果bean拥有者不为null
 		if (bdHolder != null) {
+			// 如果需要的话装饰bean拥有者（不细究）
 			bdHolder = delegate.decorateBeanDefinitionIfRequired(ele, bdHolder);
 			try {
 				// Register the final decorated instance.
+				// 注册常量被装饰的实例（不细究）
 				BeanDefinitionReaderUtils.registerBeanDefinition(bdHolder, getReaderContext().getRegistry());
 			}
 			catch (BeanDefinitionStoreException ex) {
 				getReaderContext().error("Failed to register bean definition with name '" +
 						bdHolder.getBeanName() + "'", ele, ex);
 			}
+
 			// Send registration event.
+			// 发送注册事件
 			getReaderContext().fireComponentRegistered(new BeanComponentDefinition(bdHolder));
 		}
 	}
