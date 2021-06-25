@@ -540,7 +540,7 @@ public class BeanDefinitionParserDelegate {
 			// 设置描述属性
 			bd.setDescription(DomUtils.getChildElementValueByTagName(ele, DESCRIPTION_ELEMENT));
 
-			// 以下调用方法暂不研究
+			// 解析元元素
 			parseMetaElements(ele, bd);
 			parseLookupOverrideSubElements(ele, bd.getMethodOverrides());
 			parseReplacedMethodSubElements(ele, bd.getMethodOverrides());
@@ -684,11 +684,15 @@ public class BeanDefinitionParserDelegate {
 
 	/**
 	 * Parse the meta elements underneath the given element, if any.
+	 *
+	 * 解析给定元素下的元元素，如果存在的话。
 	 */
 	public void parseMetaElements(Element ele, BeanMetadataAttributeAccessor attributeAccessor) {
 		NodeList nl = ele.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node node = nl.item(i);
+
+			// 如果该节点是候补元素，并且节点名是meta
 			if (isCandidateElement(node) && nodeNameEquals(node, META_ELEMENT)) {
 				Element metaElement = (Element) node;
 				String key = metaElement.getAttribute(KEY_ATTRIBUTE);

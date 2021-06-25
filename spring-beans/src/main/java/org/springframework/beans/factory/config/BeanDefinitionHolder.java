@@ -78,7 +78,10 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 	 * @param beanDefinitionHolder the BeanDefinitionHolder to copy
 	 */
 	public BeanDefinitionHolder(BeanDefinitionHolder beanDefinitionHolder) {
+		// 断言入参bean定义拥有者不为null
 		Assert.notNull(beanDefinitionHolder, "BeanDefinitionHolder must not be null");
+
+		// 设置bean定义、bean名、别名
 		this.beanDefinition = beanDefinitionHolder.getBeanDefinition();
 		this.beanName = beanDefinitionHolder.getBeanName();
 		this.aliases = beanDefinitionHolder.getAliases();

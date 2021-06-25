@@ -74,7 +74,6 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 	public static final String PROFILE_ATTRIBUTE = "profile";
 
-
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	@Nullable
@@ -101,6 +100,8 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 	/**
 	 * Return the descriptor for the XML resource that this parser works on.
+	 *
+	 * 返回此解析器工作的可扩展标记语言资源的描述符。
 	 */
 	protected final XmlReaderContext getReaderContext() {
 		Assert.state(this.readerContext != null, "No XmlReaderContext available");
