@@ -164,6 +164,7 @@ public class ReaderContext {
 	 * 发射一个组件注册事件。
 	 */
 	public void fireComponentRegistered(ComponentDefinition componentDefinition) {
+		// 一般componentRegistered方法都是空实现
 		this.eventListener.componentRegistered(componentDefinition);
 	}
 

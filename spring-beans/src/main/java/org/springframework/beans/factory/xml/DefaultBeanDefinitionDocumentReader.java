@@ -159,6 +159,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		preProcessXml(root);
 		// 解析Bean定义
 		parseBeanDefinitions(root, this.delegate);
+		// 后置处理可扩展标记语言，默认为空闲，可由子类重载
 		postProcessXml(root);
 
 		this.delegate = parent;
@@ -201,12 +202,14 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 						parseDefaultElement(ele, delegate);
 					}
 					else {
+						// 解析自定义元素
 						delegate.parseCustomElement(ele);
 					}
 				}
 			}
 		}
 		else {
+			// 如果根节点不在默认命名空间，则解析自定义元素
 			delegate.parseCustomElement(root);
 		}
 	}
@@ -224,6 +227,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 			// 处理Bean标签的结点
 			processBeanDefinition(ele, delegate);
 		}
+		// 暂不研究对beans结点的解析逻辑
 		else if (delegate.nodeNameEquals(ele, NESTED_BEANS_ELEMENT)) {
 			// recurse
 			doRegisterBeanDefinitions(ele);
@@ -342,7 +346,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 			bdHolder = delegate.decorateBeanDefinitionIfRequired(ele, bdHolder);
 			try {
 				// Register the final decorated instance.
-				// 注册常量被装饰的实例（不细究）
+				// 注册常量被装饰的实例
 				BeanDefinitionReaderUtils.registerBeanDefinition(bdHolder, getReaderContext().getRegistry());
 			}
 			catch (BeanDefinitionStoreException ex) {

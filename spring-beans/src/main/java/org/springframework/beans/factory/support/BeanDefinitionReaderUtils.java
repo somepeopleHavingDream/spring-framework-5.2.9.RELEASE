@@ -63,7 +63,7 @@ public abstract class BeanDefinitionReaderUtils {
 		bd.setParentName(parentName);
 
 		if (className != null) {
-			// 如果类名不为null，并且入参类加载不为null，则为该通用Bean定义设置该Bean的类加载器
+			// 如果类名不为null，并且入参类加载不为null，则为该通用Bean定义设置该Bean实例
 			if (classLoader != null) {
 				bd.setBeanClass(ClassUtils.forName(className, classLoader));
 			}
@@ -158,6 +158,9 @@ public abstract class BeanDefinitionReaderUtils {
 
 	/**
 	 * Register the given bean definition with the given bean factory.
+	 *
+	 * 用给定的Bean工厂注册给定的Bean定义。
+	 *
 	 * @param definitionHolder the bean definition including name and aliases
 	 * @param registry the bean factory to register with
 	 * @throws BeanDefinitionStoreException if registration failed
@@ -167,6 +170,7 @@ public abstract class BeanDefinitionReaderUtils {
 			throws BeanDefinitionStoreException {
 
 		// Register bean definition under primary name.
+		// 在主名称下注册Bean定义
 		String beanName = definitionHolder.getBeanName();
 		registry.registerBeanDefinition(beanName, definitionHolder.getBeanDefinition());
 
