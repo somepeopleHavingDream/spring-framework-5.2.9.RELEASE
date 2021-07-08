@@ -94,7 +94,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		// 设置阅读器上下文
 		this.readerContext = readerContext;
 
-		// 处理注册Bean定义
+		// 处理注册Bean定义，传入文档的根元素
 		doRegisterBeanDefinitions(doc.getDocumentElement());
 	}
 
