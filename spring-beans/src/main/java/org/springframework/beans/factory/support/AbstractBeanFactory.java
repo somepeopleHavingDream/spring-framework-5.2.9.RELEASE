@@ -129,7 +129,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	@Nullable
 	private ClassLoader tempClassLoader;
 
-	/** Whether to cache bean metadata or rather reobtain it for every access. */
+	/** Whether to cache bean metadata or rather reobtain it for every access.
+	 *
+	 * 是否为每次访问去缓存bean元数据或者重新获取。
+	 * */
 	private boolean cacheBeanMetadata = true;
 
 	/** Resolution strategy for expressions in bean definition values. */
@@ -338,8 +341,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 							throw new BeanCreationException(mbd.getResourceDescription(), beanName,
 									"Circular depends-on relationship between '" + beanName + "' and '" + dep + "'");
 						}
+
+						// 注册依赖的bean
 						registerDependentBean(dep, beanName);
+
 						try {
+							// 获得依赖bean
 							getBean(dep);
 						}
 						catch (NoSuchBeanDefinitionException ex) {
@@ -350,9 +357,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 
 				// Create bean instance.
+				// 创建bean实例。
+
+				// 如果合并bean定义为单例
 				if (mbd.isSingleton()) {
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
+							// 实际的创建bean方法
 							return createBean(beanName, mbd, args);
 						}
 						catch (BeansException ex) {
@@ -365,7 +376,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					});
 					bean = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);
 				}
-
+				// 如果合并bean定义为原型（暂不细究）
 				else if (mbd.isPrototype()) {
 					// It's a prototype -> create a new instance.
 					Object prototypeInstance = null;
@@ -378,7 +389,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					}
 					bean = getObjectForBeanInstance(prototypeInstance, name, beanName, mbd);
 				}
-
+				// 如果合并bean定义的范围为其他（暂不细究）
 				else {
 					String scopeName = mbd.getScope();
 					if (!StringUtils.hasLength(scopeName)) {
@@ -409,6 +420,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 			}
 			catch (BeansException ex) {
+				// 在bean创建失败后对该bean进行清理，并抛出异常
 				cleanupAfterBeanCreationFailure(beanName);
 				throw ex;
 			}
@@ -1444,13 +1456,23 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 				// Cache the merged bean definition for the time being
 				// (it might still get re-merged later on in order to pick up metadata changes)
+				// 暂时缓存合并的bean定义
+				// （在为了获取元数据改变的情况下，它随后可能仍然会再合并）
+
+				// 如果包含的bean定义为null，并且
 				if (containingBd == null && isCacheBeanMetadata()) {
+					// 将合并bean定义放入到已合并bean定义集中
 					this.mergedBeanDefinitions.put(beanName, mbd);
 				}
 			}
+
+			// 如果先前的bean定义不为null
 			if (previous != null) {
+				// 复制相关已合并bean定义缓冲（不细究）
 				copyRelevantMergedBeanDefinitionCaches(previous, mbd);
 			}
+
+			// 返回合并bean定义
 			return mbd;
 		}
 	}
@@ -1481,7 +1503,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 */
 	protected void checkMergedBeanDefinition(RootBeanDefinition mbd, String beanName, @Nullable Object[] args)
 			throws BeanDefinitionStoreException {
-
+		// 如果合并bean定义是抽象的，则抛出bean是抽象的异常
 		if (mbd.isAbstract()) {
 			throw new BeanIsAbstractException(beanName);
 		}

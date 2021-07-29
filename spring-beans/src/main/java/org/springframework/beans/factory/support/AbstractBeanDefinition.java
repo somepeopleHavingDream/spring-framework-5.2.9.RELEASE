@@ -444,6 +444,9 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Return whether this definition specifies a bean class.
+	 *
+	 * 返回是否此定义指定了bean类。
+	 *
 	 * @see #getBeanClass()
 	 * @see #setBeanClass(Class)
 	 * @see #resolveBeanClass(ClassLoader)
