@@ -251,8 +251,11 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 			}
 		}
 		else {
+			// 如果该资源加载器实例不属于资源模式解析器，属于其他
 			// Can only load single resources by absolute URL.
+			// 仅能通过完整统一资源定位符加载单个资源。
 			Resource resource = resourceLoader.getResource(location);
+			// 在此资源中加载bean定义
 			int count = loadBeanDefinitions(resource);
 			if (actualResources != null) {
 				actualResources.add(resource);

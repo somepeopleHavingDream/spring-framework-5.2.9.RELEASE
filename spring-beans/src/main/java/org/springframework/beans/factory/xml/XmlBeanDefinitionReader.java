@@ -374,7 +374,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 					"IOException parsing XML document from " + encodedResource.getResource(), ex);
 		}
 		finally {
+			// 处理完成后，从正在被加载资源集合中移除此编码集合
 			currentResources.remove(encodedResource);
+
+			// 如果当前正在被加载资源集合为空，则移除资源正在被加载标记
 			if (currentResources.isEmpty()) {
 				this.resourcesCurrentlyBeingLoaded.remove();
 			}

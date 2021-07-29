@@ -141,6 +141,10 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 */
 	@Override
 	protected final void refreshBeanFactory() throws BeansException {
+		/*
+			如果有，则先销毁工厂，再创建工厂
+		 */
+
 		// 如果有Bean工厂
 		if (hasBeanFactory()) {
 			// 销毁Bean工厂
@@ -148,6 +152,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 			// 关闭Bean工厂
 			closeBeanFactory();
 		}
+
 		try {
 			// 创建Bean工厂
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
