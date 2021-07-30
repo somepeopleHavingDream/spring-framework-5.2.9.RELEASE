@@ -503,7 +503,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// 确保bean类在此时已实际地被解析了，
 		// 并且在被动态解析的类不能被存储在共享合并bean定义的情况下克隆bean定义。
 
-		// 解析bean类
+		// 解析bean字节码
 		Class<?> resolvedClass = resolveBeanClass(mbd, beanName);
 		if (resolvedClass != null && !mbd.hasBeanClass() && mbd.getBeanClassName() != null) {
 			mbdToUse = new RootBeanDefinition(mbd);
