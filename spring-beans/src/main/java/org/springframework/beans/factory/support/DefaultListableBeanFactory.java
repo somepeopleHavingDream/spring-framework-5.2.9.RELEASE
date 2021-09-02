@@ -168,9 +168,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	/** Map from dependency type to corresponding autowired value. */
 	private final Map<Class<?>, Object> resolvableDependencies = new ConcurrentHashMap<>(16);
 
-	/** Map of bean definition objects, keyed by bean name.
-	 * Bean定义对象映射集，beanName -> BeanDefinition对象，
-	 * 初始容量为256
+	/**
+	 * Map of bean definition objects, keyed by bean name.
+	 *
+	 * Bean定义对象的映射，以bean名为键。
+	 * 初始容量为256。
 	 * */
 	private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>(256);
 
@@ -183,9 +185,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	/** Map of singleton-only bean names, keyed by dependency type. */
 	private final Map<Class<?>, String[]> singletonBeanNamesByType = new ConcurrentHashMap<>(64);
 
-	/** List of bean definition names, in registration order.
+	/**
+	 * List of bean definition names, in registration order.
 	 *
-	 * bean定义名称列表，按照注册顺序。
+	 * bean定义名称列表，以注册顺序。
 	 * */
 	private volatile List<String> beanDefinitionNames = new ArrayList<>(256);
 
@@ -196,7 +199,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	@Nullable
 	private volatile String[] frozenBeanDefinitionNames;
 
-	/** Whether bean definition metadata may be cached for all beans. */
+	/**
+	 *  Whether bean definition metadata may be cached for all beans.
+	 *
+	 * 是否可以为所有的bean缓存bean定义元数据。
+	 * */
 	private volatile boolean configurationFrozen;
 
 
@@ -830,6 +837,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Override
 	public BeanDefinition getBeanDefinition(String beanName) throws NoSuchBeanDefinitionException {
+		// 从bean定义映射中通过bean名获得bean定义，并返回
 		BeanDefinition bd = this.beanDefinitionMap.get(beanName);
 		if (bd == null) {
 			if (logger.isTraceEnabled()) {
@@ -963,10 +971,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		Assert.hasText(beanName, "Bean name must not be empty");
 		Assert.notNull(beanDefinition, "BeanDefinition must not be null");
 
-		// 如果入参bean定义时抽象Bean定义的实例
+		// 如果入参bean定义是抽象Bean定义的实例
 		if (beanDefinition instanceof AbstractBeanDefinition) {
 			try {
-				// bean定义
+				// bean定义校验
 				((AbstractBeanDefinition) beanDefinition).validate();
 			}
 			catch (BeanDefinitionValidationException ex) {
@@ -975,10 +983,15 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 		}
 
-		// 根据bean名设置Bean定义
+		// 根据bean名从bean定义映射中获得Bean定义
 		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
+
 		// 如果bean定义对象不为null
 		if (existingDefinition != null) {
+			/*
+				一系列检查
+			 */
+
 			// 如果不允许bean定义覆写，则抛出bean定义覆写异常
 			if (!isAllowBeanDefinitionOverriding()) {
 				throw new BeanDefinitionOverrideException(beanName, beanDefinition, existingDefinition);
@@ -1010,7 +1023,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			this.beanDefinitionMap.put(beanName, beanDefinition);
 		}
 		else {
-			// 映射集合中没有该bean实例
+			// 映射中已有该bean定义
+
 			// 如果bean创建已经开始
 			if (hasBeanCreationStarted()) {
 				// Cannot modify startup-time collection elements anymore (for stable iteration)
@@ -1026,7 +1040,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 					updatedDefinitions.add(beanName);
 					this.beanDefinitionNames = updatedDefinitions;
 
-					// 删除手工单例姓名（不细究）
+					// 删除手工单例Bean姓名（不细究）
 					removeManualSingletonName(beanName);
 				}
 			}
@@ -1046,6 +1060,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			resetBeanDefinition(beanName);
 		}
 		else if (isConfigurationFrozen()) {
+			// 如果配置冻结，则通过类型缓存做清理工作（不细究）
 			clearByTypeCache();
 		}
 	}
@@ -1099,11 +1114,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		// be necessary, rather just meant for overriding a context's default beans
 		// (e.g. the default StaticMessageSource in a StaticApplicationContext).
 
-		// 根据该bean名，销毁单例
+		// 根据该bean名，销毁单例（不细究）
 		destroySingleton(beanName);
 
 		// Notify all post-processors that the specified bean definition has been reset.
-		// 通知所有的后置处理器：指定的bean定义已经被重置。
+		// 通知所有的后置处理器：指定的bean定义已经被重置。（不细究）
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
 			if (processor instanceof MergedBeanDefinitionPostProcessor) {
 				((MergedBeanDefinitionPostProcessor) processor).resetBeanDefinition(beanName);
@@ -1115,7 +1130,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		for (String bdName : this.beanDefinitionNames) {
 			if (!beanName.equals(bdName)) {
 				BeanDefinition bd = this.beanDefinitionMap.get(bdName);
+
 				// Ensure bd is non-null due to potential concurrent modification of beanDefinitionMap.
+				// 确保bean定义非null，因为潜在的bean定义映射的并发修改。
 				if (bd != null && beanName.equals(bd.getParentName())) {
 					resetBeanDefinition(bdName);
 				}

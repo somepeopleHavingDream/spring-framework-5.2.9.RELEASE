@@ -74,19 +74,22 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	private static final int SUPPRESSED_EXCEPTIONS_LIMIT = 100;
 
 
-	/** Cache of singleton objects: bean name to bean instance.
+	/**
+	 * Cache of singleton objects: bean name to bean instance.
 	 *
 	 * 单例对象的缓存：Bean名称到Bean实例。
 	 * */
 	private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256);
 
-	/** Cache of singleton factories: bean name to ObjectFactory.
+	/**
+	 * Cache of singleton factories: bean name to ObjectFactory.
 	 *
 	 * 单例工厂的缓冲：Bean名称到对象工厂。
 	 * */
 	private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16);
 
-	/** Cache of early singleton objects: bean name to bean instance.
+	/**
+	 * Cache of early singleton objects: bean name to bean instance.
 	 *
 	 * 更早的单例对象缓存：Bean名称到Bean实例。
 	 * */
@@ -218,7 +221,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	@Nullable
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 		// Quick check for existing instance without full singleton lock
-		// 快速检查不带全单例锁的存在实例
+		// 快速检查不带全局单例锁的存在实例
 		Object singletonObject = this.singletonObjects.get(beanName);
 
 		// 如果单例对象为null，并且是当前正在创建的单例
@@ -226,7 +229,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 			// 获得之前的单例对象
 			singletonObject = this.earlySingletonObjects.get(beanName);
 
-			// 如果单例对象为null，并且允许更早的引用
+			// 如果此时单例对象仍为null，并且允许更早的引用
 			if (singletonObject == null && allowEarlyReference) {
 				// 锁住单例集
 				synchronized (this.singletonObjects) {
@@ -238,6 +241,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 						if (singletonObject == null) {
 							ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
 							if (singletonFactory != null) {
+								// 如果单例工厂不为null，则通过单例工厂拿到单例对象，然后放入到更早单例对象集中，并从单例工厂中将其移除
 								singletonObject = singletonFactory.getObject();
 								this.earlySingletonObjects.put(beanName, singletonObject);
 								this.singletonFactories.remove(beanName);

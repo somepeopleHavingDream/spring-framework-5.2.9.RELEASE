@@ -99,12 +99,18 @@ public abstract class ClassUtils {
 	/**
 	 * Map with primitive type name as key and corresponding primitive
 	 * type as value, for example: "int" -> "int.class".
+	 *
+	 * 以原始类型为键和以原始类型为值的映射，
+	 * 例如："int" -> "int.class"
 	 */
 	private static final Map<String, Class<?>> primitiveTypeNameMap = new HashMap<>(32);
 
 	/**
 	 * Map with common Java language class name as key and corresponding Class as value.
 	 * Primarily for efficient deserialization of remote invocations.
+	 *
+	 * 与公共Java语言类名为键和键对应的字节码为值的映射。
+	 * 主要用于远程调用的高效反序列化。
 	 */
 	private static final Map<String, Class<?>> commonClassCache = new HashMap<>(64);
 
@@ -258,16 +264,24 @@ public abstract class ClassUtils {
 	 */
 	public static Class<?> forName(String name, @Nullable ClassLoader classLoader)
 			throws ClassNotFoundException, LinkageError {
-
+		// 断言：入参名必不为null
 		Assert.notNull(name, "Name must not be null");
 
+		// 解析原始类名，以获得该类的字节码
 		Class<?> clazz = resolvePrimitiveClassName(name);
 		if (clazz == null) {
+			// 如果上述获取到的字节码为null，则尝试从公共字节码缓存中获取对应字节码
 			clazz = commonClassCache.get(name);
 		}
+
+		// 如果上述获取到的字节码不为null，则直接返回
 		if (clazz != null) {
 			return clazz;
 		}
+
+		/*
+			以下不细究
+		 */
 
 		// "java.lang.String[]" style arrays
 		if (name.endsWith(ARRAY_SUFFIX)) {
@@ -290,8 +304,10 @@ public abstract class ClassUtils {
 			return Array.newInstance(elementClass, 0).getClass();
 		}
 
+		// 获得将要使用的类加载器
 		ClassLoader clToUse = classLoader;
 		if (clToUse == null) {
+			// 如果类加载器为null，则获得默认的类加载器
 			clToUse = getDefaultClassLoader();
 		}
 		try {
@@ -474,10 +490,16 @@ public abstract class ClassUtils {
 	@Nullable
 	public static Class<?> resolvePrimitiveClassName(@Nullable String name) {
 		Class<?> result = null;
+
 		// Most class names will be quite long, considering that they
 		// SHOULD sit in a package, so a length check is worthwhile.
+
+		/*
+			大多数类名相当长，考虑它们应该被存入一个包里，这样包检查是有价值的。
+		 */
 		if (name != null && name.length() <= 7) {
 			// Could be a primitive - likely.
+			// 可能是原始类型 - 可能。
 			result = primitiveTypeNameMap.get(name);
 		}
 		return result;

@@ -618,7 +618,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
-				// 最后异步：推送相应的事件。
+				// 最后步骤：推送相应的事件。
 				finishRefresh();
 			}
 
@@ -1248,7 +1248,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	@Override
 	public Object getBean(String name) throws BeansException {
+		// 断言bean工厂有效
 		assertBeanFactoryActive();
+		// 获得Bean工厂，然后从根据bean名从Bean工厂中获得Bean
 		return getBeanFactory().getBean(name);
 	}
 

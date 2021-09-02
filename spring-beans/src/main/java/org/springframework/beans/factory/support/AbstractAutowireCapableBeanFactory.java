@@ -493,15 +493,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			logger.trace("Creating instance of bean '" + beanName + "'");
 		}
 
-		// 记录根bean定义
+		// 记录将被使用的根bean定义
 		RootBeanDefinition mbdToUse = mbd;
 
 		// Make sure bean class is actually resolved at this point, and
 		// clone the bean definition in case of a dynamically resolved Class
 		// which cannot be stored in the shared merged bean definition.
 
-		// 确保bean类在此时已实际地被解析了，
-		// 并且在被动态解析的类不能被存储在共享合并bean定义的情况下克隆bean定义。
+		/*
+			确保在此时实际地解析了bean类，
+			并且在动态解析类的情况下克隆bean定义，
+			该bean定义不能存储在共享合并bean定义中。
+		 */
 
 		// 解析bean字节码
 		Class<?> resolvedClass = resolveBeanClass(mbd, beanName);

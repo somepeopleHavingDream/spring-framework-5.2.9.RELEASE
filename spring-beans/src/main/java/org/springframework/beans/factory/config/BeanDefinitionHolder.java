@@ -41,6 +41,9 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 
 	private final BeanDefinition beanDefinition;
 
+	/**
+	 * 存取bean名的其实是Bean定义拥有者类
+	 */
 	private final String beanName;
 
 	@Nullable

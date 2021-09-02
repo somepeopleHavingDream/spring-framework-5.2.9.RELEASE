@@ -388,6 +388,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Return the current bean class name of this bean definition.
+	 *
+	 * 返回此Bean定义的当前Bean类名。
 	 */
 	@Override
 	@Nullable
@@ -465,6 +467,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Nullable
 	public Class<?> resolveBeanClass(@Nullable ClassLoader classLoader) throws ClassNotFoundException {
+		// 获得Bean类名
 		String className = getBeanClassName();
 		if (className == null) {
 			return null;

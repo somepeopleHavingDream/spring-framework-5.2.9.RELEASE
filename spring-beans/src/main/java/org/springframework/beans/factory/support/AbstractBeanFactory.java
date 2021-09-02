@@ -121,7 +121,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	@Nullable
 	private BeanFactory parentBeanFactory;
 
-	/** ClassLoader to resolve bean class names with, if necessary.
+	/**
+	 * ClassLoader to resolve bean class names with, if necessary.
 	 *
 	 * 用于解析bean类名的类加载器，如果有必要的话。
 	 * */
@@ -141,7 +142,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * */
 	private boolean cacheBeanMetadata = true;
 
-	/** Resolution strategy for expressions in bean definition values. */
+	/** Resolution strategy for expressions in bean definition values.
+	 *
+	 * 用于bean定义值的表达式的解析策略。
+	 * */
 	@Nullable
 	private BeanExpressionResolver beanExpressionResolver;
 
@@ -181,13 +185,15 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	@Nullable
 	private SecurityContextProvider securityContextProvider;
 
-	/** Map from bean name to merged RootBeanDefinition.
+	/**
+	 * Map from bean name to merged RootBeanDefinition.
 	 *
 	 * 从bean名到已合并RootBeanDefinition的映射。
 	 * */
 	private final Map<String, RootBeanDefinition> mergedBeanDefinitions = new ConcurrentHashMap<>(256);
 
-	/** Names of beans that have already been created at least once.
+	/**
+	 * Names of beans that have already been created at least once.
 	 *
 	 * 已经被创建至少一次的bean名集合。
 	 * */
@@ -268,15 +274,16 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	protected <T> T doGetBean(
 			String name, @Nullable Class<T> requiredType, @Nullable Object[] args, boolean typeCheckOnly)
 			throws BeansException {
-		// 转换bean名
+		// 转换bean名（不细究）
 		String beanName = transformedBeanName(name);
 		Object bean;
 
 		// Eagerly check singleton cache for manually registered singletons.
 		// 对于手动注册的单例，热切地检查单例缓冲。
-		// 通过bean名，获得单例对象
+		// 通过bean名，获得单例对象。
 		Object sharedInstance = getSingleton(beanName);
 		if (sharedInstance != null && args == null) {
+			// 打印日志
 			if (logger.isTraceEnabled()) {
 				if (isSingletonCurrentlyInCreation(beanName)) {
 					logger.trace("Returning eagerly cached instance of singleton bean '" + beanName +
@@ -286,6 +293,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					logger.trace("Returning cached instance of singleton bean '" + beanName + "'");
 				}
 			}
+
 			// 获得用于bean实例的对象（暂不细究）
 			bean = getObjectForBeanInstance(sharedInstance, name, beanName, null);
 		}
@@ -304,7 +312,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			// Check if bean definition exists in this factory.
 			// 检查bean定义在此工厂里是否存在。
 			BeanFactory parentBeanFactory = getParentBeanFactory();
-			// 以下条件体暂不细究
+			// 以下条件体暂不细究，因为目前演示的样例中代码流程不会到下面的方法体
 			if (parentBeanFactory != null && !containsBeanDefinition(beanName)) {
 				// Not found -> check parent.
 				String nameToLookup = originalBeanName(name);
@@ -331,10 +339,18 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 
 			try {
+				/*
+					获得已合并的bean定义（已合并的bean定义后面大部分方法都要使用，但暂时不细究）
+				 */
+
 				// 获得已合并的本地bean定义
 				RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
 				// 检查已合并bean定义
 				checkMergedBeanDefinition(mbd, beanName, args);
+
+				/*
+					处理依赖
+				 */
 
 				// Guarantee initialization of beans that the current bean depends on.
 				// 保证当前bean依赖的bean的初始化。
@@ -1057,6 +1073,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	@Override
 	@Nullable
 	public Scope getRegisteredScope(String scopeName) {
+		// 断言入参
 		Assert.notNull(scopeName, "Scope identifier must not be null");
 		return this.scopes.get(scopeName);
 	}
@@ -1338,7 +1355,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 */
 	protected RootBeanDefinition getMergedLocalBeanDefinition(String beanName) throws BeansException {
 		// Quick check on the concurrent map first, with minimal locking.
-		// 首先在并发map里用最小锁快速检查。
+		// 首先在并发映射里用最小锁快速检查。
 		RootBeanDefinition mbd = this.mergedBeanDefinitions.get(beanName);
 		if (mbd != null && !mbd.stale) {
 			return mbd;
@@ -1385,7 +1402,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			RootBeanDefinition previous = null;
 
 			// Check with full lock now in order to enforce the same merged instance.
-			// 现在检查完全锁定，以执行相同的合并实例。
+			// 现在用全局锁检查，以执行相同的合并实例。
 			if (containingBd == null) {
 				// 根据bean名获得合并bean定义
 				mbd = this.mergedBeanDefinitions.get(beanName);
@@ -1568,7 +1585,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				return mbd.getBeanClass();
 			}
 
-			// 暂时不细究此条件体内的方法逻辑
+			// 不细究
 			if (System.getSecurityManager() != null) {
 				return AccessController.doPrivileged((PrivilegedExceptionAction<Class<?>>)
 						() -> doResolveBeanClass(mbd, typesToMatch), getAccessControlContext());
@@ -1603,8 +1620,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			// When just doing type checks (i.e. not creating an actual instance yet),
 			// use the specified temporary class loader (e.g. in a weaving scenario).
 
-			// 当只处理类型检查（即还未创建实际的实例），
-			// 使用特定的临时类加载器（例如，在编织场景中）。
+			/*
+				当只处理类型检查（即还未创建实际的实例），
+				使用特定的临时类加载器（例如，在编织场景中）。
+			 */
 
 			// 获得临时类加载器
 			ClassLoader tempClassLoader = getTempClassLoader();
@@ -1625,8 +1644,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		// 获得合并bean定义的bean类名
 		String className = mbd.getBeanClassName();
 		if (className != null) {
+			// 评估bean定义字符串
 			Object evaluated = evaluateBeanDefinitionString(className, mbd);
 			if (!className.equals(evaluated)) {
+				/*
+					此方法体不细究
+				 */
+
 				// A dynamically resolved expression, supported as of 4.2...
 				if (evaluated instanceof Class) {
 					return (Class<?>) evaluated;
@@ -1639,6 +1663,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					throw new IllegalStateException("Invalid class name expression result: " + evaluated);
 				}
 			}
+
+			// 以下方法体不细究
 			if (freshResolve) {
 				// When resolving against a temporary class loader, exit early in order
 				// to avoid storing the resolved Class in the bean definition.
@@ -1657,12 +1683,17 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		}
 
 		// Resolve regularly, caching the result in the BeanDefinition...
+		// 定期解析，将结果缓冲到Bean定义中
 		return mbd.resolveBeanClass(beanClassLoader);
 	}
 
 	/**
 	 * Evaluate the given String as contained in a bean definition,
 	 * potentially resolving it as an expression.
+	 *
+	 * 评估在bean定义中包含的给定字符串，
+	 * 潜在地将它解析为一个表达式。
+	 *
 	 * @param value the value to check
 	 * @param beanDefinition the bean definition that the value comes from
 	 * @return the resolved value
@@ -1670,13 +1701,17 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 */
 	@Nullable
 	protected Object evaluateBeanDefinitionString(@Nullable String value, @Nullable BeanDefinition beanDefinition) {
+		// 若bean表达式解析器为null，则直接返回入参值
 		if (this.beanExpressionResolver == null) {
 			return value;
 		}
 
 		Scope scope = null;
 		if (beanDefinition != null) {
+			// 从入参bean定义中拿到范围
 			String scopeName = beanDefinition.getScope();
+
+			// 如果范围名不为null，则获得注册的范围对象
 			if (scopeName != null) {
 				scope = getRegisteredScope(scopeName);
 			}
@@ -1826,7 +1861,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * creation of the specified bean.
 	 *
 	 * 标记指定bean为已创建（或者将要被创建）。
-	 * 这允许bean工厂去优化它的用于指定bean的重复创建缓存。
+	 * 这允许bean工厂为指定bean的重复创建优化其缓存。
 	 *
 	 * @param beanName the name of the bean
 	 */
@@ -1842,9 +1877,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					// 现在我们实际上正在创建bean，以让bean定义获得重新合并……
 					// 以防在此期间它的一些元数据的改变。
 
-					// 通过入参bean名，清理已合并的bean定义
+					// 通过入参bean名，清理已合并的bean定义（不细究）
 					clearMergedBeanDefinition(beanName);
-					// 加入到已创建bean集合中
+					// 加入到已创建bean名集合中
 					this.alreadyCreated.add(beanName);
 				}
 			}
