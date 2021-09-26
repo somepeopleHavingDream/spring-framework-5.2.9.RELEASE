@@ -90,14 +90,25 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	@Nullable
 	volatile Method factoryMethodToIntrospect;
 
-	/** Common lock for the four constructor fields below. */
+	/** Common lock for the four constructor fields below.
+	 *
+	 * 用于以下四种构造方式的公共锁。
+	 * */
 	final Object constructorArgumentLock = new Object();
 
-	/** Package-visible field for caching the resolved constructor or factory method. */
+	/**
+	 *  Package-visible field for caching the resolved constructor or factory method.
+	 *
+	 * 用于缓存已解析构造器或工厂方法的包可见字段。
+	 * */
 	@Nullable
 	Executable resolvedConstructorOrFactoryMethod;
 
-	/** Package-visible field that marks the constructor arguments as resolved. */
+	/**
+	 *  Package-visible field that marks the constructor arguments as resolved.
+	 *
+	 * 标记构造器参数已被解析的包可见字段。
+	 * */
 	boolean constructorArgumentsResolved = false;
 
 	/** Package-visible field for caching fully resolved constructor arguments. */
@@ -114,7 +125,11 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	/** Package-visible field that indicates MergedBeanDefinitionPostProcessor having been applied. */
 	boolean postProcessed = false;
 
-	/** Package-visible field that indicates a before-instantiation post-processor having kicked in. */
+	/**
+	 *  Package-visible field that indicates a before-instantiation post-processor having kicked in.
+	 *
+	 * 包可见字段，表示在实例化之前后置处理器已经启动。
+	 * */
 	@Nullable
 	volatile Boolean beforeInstantiationResolved;
 

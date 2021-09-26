@@ -228,6 +228,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public Object getBean(String name) throws BeansException {
+		// 调用处理获得bean方法
 		return doGetBean(name, null, null, false);
 	}
 
@@ -396,6 +397,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 							throw ex;
 						}
 					});
+					// 获得用于bean实例的对象（不细究）
 					bean = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);
 				}
 				// 如果合并bean定义为原型（暂不细究）
@@ -449,6 +451,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		}
 
 		// Check if required type matches the type of the actual bean instance.
+		// 检查是否需要的类型匹配了实际bean实例的类型。
 		if (requiredType != null && !requiredType.isInstance(bean)) {
 			try {
 				T convertedBean = getTypeConverter().convertIfNecessary(bean, requiredType);
@@ -465,6 +468,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				throw new BeanNotOfRequiredTypeException(name, requiredType, bean.getClass());
 			}
 		}
+
+		// 返回bean
 		return (T) bean;
 	}
 
@@ -1566,7 +1571,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * and storing the resolved Class in the bean definition for further use.
 	 *
 	 * 解析用于指定bean定义的bean字节码，
-	 * 将bean字节码名解析进类引用（如果必要的话），并且将已解析的类存储进bean定义里以供将来使用。
+	 * 将bean类名解析进类引用（如果必要的话），并且将已解析的类存储进bean定义里以供将来使用。
 	 *
 	 * @param mbd the merged bean definition to determine the class for
 	 * @param beanName the name of the bean (for error handling purposes)
@@ -1591,7 +1596,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 						() -> doResolveBeanClass(mbd, typesToMatch), getAccessControlContext());
 			}
 			else {
-				// 解析bean字节码
+				// 调用处理解析bean字节码
 				return doResolveBeanClass(mbd, typesToMatch);
 			}
 		}
@@ -1610,7 +1615,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	@Nullable
 	private Class<?> doResolveBeanClass(RootBeanDefinition mbd, Class<?>... typesToMatch)
 			throws ClassNotFoundException {
-		// 获得bean字节码加载器
+		// 获得bean类加载器
 		ClassLoader beanClassLoader = getBeanClassLoader();
 		ClassLoader dynamicLoader = beanClassLoader;
 		boolean freshResolve = false;

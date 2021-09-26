@@ -100,7 +100,7 @@ public abstract class ClassUtils {
 	 * Map with primitive type name as key and corresponding primitive
 	 * type as value, for example: "int" -> "int.class".
 	 *
-	 * 以原始类型为键和以原始类型为值的映射，
+	 * 以原始类型为键和以原始类型类对象为值的映射，
 	 * 例如："int" -> "int.class"
 	 */
 	private static final Map<String, Class<?>> primitiveTypeNameMap = new HashMap<>(32);
@@ -109,7 +109,7 @@ public abstract class ClassUtils {
 	 * Map with common Java language class name as key and corresponding Class as value.
 	 * Primarily for efficient deserialization of remote invocations.
 	 *
-	 * 与公共Java语言类名为键和键对应的字节码为值的映射。
+	 * 与公共Java语言类名为键和键对应的类对象为值的映射。
 	 * 主要用于远程调用的高效反序列化。
 	 */
 	private static final Map<String, Class<?>> commonClassCache = new HashMap<>(64);
@@ -267,10 +267,10 @@ public abstract class ClassUtils {
 		// 断言：入参名必不为null
 		Assert.notNull(name, "Name must not be null");
 
-		// 解析原始类名，以获得该类的字节码
+		// 解析原始类名，以获得该类的类对象
 		Class<?> clazz = resolvePrimitiveClassName(name);
 		if (clazz == null) {
-			// 如果上述获取到的字节码为null，则尝试从公共字节码缓存中获取对应字节码
+			// 如果上述获取到的类对象为null，则尝试从公共类对象缓存中获取对应类对象
 			clazz = commonClassCache.get(name);
 		}
 
@@ -311,6 +311,7 @@ public abstract class ClassUtils {
 			clToUse = getDefaultClassLoader();
 		}
 		try {
+			// 用给定的类加载器加载类对象（不初始化）
 			return Class.forName(name, false, clToUse);
 		}
 		catch (ClassNotFoundException ex) {
@@ -502,6 +503,8 @@ public abstract class ClassUtils {
 			// 可能是原始类型 - 可能。
 			result = primitiveTypeNameMap.get(name);
 		}
+
+		// 返回原始类型类对象
 		return result;
 	}
 

@@ -208,7 +208,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 		// 获得本实例的Bean工厂
 		DefaultListableBeanFactory beanFactory = this.beanFactory;
 
-		// 如果Bean工厂为空，则抛出违规状态异常
+		// 如果bean工厂为空，则抛出违规状态异常
 		if (beanFactory == null) {
 			throw new IllegalStateException("BeanFactory not initialized or already closed - " +
 					"call 'refresh' before accessing beans via the ApplicationContext");

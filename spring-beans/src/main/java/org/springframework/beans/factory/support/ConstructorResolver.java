@@ -100,6 +100,9 @@ class ConstructorResolver {
 
 	/**
 	 * Create a new ConstructorResolver for the given factory and instantiation strategy.
+	 *
+	 * 为给定工厂和实例化策略，创建新的构造器解析者。
+	 *
 	 * @param beanFactory the BeanFactory to work with
 	 */
 	public ConstructorResolver(AbstractAutowireCapableBeanFactory beanFactory) {
@@ -391,7 +394,7 @@ class ConstructorResolver {
 	 */
 	public BeanWrapper instantiateUsingFactoryMethod(
 			String beanName, RootBeanDefinition mbd, @Nullable Object[] explicitArgs) {
-
+		// 实例化bean包装者实现，并将该实现初始化到bean工厂内
 		BeanWrapperImpl bw = new BeanWrapperImpl();
 		this.beanFactory.initBeanWrapper(bw);
 
@@ -399,12 +402,16 @@ class ConstructorResolver {
 		Class<?> factoryClass;
 		boolean isStatic;
 
+		// 获得工厂bean名
 		String factoryBeanName = mbd.getFactoryBeanName();
 		if (factoryBeanName != null) {
+			// 如果工厂bean名与入参bean名不相同，则抛出bean定义存储异常
 			if (factoryBeanName.equals(beanName)) {
 				throw new BeanDefinitionStoreException(mbd.getResourceDescription(), beanName,
 						"factory-bean reference points back to the same bean definition");
 			}
+
+			// bean工厂获取bean
 			factoryBean = this.beanFactory.getBean(factoryBeanName);
 			if (mbd.isSingleton() && this.beanFactory.containsSingleton(beanName)) {
 				throw new ImplicitlyAppearedSingletonException();

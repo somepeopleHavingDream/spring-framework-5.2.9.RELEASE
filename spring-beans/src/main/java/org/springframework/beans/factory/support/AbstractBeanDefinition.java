@@ -472,6 +472,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 		if (className == null) {
 			return null;
 		}
+
+		// 获得设置返回该类对应的类对象
 		Class<?> resolvedClass = ClassUtils.forName(className, classLoader);
 		this.beanClass = resolvedClass;
 		return resolvedClass;
@@ -768,6 +770,9 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Return a callback for creating an instance of the bean, if any.
+	 *
+	 * 返回创建bean实例的回调，如果有的话。
+	 *
 	 * @since 5.0
 	 */
 	@Nullable

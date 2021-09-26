@@ -203,6 +203,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	@Override
 	@Nullable
 	public Object getSingleton(String beanName) {
+		// 获得单例对象，允许更早的引用
 		return getSingleton(beanName, true);
 	}
 
@@ -229,7 +230,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 			// 获得之前的单例对象
 			singletonObject = this.earlySingletonObjects.get(beanName);
 
-			// 如果此时单例对象仍为null，并且允许更早的引用
+			// 如果之前的单例对象仍为null，并且允许更早的引用
 			if (singletonObject == null && allowEarlyReference) {
 				// 锁住单例集
 				synchronized (this.singletonObjects) {
