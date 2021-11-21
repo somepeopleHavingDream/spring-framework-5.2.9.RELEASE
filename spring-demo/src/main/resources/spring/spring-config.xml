@@ -17,4 +17,5 @@
 	<!-- 需要先创建factoryBean对象，再通过factoryBean对象进行调用 -->
 	<bean id="userFactory" class="org.yangxin.springdemo.entity.factory.UserFactory"/>
 	<bean id="user3" factory-bean="userFactory" factory-method="getUser"/>
+	<bean id="userFactoryBean" class="org.yangxin.springdemo.entity.factory.UserFactoryBean"/>
 </beans>

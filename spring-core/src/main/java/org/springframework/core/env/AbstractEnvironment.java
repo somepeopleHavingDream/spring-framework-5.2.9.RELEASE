@@ -107,8 +107,14 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 
 	private final Set<String> defaultProfiles = new LinkedHashSet<>(getReservedDefaultProfiles());
 
+	/**
+	 * 用于该环境的可变的属性源
+	 */
 	private final MutablePropertySources propertySources = new MutablePropertySources();
 
+	/**
+	 * 用于该环境的可配置属性解析者
+	 */
 	private final ConfigurablePropertyResolver propertyResolver =
 			new PropertySourcesPropertyResolver(this.propertySources);
 
@@ -568,6 +574,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 
 	@Override
 	public String resolveRequiredPlaceholders(String text) throws IllegalArgumentException {
+		// 当前环境的属性解析者解析所需的占位符
 		return this.propertyResolver.resolveRequiredPlaceholders(text);
 	}
 

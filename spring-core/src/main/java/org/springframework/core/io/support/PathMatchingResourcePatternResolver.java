@@ -200,7 +200,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 		}
 	}
 
-
+	/**
+	 * 资源加载器
+	 */
 	private final ResourceLoader resourceLoader;
 
 	private PathMatcher pathMatcher = new AntPathMatcher();
@@ -219,10 +221,15 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	/**
 	 * Create a new PathMatchingResourcePatternResolver.
 	 * <p>ClassLoader access will happen via the thread context class loader.
+	 *
+	 * 创建一个新的路径匹配资源模式解析器。
+	 * 通过线程上下文类加载器，类加载器访问将会发生。
+	 *
 	 * @param resourceLoader the ResourceLoader to load root directories and
 	 * actual resources with
 	 */
 	public PathMatchingResourcePatternResolver(ResourceLoader resourceLoader) {
+		// 断言入参资源加载器必不为null
 		Assert.notNull(resourceLoader, "ResourceLoader must not be null");
 		this.resourceLoader = resourceLoader;
 	}

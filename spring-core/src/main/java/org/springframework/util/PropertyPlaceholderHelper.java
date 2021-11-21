@@ -41,6 +41,9 @@ public class PropertyPlaceholderHelper {
 
 	private static final Log logger = LogFactory.getLog(PropertyPlaceholderHelper.class);
 
+	/**
+	 * 用于此属性占位符帮助者的已知简单前缀
+	 */
 	private static final Map<String, String> wellKnownSimplePrefixes = new HashMap<>(4);
 
 	static {
@@ -92,6 +95,7 @@ public class PropertyPlaceholderHelper {
 		this.placeholderSuffix = placeholderSuffix;
 		String simplePrefixForSuffix = wellKnownSimplePrefixes.get(this.placeholderSuffix);
 		if (simplePrefixForSuffix != null && this.placeholderPrefix.endsWith(simplePrefixForSuffix)) {
+			// 设置简单前缀
 			this.simplePrefix = simplePrefixForSuffix;
 		}
 		else {
@@ -117,20 +121,34 @@ public class PropertyPlaceholderHelper {
 	/**
 	 * Replaces all placeholders of format {@code ${name}} with the value returned
 	 * from the supplied {@link PlaceholderResolver}.
+	 *
+	 * 用从提供的占位符解析者所返回的值，替代所有格式为{name}的占位符。
+	 *
 	 * @param value the value containing the placeholders to be replaced
 	 * @param placeholderResolver the {@code PlaceholderResolver} to use for replacement
 	 * @return the supplied value with placeholders replaced inline
 	 */
 	public String replacePlaceholders(String value, PlaceholderResolver placeholderResolver) {
+		// 断言：入参值必不为null
 		Assert.notNull(value, "'value' must not be null");
 
 		// 解析字符串值
 		return parseStringValue(value, placeholderResolver, null);
 	}
 
+	/**
+	 * 解析字符串值
+	 *
+	 * @param value 值
+	 * @param placeholderResolver 占位符解析者
+	 * @param visitedPlaceholders 访问的占位符
+	 * @return 解析之后的字符串值
+	 */
 	protected String parseStringValue(
 			String value, PlaceholderResolver placeholderResolver, @Nullable Set<String> visitedPlaceholders) {
-
+		/*
+			以下不细究
+		 */
 		int startIndex = value.indexOf(this.placeholderPrefix);
 		if (startIndex == -1) {
 			return value;
@@ -218,12 +236,17 @@ public class PropertyPlaceholderHelper {
 
 	/**
 	 * Strategy interface used to resolve replacement values for placeholders contained in Strings.
+	 *
+	 * 用于解析字符串中占位符包含的替代值的策略接口。
 	 */
 	@FunctionalInterface
 	public interface PlaceholderResolver {
 
 		/**
 		 * Resolve the supplied placeholder name to the replacement value.
+		 *
+		 * 将提供的占位符名解析为替代值。
+		 *
 		 * @param placeholderName the name of the placeholder to resolve
 		 * @return the replacement value, or {@code null} if no replacement is to be made
 		 */

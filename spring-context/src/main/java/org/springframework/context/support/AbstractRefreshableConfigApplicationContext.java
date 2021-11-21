@@ -42,6 +42,9 @@ import org.springframework.util.StringUtils;
 public abstract class AbstractRefreshableConfigApplicationContext extends AbstractRefreshableApplicationContext
 		implements BeanNameAware, InitializingBean {
 
+	/**
+	 * 配置路径
+	 */
 	@Nullable
 	private String[] configLocations;
 
@@ -95,6 +98,9 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 			}
 		}
 		else {
+			/*
+				以下不细究
+			 */
 			// 如果入参路径为空，则设置配置路径为空
 			this.configLocations = null;
 		}
@@ -132,6 +138,10 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 	/**
 	 * Resolve the given path, replacing placeholders with corresponding
 	 * environment property values if necessary. Applied to config locations.
+	 *
+	 * 解析给定路径，如果有必要的话，用相对应的环境属性值代替占位符。
+	 * 应用到配置路径。
+	 *
 	 * @param path the original file path
 	 * @return the resolved file path
 	 * @see org.springframework.core.env.Environment#resolveRequiredPlaceholders(String)

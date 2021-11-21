@@ -207,15 +207,15 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	private long startupDate;
 
 	/** Flag that indicates whether this context is currently active. */
-	// 标志此上下文当前是否活跃的标记
+	// 标志此上下文当前是否活跃的标记。
 	private final AtomicBoolean active = new AtomicBoolean();
 
 	/** Flag that indicates whether this context has been closed already. */
-	// 标志此上下文是否已经被关闭的标记
+	// 标志此上下文是否已经被关闭的标记。
 	private final AtomicBoolean closed = new AtomicBoolean();
 
 	/** Synchronization monitor for the "refresh" and "destroy". */
-	// 用户“刷新”和“销毁”的同步监视器
+	// 用户“刷新”和“销毁”的同步监视器。
 	private final Object startupShutdownMonitor = new Object();
 
 	/** Reference to the JVM shutdown hook, if registered. */
@@ -253,7 +253,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Create a new AbstractApplicationContext with no parent.
 	 *
-	 * 创建一个不带父上下文的抽象应用上下文
+	 * 创建一个不带父上下文的抽象应用上下文。
 	 */
 	public AbstractApplicationContext() {
 		// 设置资源路径解析器
@@ -263,7 +263,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Create a new AbstractApplicationContext with the given parent context.
 	 *
-	 * 用给定的父上下文创建一个新的抽象应用上下文
+	 * 用给定的父上下文创建一个新的抽象应用上下文。
 	 *
 	 * @param parent the parent context
 	 */
@@ -355,6 +355,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	public ConfigurableEnvironment getEnvironment() {
 		// 如果此实例的环境为空，则创建环境
 		if (this.environment == null) {
+			// 创建并设置环境
 			this.environment = createEnvironment();
 		}
 
@@ -500,7 +501,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see org.springframework.core.io.support.PathMatchingResourcePatternResolver
 	 */
 	protected ResourcePatternResolver getResourcePatternResolver() {
-		// 创建并返回一个路径匹配资源模式解析器，入参资源加载器为当前应用上下文
+		// 实例化并返回一个路径匹配资源模式解析器，入参资源加载器为当前应用上下文
 		return new PathMatchingResourcePatternResolver(this);
 	}
 
@@ -524,6 +525,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// 如果父类上下文不为空，则做一些处理
 		if (parent != null) {
+			/*
+				以下不细究
+			 */
+
 			// 获得父类环境
 			Environment parentEnvironment = parent.getEnvironment();
 
@@ -568,9 +573,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
+		// 拿到开启关闭监视器，上锁
 		synchronized (this.startupShutdownMonitor) {
 			// Prepare this context for refreshing.
-			// 准备用于刷新的上下文
+			// 准备用于刷新的上下文。
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
@@ -674,7 +680,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 
 		// Initialize any placeholder property sources in the context environment.
-		// 在上下文环境里初始化任何的占位符属性源
+		// 在上下文环境里初始化任何的占位符属性源。
 		initPropertySources();
 
 		// Validate that all properties marked as required are resolvable:
@@ -705,6 +711,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * <p>Replace any stub property sources with actual instances.
+	 *
+	 * 用实际实例代替任何根数据源。
+	 *
 	 * @see org.springframework.core.env.PropertySource.StubPropertySource
 	 * @see org.springframework.web.context.support.WebApplicationContextUtils#initServletPropertySources
 	 */

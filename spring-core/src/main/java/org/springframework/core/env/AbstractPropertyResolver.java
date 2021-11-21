@@ -49,15 +49,27 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 	@Nullable
 	private PropertyPlaceholderHelper nonStrictHelper;
 
+	/**
+	 * 用于此属性解析者的属性占位符帮助者
+	 */
 	@Nullable
 	private PropertyPlaceholderHelper strictHelper;
 
 	private boolean ignoreUnresolvableNestedPlaceholders = false;
 
+	/**
+	 * 用于此属性解析者的占位符前缀
+	 */
 	private String placeholderPrefix = SystemPropertyUtils.PLACEHOLDER_PREFIX;
 
+	/**
+	 * 用于此属性解析者的占位符后缀
+	 */
 	private String placeholderSuffix = SystemPropertyUtils.PLACEHOLDER_SUFFIX;
 
+	/**
+	 * 用于此属性解析者的值分隔器
+	 */
 	@Nullable
 	private String valueSeparator = SystemPropertyUtils.VALUE_SEPARATOR;
 
@@ -206,11 +218,11 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 	public String resolveRequiredPlaceholders(String text) throws IllegalArgumentException {
 		// 如果严格帮助者为空
 		if (this.strictHelper == null) {
-			// 创建占位符帮助者，并设置严格帮助者
+			// 创建占位符帮助者，并设置为严格帮助者
 			this.strictHelper = createPlaceholderHelper(false);
 		}
 
-		// 解析占位符
+		// 用严格属性占位符帮助者解析占位符
 		return doResolvePlaceholders(text, this.strictHelper);
 	}
 
@@ -234,13 +246,27 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 				resolvePlaceholders(value) : resolveRequiredPlaceholders(value));
 	}
 
+	/**
+	 * 创建占位符帮助者
+	 *
+	 * @param ignoreUnresolvablePlaceholders 忽略可解析的占位符
+	 * @return 属性占位符帮助者
+	 */
 	private PropertyPlaceholderHelper createPlaceholderHelper(boolean ignoreUnresolvablePlaceholders) {
+		// 实例化并返回属性占位符帮助者
 		return new PropertyPlaceholderHelper(this.placeholderPrefix, this.placeholderSuffix,
 				this.valueSeparator, ignoreUnresolvablePlaceholders);
 	}
 
+	/**
+	 * 解析占位符
+	 *
+	 * @param text 文本
+	 * @param helper 属性占位符帮助者
+	 * @return 解析占位符之后的文本
+	 */
 	private String doResolvePlaceholders(String text, PropertyPlaceholderHelper helper) {
-		// 替代占位符
+		// 属性占位符帮助者替代占位符
 		return helper.replacePlaceholders(text, this::getPropertyAsRawString);
 	}
 
@@ -274,6 +300,10 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 	/**
 	 * Retrieve the specified property as a raw String,
 	 * i.e. without resolution of nested placeholders.
+	 *
+	 * 以原始字符的形式检索给定属性，
+	 * 比如不带嵌套占位符的解析。
+	 *
 	 * @param key the property name to resolve
 	 * @return the property value or {@code null} if none found
 	 */

@@ -63,7 +63,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	/**
 	 * Create a new AbstractXmlApplicationContext with the given parent context.
 	 *
-	 * 用给定的父上下文创建新的抽象可扩展标记语言应用上下文
+	 * 用给定的父上下文创建新的抽象可扩展标记语言应用上下文。
 	 *
 	 * @param parent the parent context
 	 */
