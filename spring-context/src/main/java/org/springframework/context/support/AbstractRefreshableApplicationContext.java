@@ -140,6 +140,8 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * This implementation performs an actual refresh of this context's underlying
 	 * bean factory, shutting down the previous bean factory (if any) and
 	 * initializing a fresh bean factory for the next phase of the context's lifecycle.
+	 *
+	 * 此实现执行此上下文潜在bean工厂的实际刷新，关闭之前的bean工厂（如果有必要的话），并且为上下文周期的下一个阶段初始化可刷新的bean工厂。
 	 */
 	@Override
 	protected final void refreshBeanFactory() throws BeansException {
@@ -149,6 +151,9 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 
 		// 如果有Bean工厂
 		if (hasBeanFactory()) {
+			/*
+				以下不细究
+			 */
 			// 销毁Bean工厂
 			destroyBeans();
 			// 关闭Bean工厂
@@ -198,6 +203,8 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	/**
 	 * Determine whether this context currently holds a bean factory,
 	 * i.e. has been refreshed at least once and not been closed yet.
+	 *
+	 * 决定是否此上下文当前拥有bean工厂，比如，至少已经刷新了一次，并且还未关闭。
 	 */
 	protected final boolean hasBeanFactory() {
 		return (this.beanFactory != null);
@@ -234,6 +241,12 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * with the {@linkplain #getInternalParentBeanFactory() internal bean factory} of this
 	 * context's parent as parent bean factory. Can be overridden in subclasses,
 	 * for example to customize DefaultListableBeanFactory's settings.
+	 *
+	 * 创建用于此上下文的内部bean工厂。
+	 * 为每次刷新尝试调用。
+	 * 默认的实现创建一个默认可列出bean工厂，并且使用此上下文父上下文的获得内部父bean工厂作为父bean工厂。
+	 * 能够在子类里被覆写，比如去定制化默认可列出bean工厂的设置。
+	 *
 	 * @return the bean factory for this context
 	 * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#setAllowBeanDefinitionOverriding
 	 * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#setAllowEagerClassLoading
@@ -241,7 +254,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#setAllowRawInjectionDespiteWrapping
 	 */
 	protected DefaultListableBeanFactory createBeanFactory() {
-		// 先取得内部父Bean工厂,再创建默认可监听Bean工厂
+		// 先取得内部父Bean工厂,再创建默认可列出Bean工厂
 		return new DefaultListableBeanFactory(getInternalParentBeanFactory());
 	}
 

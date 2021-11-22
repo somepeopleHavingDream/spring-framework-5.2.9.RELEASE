@@ -189,6 +189,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	private String displayName = ObjectUtils.identityToString(this);
 
 	/** Parent context. */
+	// 父上下文
 	@Nullable
 	private ApplicationContext parent;
 
@@ -325,6 +326,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Return the parent context, or {@code null} if there is no parent
 	 * (that is, this context is the root of the context hierarchy).
+	 *
+	 * 返回父上下文，或者null，如果没有父上下文
+	 * （也就是说，此上下文是上下文结构的根）。
 	 */
 	@Override
 	@Nullable
@@ -580,7 +584,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
-			// 告诉子类去刷新内部bean工厂
+			// 告诉子类去刷新内部bean工厂。
 			// 获得刷新之后的内部bean工厂
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
@@ -724,7 +728,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * Tell the subclass to refresh the internal bean factory.
-	 * 告诉子类去刷新内部bean工厂
+	 * 告诉子类去刷新内部bean工厂。
 	 *
 	 * @return the fresh BeanFactory instance
 	 * @see #refreshBeanFactory()
@@ -1205,6 +1209,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * <p>Can be overridden to add context-specific bean destruction steps
 	 * right before or right after standard singleton destruction,
 	 * while the context's BeanFactory is still active.
+	 *
+	 * 销毁此上下文管理的所有bean的模板方法。
+	 * 默认实现销毁此上下文里所有已缓存的单例，调用DisposableBean.destroy()或者指定的摧毁方法。
+	 * 能够被覆写以在标准单例摧毁之前或之后添加特定上下文的bean摧毁步骤，与此同时上下文bean工厂仍然活跃。
+	 *
 	 * @see #getBeanFactory()
 	 * @see org.springframework.beans.factory.config.ConfigurableBeanFactory#destroySingletons()
 	 */
@@ -1546,6 +1555,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * <p>A subclass will either create a new bean factory and hold a reference to it,
 	 * or return a single BeanFactory instance that it holds. In the latter case, it will
 	 * usually throw an IllegalStateException if refreshing the context more than once.
+	 *
+	 * 子类必须实现此方法去执行实际的配置加载。
+	 * 刷新方法在任何其他初始化工作之前调用此方法。
+	 * 子类要么创建一个新的bean工厂，并且拥有对它的引用，要么去返回一个它拥有的单bean工厂。
+	 * 在后一种情况，它通常将抛出违规状态异常，如果多次刷新上下文。
+	 *
 	 * @throws BeansException if initialization of the bean factory failed
 	 * @throws IllegalStateException if already initialized and multiple refresh
 	 * attempts are not supported
@@ -1565,6 +1580,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * <p>Note: Subclasses should check whether the context is still active before
 	 * returning the internal bean factory. The internal factory should generally be
 	 * considered unavailable once the context has been closed.
+	 *
+	 * 子类在这必须返回它们内部的bean工厂。
+	 * 它们应该有效地实现查找，以便它能够没有性能损耗地重复调用。
+	 * 注意：子类在返回内部bean工厂之前应该检查上下文是否仍然是活跃的。
+	 * 一旦上下文被关闭，内部工厂通常应该被认为是不可利用的。
+	 *
 	 * @return this application context's internal bean factory (never {@code null})
 	 * @throws IllegalStateException if the context does not hold an internal bean factory yet
 	 * (usually if {@link #refresh()} has never been called) or if the context has been
