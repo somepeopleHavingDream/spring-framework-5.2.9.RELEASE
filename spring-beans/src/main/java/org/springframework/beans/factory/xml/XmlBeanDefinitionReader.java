@@ -142,7 +142,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/**
 	 * Create new XmlBeanDefinitionReader for the given bean factory.
 	 *
-	 * 为给定的Bean工厂创建一个新的可扩展标记语言Bean定义阅读器
+	 * 为给定的Bean工厂创建一个新的可扩展标记语言Bean定义阅读器。
 	 *
 	 * @param registry the BeanFactory to load bean definitions into,
 	 * in the form of a BeanDefinitionRegistry

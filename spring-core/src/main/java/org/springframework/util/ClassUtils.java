@@ -185,6 +185,12 @@ public abstract class ClassUtils {
 	 * for example, for class path resource loading (but not necessarily for
 	 * {@code Class.forName}, which accepts a {@code null} ClassLoader
 	 * reference as well).
+	 *
+	 * 返回要使用的默认类加载器：通常是线程上下文类加载器，如果可用的话；
+	 * 加载类工具类的类加载器将被用于后备。
+	 * 如果你趋向于在你清楚地更喜欢非null类加载器引用的设想下，则使用此方法：
+	 * 比如，对于类路径资源的加载（不一定适用Class.forName，它也接受null类加载器引用）。
+	 *
 	 * @return the default ClassLoader (only {@code null} if even the system
 	 * ClassLoader isn't accessible)
 	 * @see Thread#getContextClassLoader()
@@ -206,6 +212,10 @@ public abstract class ClassUtils {
 
 		// 如果类加载器为空
 		if (cl == null) {
+			/*
+				以下不细究
+			 */
+
 			// No thread context class loader -> use class loader of this class.
 			// 如果没有线程上下文类加载器，则使用此类的类加载器
 			cl = ClassUtils.class.getClassLoader();

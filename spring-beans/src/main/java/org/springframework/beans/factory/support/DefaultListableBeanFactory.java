@@ -229,6 +229,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	/**
 	 * Specify an id for serialization purposes, allowing this BeanFactory to be
 	 * deserialized from this id back into the BeanFactory object, if needed.
+	 *
+	 * 指定一个id用于序列化目的，允许此Bean工厂从此id反序列化回Bean工厂对象，如果有必要的话。
 	 */
 	public void setSerializationId(@Nullable String serializationId) {
 		// 如果入参序列化Id不为空

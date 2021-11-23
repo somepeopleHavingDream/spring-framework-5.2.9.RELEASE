@@ -53,6 +53,9 @@ import org.springframework.util.StringUtils;
  */
 public class DefaultResourceLoader implements ResourceLoader {
 
+	/**
+	 * 用于此默认资源加载器的类加载器
+	 */
 	@Nullable
 	private ClassLoader classLoader;
 
@@ -65,10 +68,14 @@ public class DefaultResourceLoader implements ResourceLoader {
 	 * Create a new DefaultResourceLoader.
 	 * <p>ClassLoader access will happen using the thread context class loader
 	 * at the time of this ResourceLoader's initialization.
+	 *
+	 * 创建一个新的默认资源加载器。
+	 * 类加载器访问在资源加载器的初始化时将使用线程上下文加载器而发生。
+	 *
 	 * @see java.lang.Thread#getContextClassLoader()
 	 */
 	public DefaultResourceLoader() {
-		// 获得类加载器
+		// 获得并设置类加载器
 		this.classLoader = ClassUtils.getDefaultClassLoader();
 	}
 

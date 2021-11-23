@@ -53,6 +53,9 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 
 	private final BeanDefinitionRegistry registry;
 
+	/**
+	 * 用于此bean定义阅读者的资源加载器
+	 */
 	@Nullable
 	private ResourceLoader resourceLoader;
 
@@ -76,6 +79,14 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	 * environment will be used by this reader.  Otherwise, the reader will initialize and
 	 * use a {@link StandardEnvironment}. All ApplicationContext implementations are
 	 * EnvironmentCapable, while normal BeanFactory implementations are not.
+	 *
+	 * 为给定bean工厂创建一个新的抽象Bean定义阅读者。
+	 * 如果传递进来的bean工厂既没有实现Bean定义注册表接口，也没有实现资源加载者接口，那么它也将被用作默认的资源加载者。
+	 * 如果给定一个普通的bean定义注册表，默认的资源加载者将会是路径匹配资源模式解析者。
+	 * 如果传递进来的bean工厂也实现了环境能力接口，它的环境将被阅读者使用。
+	 * 否则，阅读者将初始化并且使用标准环境。
+	 * 所有的应用上下文实现都是环境能力，而普通的bean工厂实现则不是。
+	 *
 	 * @param registry the BeanFactory to load bean definitions into,
 	 * in the form of a BeanDefinitionRegistry
 	 * @see #setResourceLoader
@@ -89,8 +100,12 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 
 		// Determine ResourceLoader to use.
 		// 决定将要使用的资源加载器。
-		// 如果入参注册表是资源加载器实例，则将入参注册表强转为资源加载器类型后赋值给此资源加载器成员变量
+		// 如果入参注册表是资源加载器实例
 		if (this.registry instanceof ResourceLoader) {
+			/*
+				以下不细究
+			 */
+			// 则将入参注册表强转为资源加载器类型后赋值给此资源加载器成员变量
 			this.resourceLoader = (ResourceLoader) this.registry;
 		}
 		else {
@@ -104,6 +119,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 			this.environment = ((EnvironmentCapable) this.registry).getEnvironment();
 		}
 		else {
+			// 设置环境
 			this.environment = new StandardEnvironment();
 		}
 	}
