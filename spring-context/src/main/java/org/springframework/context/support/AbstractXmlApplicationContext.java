@@ -51,8 +51,10 @@ import org.springframework.lang.Nullable;
  */
 public abstract class AbstractXmlApplicationContext extends AbstractRefreshableConfigApplicationContext {
 
+	/**
+	 * 该可扩展标记语言应用上下文是否要做验证，默认为真
+	 */
 	private boolean validating = true;
-
 
 	/**
 	 * Create a new AbstractXmlApplicationContext with no parent.
@@ -117,6 +119,11 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * definitions of this context. Default implementation is empty.
 	 * <p>Can be overridden in subclasses, e.g. for turning off XML validation
 	 * or using a different XmlBeanDefinitionParser implementation.
+	 *
+	 * 初始化用于加载此上下文bean定义的bean定义阅读器。
+	 * 默认实现是空的。
+	 * 能在子类里被覆写，比如关闭可扩展标记语言校验或者使用不同的可扩展Bean定义解析器实现。
+	 *
 	 * @param reader the bean definition reader used by this context
 	 * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader#setDocumentReaderClass
 	 */
@@ -129,6 +136,11 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * Load the bean definitions with the given XmlBeanDefinitionReader.
 	 * <p>The lifecycle of the bean factory is handled by the {@link #refreshBeanFactory}
 	 * method; hence this method is just supposed to load and/or register bean definitions.
+	 *
+	 * 用给定的可扩展标记语言bean定义阅读器加载bean定义。
+	 * bean工厂的生命周期由刷新bean工厂方法来处理；
+	 * 因此此方法仅应当加载或者注册bean定义。
+	 *
 	 * @param reader the XmlBeanDefinitionReader to use
 	 * @throws BeansException in case of bean registration errors
 	 * @throws IOException if the required XML document isn't found
@@ -138,9 +150,13 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * @see #getResourcePatternResolver
 	 */
 	protected void loadBeanDefinitions(XmlBeanDefinitionReader reader) throws BeansException, IOException {
-		// 获得配置资源（对于FileSystemXmlApplicationContext来说，此处Resource的具体实例是哪个字类并不清楚，因此暂不细究）
+		// 获得配置资源
 		Resource[] configResources = getConfigResources();
+		// 如果配置资源存在
 		if (configResources != null) {
+			/*
+				以下不细究
+			 */
 			// 如果配置资源不为null，则入参可扩展标记语言Bean定义阅读器加载配置资源的Bean定义
 			reader.loadBeanDefinitions(configResources);
 		}
@@ -158,6 +174,11 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * files that this context should be built with.
 	 * <p>The default implementation returns {@code null}. Subclasses can override
 	 * this to provide pre-built Resource objects rather than location Strings.
+	 *
+	 * 返回资源对象的数组，引用此上下文应该被构建的可扩展标记语言bean定义文件。
+	 * 默认实现返回null。
+	 * 子类能够覆写此方法以提供预构建资源对象，而不是定位字符串。
+	 *
 	 * @return an array of Resource objects, or {@code null} if none
 	 * @see #getConfigLocations()
 	 */

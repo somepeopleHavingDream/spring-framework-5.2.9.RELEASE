@@ -176,9 +176,14 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	 * Set the Environment to use when reading bean definitions. Most often used
 	 * for evaluating profile information to determine which bean definitions
 	 * should be read and which should be omitted.
+	 *
+	 * 当阅读bean定义时设置使用的环境。
+	 * 大多数经常被用来评估配置信息以决定哪个bean定义应该被读取，哪个bean定义应该被忽略。
 	 */
 	public void setEnvironment(Environment environment) {
+		// 断言：入参环境必不为null
 		Assert.notNull(environment, "Environment must not be null");
+		// 设置当前bean定义阅读器的环境
 		this.environment = environment;
 	}
 
@@ -218,6 +223,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 
 	@Override
 	public int loadBeanDefinitions(String location) throws BeanDefinitionStoreException {
+		// 从入参路径中加载bean定义
 		return loadBeanDefinitions(location, null);
 	}
 
@@ -225,6 +231,10 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	 * Load bean definitions from the specified resource location.
 	 * <p>The location can also be a location pattern, provided that the
 	 * ResourceLoader of this bean definition reader is a ResourcePatternResolver.
+	 *
+	 * 从给定资源路径中加载bean定义。
+	 * 此路径可以是路径模式，前提是此bean定义阅读器的资源加载器是资源模式解析器。
+	 *
 	 * @param location the resource location, to be loaded with the ResourceLoader
 	 * (or ResourcePatternResolver) of this bean definition reader
 	 * @param actualResources a Set to be filled with the actual Resource objects
@@ -240,6 +250,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 		// 获得资源加载器，如果资源加载器为null，则抛出Bean定义存储异常
 		ResourceLoader resourceLoader = getResourceLoader();
 		if (resourceLoader == null) {
+			// 以下不细究
 			throw new BeanDefinitionStoreException(
 					"Cannot load bean definitions from location [" + location + "]: no ResourceLoader available");
 		}
@@ -267,6 +278,10 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 			}
 		}
 		else {
+			/*
+				以下不细究
+			 */
+
 			// 如果该资源加载器实例不属于资源模式解析器，属于其他
 			// Can only load single resources by absolute URL.
 			// 仅能通过完整统一资源定位符加载单个资源。
@@ -291,6 +306,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 		// 计数已加载的Bean定义
 		int count = 0;
 		for (String location : locations) {
+			// 加载当前遍历路径下的bean定义
 			count += loadBeanDefinitions(location);
 		}
 		return count;

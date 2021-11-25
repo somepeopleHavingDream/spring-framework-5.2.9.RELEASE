@@ -112,6 +112,12 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 	 * patterns, which will get resolved via a ResourcePatternResolver.
 	 * <p>The default implementation returns {@code null}. Subclasses can override
 	 * this to provide a set of resource locations to load bean definitions from.
+	 *
+	 * 返回资源路径数组，该资源路径数组引用此上下文应该用以构建的可扩展标记语言bean定义文件。
+	 * 还将包括路径模式，这将通过资源模式解析器获得解析。
+	 * 默认的实现返回null。
+	 * 子类能够覆写此方法以提供资源路径集合，以加载bean定义表单。
+	 *
 	 * @return an array of resource locations, or {@code null} if none
 	 * @see #getResources
 	 * @see #getResourcePatternResolver

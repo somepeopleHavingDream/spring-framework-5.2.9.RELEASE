@@ -193,7 +193,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Nullable
 	private ApplicationContext parent;
 
-	/** Environment used by this context. */
+	/**
+	 * Environment used by this context.
+	 *
+	 * 被此上下文使用的环境。
+	 * */
 	@Nullable
 	private ConfigurableEnvironment environment;
 
@@ -354,6 +358,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * form, allowing for further customization.
 	 * <p>If none specified, a default environment will be initialized via
 	 * {@link #createEnvironment()}.
+	 *
+	 * 返回在此可配置表单里用于此应用上下文环境。
+	 * 如果没有指定，默认的环境将通过创建环境方法被初始化
 	 */
 	@Override
 	public ConfigurableEnvironment getEnvironment() {

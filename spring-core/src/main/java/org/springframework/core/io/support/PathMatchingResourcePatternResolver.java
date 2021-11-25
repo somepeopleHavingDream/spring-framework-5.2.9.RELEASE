@@ -295,7 +295,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 		// 断言路径模式必不为空
 		Assert.notNull(locationPattern, "Location pattern must not be null");
 
-		// 如果该路径模式以classpath*:开始（暂不研究此条件分支的代码）
+		// 如果该路径模式以classpath*:开始
 		if (locationPattern.startsWith(CLASSPATH_ALL_URL_PREFIX)) {
 			// a class path resource (multiple resources for same name possible)
 			// 一个类路径资源（多个资源可能有相同的名字）
