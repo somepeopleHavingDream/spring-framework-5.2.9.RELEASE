@@ -659,10 +659,20 @@ public abstract class StringUtils {
 	 * <p><strong>NOTE</strong> that {@code cleanPath} should not be depended
 	 * upon in a security context. Other mechanisms should be used to prevent
 	 * path-traversal issues.
+	 *
+	 * 通过取消像“path/...”的序列和内部简单点，规范化路径。
+	 * 结果便于路径比对。
+	 * 对于其他用户，注意windows分隔符的“\”会被简单斜杠替代。
+	 * 注意清理路径不应该依赖在一个安全的上下文下。
+	 * 其他的机制应该被用于阻止路径遍历问题。
+	 *
 	 * @param path the original path
 	 * @return the normalized path
 	 */
 	public static String cleanPath(String path) {
+		/*
+			以下不细究
+		 */
 		if (!hasLength(path)) {
 			return path;
 		}

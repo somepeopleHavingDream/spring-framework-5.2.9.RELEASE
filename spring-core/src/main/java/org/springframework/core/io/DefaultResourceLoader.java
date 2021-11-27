@@ -59,6 +59,9 @@ public class DefaultResourceLoader implements ResourceLoader {
 	@Nullable
 	private ClassLoader classLoader;
 
+	/**
+	 * 用于此默认资源加载器的协议解析器
+	 */
 	private final Set<ProtocolResolver> protocolResolvers = new LinkedHashSet<>(4);
 
 	private final Map<Class<?>, Map<Resource, ?>> resourceCaches = new ConcurrentHashMap<>(4);
@@ -168,6 +171,9 @@ public class DefaultResourceLoader implements ResourceLoader {
 
 		// 获得所有协议解析器，只要有一个协议解析器能从该入参路径中解析出资源，则直接返回该资源
 		for (ProtocolResolver protocolResolver : getProtocolResolvers()) {
+			/*
+				以下不细究
+			 */
 			Resource resource = protocolResolver.resolve(location, this);
 			if (resource != null) {
 				return resource;
@@ -176,13 +182,18 @@ public class DefaultResourceLoader implements ResourceLoader {
 
 		// 如果路径以“/”开头
 		if (location.startsWith("/")) {
+			// 通过路径获得资源
 			return getResourceByPath(location);
 		}
 		// 如果路径以“classpath”开头
 		else if (location.startsWith(CLASSPATH_URL_PREFIX)) {
+			// 以下不细究
 			return new ClassPathResource(location.substring(CLASSPATH_URL_PREFIX.length()), getClassLoader());
 		}
 		else {
+			/*
+				以下不细究
+			 */
 			try {
 				// Try to parse the location as a URL...
 				// 尝试将路径解析为一个统一资源定位地址
@@ -204,6 +215,11 @@ public class DefaultResourceLoader implements ResourceLoader {
 	 * <p>The default implementation supports class path locations. This should
 	 * be appropriate for standalone implementations but can be overridden,
 	 * e.g. for implementations targeted at a Servlet container.
+	 *
+	 * 返回对于在给定路径上的资源的资源句柄。
+	 * 默认实现支持类路径。
+	 * 这应该适用于单独的实现，但是可以被覆写，比如在Servlet容器里的目标实现。
+	 *
 	 * @param path the path to the resource
 	 * @return the corresponding Resource handle
 	 * @see ClassPathResource

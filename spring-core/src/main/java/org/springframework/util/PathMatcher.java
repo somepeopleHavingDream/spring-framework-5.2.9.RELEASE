@@ -41,6 +41,10 @@ public interface PathMatcher {
 	 * <p>If the return value is {@code false}, then the {@link #match}
 	 * method does not have to be used because direct equality comparisons
 	 * on the static path Strings will lead to the same result.
+	 *
+	 * 给定路径代表能被接口实现所匹配的模式？
+	 * 如果返回的值是假，匹配方法将不必要去使用，因为在静态路径字符串上的直接相等比较将导致相同的结果。
+	 *
 	 * @param path the path to check
 	 * @return {@code true} if the given {@code path} represents a pattern
 	 */

@@ -73,11 +73,20 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 	 * will be built underneath that root: e.g. relative path "dir2" ->
 	 * "C:/dir1/dir2". In the case of "C:/dir1", relative paths will apply
 	 * at the same directory level: relative path "dir2" -> "C:/dir2".
+	 *
+	 * 从文件路径中创建一个新的文件系统资源。
+	 * 注意：当通过创建相对方法构建相对资源时，有区别于这的指定资源基路径是否是以斜线开头。
+	 * 在“C:/dir1/”的情况下，相对路径将构建在root:之下，比如：相对路径dir2，“C:/dir1/dir2”。
+	 * 在“C:/dir1”的情况下，相对路径将应用在相同的目录级别：相对于路径“dir2”->"C:/dir2"。
+	 *
 	 * @param path a file path
 	 * @see #FileSystemResource(Path)
 	 */
 	public FileSystemResource(String path) {
+		// 断言：入参路径不为null
 		Assert.notNull(path, "Path must not be null");
+
+		// 设置路径、文件、文件路径
 		this.path = StringUtils.cleanPath(path);
 		this.file = new File(path);
 		this.filePath = this.file.toPath();

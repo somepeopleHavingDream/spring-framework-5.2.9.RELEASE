@@ -72,7 +72,11 @@ import org.springframework.lang.Nullable;
  */
 public class AntPathMatcher implements PathMatcher {
 
-	/** Default path separator: "/". */
+	/**
+	 * Default path separator: "/".
+	 *
+	 * 默认路径分隔符："/"
+	 */
 	public static final String DEFAULT_PATH_SEPARATOR = "/";
 
 	private static final int CACHE_TURNOFF_THRESHOLD = 65536;
@@ -81,7 +85,9 @@ public class AntPathMatcher implements PathMatcher {
 
 	private static final char[] WILDCARD_CHARS = { '*', '?', '{' };
 
-
+	/**
+	 * 路径分隔符
+	 */
 	private String pathSeparator;
 
 	private PathSeparatorPatternCache pathSeparatorPatternCache;
@@ -100,8 +106,11 @@ public class AntPathMatcher implements PathMatcher {
 
 	/**
 	 * Create a new instance with the {@link #DEFAULT_PATH_SEPARATOR}.
+	 *
+	 * 用给定路径分隔符创建一个新实例。
 	 */
 	public AntPathMatcher() {
+		// 设置路径分隔符、路径分隔符模式缓存
 		this.pathSeparator = DEFAULT_PATH_SEPARATOR;
 		this.pathSeparatorPatternCache = new PathSeparatorPatternCache(DEFAULT_PATH_SEPARATOR);
 	}
@@ -169,6 +178,9 @@ public class AntPathMatcher implements PathMatcher {
 
 	@Override
 	public boolean isPattern(@Nullable String path) {
+		/*
+			以下不细究
+		 */
 		if (path == null) {
 			return false;
 		}
@@ -917,6 +929,8 @@ public class AntPathMatcher implements PathMatcher {
 
 	/**
 	 * A simple cache for patterns that depend on the configured path separator.
+	 *
+	 * 模式的简单缓存，该模式依赖于已配置的路径分隔符。
 	 */
 	private static class PathSeparatorPatternCache {
 

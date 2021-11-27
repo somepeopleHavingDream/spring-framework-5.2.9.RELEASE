@@ -258,7 +258,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 		// 如果该资源加载器实例属于资源模式解析器
 		if (resourceLoader instanceof ResourcePatternResolver) {
 			// Resource pattern matching available.
-			// 资源模式匹配可用
+			// 资源模式匹配可用。
 			try {
 				// 将该资源加载器实例强转为资源模式解析器实例后，获取该路径的所有资源
 				Resource[] resources = ((ResourcePatternResolver) resourceLoader).getResources(location);

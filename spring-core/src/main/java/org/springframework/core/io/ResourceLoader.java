@@ -65,6 +65,16 @@ public interface ResourceLoader {
 	 * </ul>
 	 * <p>Note that a Resource handle does not imply an existing resource;
 	 * you need to invoke {@link Resource#exists} to check for existence.
+	 *
+	 * 返回指定资源路径的资源句柄。
+	 * 这个句柄应该总是可重复使用的资源描述符，允许多次的资源获取输入流的调用。
+	 * 必须支持全限定的统一资源定位符，比如：“file:C:/test.dat”。
+	 * 必须支持类路径伪统一资源定位符，比如：“classpath:test.dat”。
+	 * 应该支持相对文件路径，比如：“WEB-INF/test.dat”。
+	 * （这将总是指定实现，通常由应用上下文实现来提供。）
+	 *
+	 * 注意：资源句柄不意味着已存在的资源；
+	 *
 	 * @param location the resource location
 	 * @return a corresponding Resource handle (never {@code null})
 	 * @see #CLASSPATH_URL_PREFIX
