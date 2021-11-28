@@ -47,6 +47,12 @@ public interface InputStreamSource {
 	 * as JavaMail, which needs to be able to read the stream multiple times when
 	 * creating mail attachments. For such a use case, it is <i>required</i>
 	 * that each {@code getInputStream()} call returns a fresh stream.
+	 *
+	 * 返回一个用于潜在资源内容的输入流。
+	 * 预期每次调用创建一个刷新流。
+	 * 当你考虑如Java邮件的应用编程接口时，这个要求相当重要，即，当创建邮件附加物时需要能多次读流。
+	 * 对于这样的用例，这就要求每次获取输入流方法调用返回刷新流。
+	 *
 	 * @return the input stream for the underlying resource (must not be {@code null})
 	 * @throws java.io.FileNotFoundException if the underlying resource doesn't exist
 	 * @throws IOException if the content stream could not be opened

@@ -46,6 +46,9 @@ public class EncodedResource implements InputStreamSource {
 
 	private final Resource resource;
 
+	/**
+	 * 当前已编码资源的编码
+	 */
 	@Nullable
 	private final String encoding;
 
@@ -56,6 +59,9 @@ public class EncodedResource implements InputStreamSource {
 	/**
 	 * Create a new {@code EncodedResource} for the given {@code Resource},
 	 * not specifying an explicit encoding or {@code Charset}.
+	 *
+	 * 为给定资源创建一个新的已编码资源，而不指定一个显式的编码或字符集。
+	 *
 	 * @param resource the {@code Resource} to hold (never {@code null})
 	 */
 	public EncodedResource(Resource resource) {
@@ -75,6 +81,9 @@ public class EncodedResource implements InputStreamSource {
 	/**
 	 * Create a new {@code EncodedResource} for the given {@code Resource},
 	 * using the specified {@code Charset}.
+	 *
+	 * 为给定资源创建一个新的已编码资源，使用指定的字符集。
+	 *
 	 * @param resource the {@code Resource} to hold (never {@code null})
 	 * @param charset the {@code Charset} to use for reading from the resource
 	 */
@@ -82,6 +91,13 @@ public class EncodedResource implements InputStreamSource {
 		this(resource, null, charset);
 	}
 
+	/**
+	 * 已编码资源的构造方法
+	 *
+	 * @param resource 资源
+	 * @param encoding 编码
+	 * @param charset 字符集
+	 */
 	private EncodedResource(Resource resource, @Nullable String encoding, @Nullable Charset charset) {
 		super();
 
@@ -107,6 +123,8 @@ public class EncodedResource implements InputStreamSource {
 	/**
 	 * Return the encoding to use for reading from the {@linkplain #getResource() resource},
 	 * or {@code null} if none specified.
+	 *
+	 * 返回要使用的编码，用于读取资源，或者如果没有指定的话则为null。
 	 */
 	@Nullable
 	public final String getEncoding() {

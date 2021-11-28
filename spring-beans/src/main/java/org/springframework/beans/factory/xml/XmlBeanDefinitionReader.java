@@ -121,6 +121,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	@Nullable
 	private NamespaceHandlerResolver namespaceHandlerResolver;
 
+	/**
+	 * 用于当前可扩展标记语言Bean定义阅读器的文档加载器
+	 */
 	private DocumentLoader documentLoader = new DefaultDocumentLoader();
 
 	@Nullable
@@ -130,6 +133,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	private final XmlValidationModeDetector validationModeDetector = new XmlValidationModeDetector();
 
+	/**
+	 * 该可扩展标记语言bean定义阅读器当前正在加载的资源
+	 */
 	private final ThreadLocal<Set<EncodedResource>> resourcesCurrentlyBeingLoaded =
 			new NamedThreadLocal<Set<EncodedResource>>("XML bean definition resources currently being loaded"){
 				@Override
@@ -270,7 +276,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * Return the EntityResolver to use, building a default resolver
 	 * if none specified.
 	 *
-	 * 返回将要使用的实体解析器，如果没有指定则构建默认的解析器
+	 * 返回将要使用的实体解析器，如果没有指定则构建默认的解析器。
 	 */
 	protected EntityResolver getEntityResolver() {
 		// 如果实体解析器为null
@@ -319,6 +325,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Load bean definitions from the specified XML file.
+	 *
+	 * 从指定可扩展标记语言文件中加载bean定义。
+	 *
 	 * @param resource the resource descriptor for the XML file
 	 * @return the number of bean definitions found
 	 * @throws BeanDefinitionStoreException in case of loading or parsing errors
@@ -351,11 +360,15 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 		// 将入参已编码资源对象添加进当前正在被加载的资源集合，如果加入集合失败，则抛出Bean定义存储异常
 		if (!currentResources.add(encodedResource)) {
+			// 以下不细究
 			throw new BeanDefinitionStoreException(
 					"Detected cyclic loading of " + encodedResource + " - check your import definitions!");
 		}
 
-		// 代码执行到此，说明入参已编码资源正在被加载
+		/*
+			代码执行到此，说明入参已编码资源正在被加载
+		 */
+
 		// 尝试拿到此资源的输入流
 		try (InputStream inputStream = encodedResource.getResource().getInputStream()) {
 			// 根据输入流实例化输入源
@@ -363,6 +376,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 			// 如果被编码资源有编码，则设置输入源的编码
 			if (encodedResource.getEncoding() != null) {
+				// 以下不细究
 				inputSource.setEncoding(encodedResource.getEncoding());
 			}
 
@@ -370,6 +384,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			return doLoadBeanDefinitions(inputSource, encodedResource.getResource());
 		}
 		catch (IOException ex) {
+			// 以下不细究
 			throw new BeanDefinitionStoreException(
 					"IOException parsing XML document from " + encodedResource.getResource(), ex);
 		}
@@ -412,7 +427,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/**
 	 * Actually load bean definitions from the specified XML file.
 	 *
-	 * 从指定的可扩展标记语言文件中实际地加载bean定义
+	 * 从指定的可扩展标记语言文件中实际地加载bean定义。
 	 *
 	 * @param inputSource the SAX InputSource to read from
 	 * @param resource the resource descriptor for the XML file
@@ -462,7 +477,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/**
 	 * Actually load the specified document using the configured DocumentLoader.
 	 *
-	 * 使用被配置的文档加载器实际地加载指定文档
+	 * 使用被配置的文档加载器实际地加载指定文档。
 	 *
 	 * @param inputSource the SAX InputSource to read from
 	 * @param resource the resource descriptor for the XML file
@@ -472,7 +487,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see DocumentLoader#loadDocument
 	 */
 	protected Document doLoadDocument(InputSource inputSource, Resource resource) throws Exception {
-		// 入参：输入源、实体解析器、错误处理器、校验模式（暂不研究）、是否感知命名空间
+		// 入参：输入源、实体解析器、错误处理器、校验模式、是否感知命名空间
 		return this.documentLoader.loadDocument(inputSource, getEntityResolver(), this.errorHandler,
 				getValidationModeForResource(resource), isNamespaceAware());
 	}

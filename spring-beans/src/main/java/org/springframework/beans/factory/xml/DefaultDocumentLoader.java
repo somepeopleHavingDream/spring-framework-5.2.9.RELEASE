@@ -33,11 +33,17 @@ import org.springframework.util.xml.XmlValidationModeDetector;
 /**
  * Spring's default {@link DocumentLoader} implementation.
  *
+ * 春天默认文档加载器实现。
+ *
  * <p>Simply loads {@link Document documents} using the standard JAXP-configured
  * XML parser. If you want to change the {@link DocumentBuilder} that is used to
  * load documents, then one strategy is to define a corresponding Java system property
  * when starting your JVM. For example, to use the Oracle {@link DocumentBuilder},
  * you might start your application like as follows:
+ *
+ * 使用标准的基于JAXP配置的可扩展标记语言解析器来简单地加载文档。
+ * 如果你想要去改变被用于加载文档的文档建造器，一种策略是当启动你的Java虚拟机时去定义相对应的Java系统属性。
+ * 比如，去使用Oracle的文件建造器，你可能会如下开启你的应用：
  *
  * <pre code="class">java -Djavax.xml.parsers.DocumentBuilderFactory=oracle.xml.jaxp.JXDocumentBuilderFactory MyMainClass</pre>
  *
