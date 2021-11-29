@@ -43,6 +43,8 @@ public class XmlValidationModeDetector {
 	/**
 	 * Indicates that the validation mode should be auto-guessed, since we cannot find
 	 * a clear indication (probably choked on some special characters, or the like).
+	 *
+	 * 表示验证模式应该是自动猜测的，因为我们不能发现明确的指示（可能会在一些特别的字符或者其他上指示）。
 	 */
 	public static final int VALIDATION_AUTO = 1;
 

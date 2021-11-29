@@ -85,6 +85,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Indicates that the validation mode should be detected automatically.
+	 *
+	 * 表示校验模式应该被自动的侦测。
 	 */
 	public static final int VALIDATION_AUTO = XmlValidationModeDetector.VALIDATION_AUTO;
 
@@ -102,6 +104,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/** Constants instance for this class. */
 	private static final Constants constants = new Constants(XmlBeanDefinitionReader.class);
 
+	/**
+	 * 用于当前可扩展标记语言bean定义阅读器的校验模式
+	 */
 	private int validationMode = VALIDATION_AUTO;
 
 	private boolean namespaceAware = false;
@@ -126,9 +131,15 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 */
 	private DocumentLoader documentLoader = new DefaultDocumentLoader();
 
+	/**
+	 * 用于当前可扩展标记语言bean定义阅读器的实体解析器
+	 */
 	@Nullable
 	private EntityResolver entityResolver;
 
+	/**
+	 * 用于当前可扩展标记语言bean定义阅读器的错误处理器
+	 */
 	private ErrorHandler errorHandler = new SimpleSaxErrorHandler(logger);
 
 	private final XmlValidationModeDetector validationModeDetector = new XmlValidationModeDetector();
@@ -190,6 +201,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Return the validation mode to use.
+	 *
+	 * 返回要使用的校验模式。
 	 */
 	public int getValidationMode() {
 		return this.validationMode;
@@ -267,6 +280,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * Set a SAX entity resolver to be used for parsing.
 	 * <p>By default, {@link ResourceEntityResolver} will be used. Can be overridden
 	 * for custom entity resolution, for example relative to some specific base path.
+	 *
+	 * 设置将被用于解析的SAX实体解析器。
+	 * 默认的，资源实体解析器将被使用。
+	 * 能被覆写以用于自定义的实体解析，比如相对于一些指定的基路径。
 	 */
 	public void setEntityResolver(@Nullable EntityResolver entityResolver) {
 		this.entityResolver = entityResolver;
@@ -281,8 +298,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	protected EntityResolver getEntityResolver() {
 		// 如果实体解析器为null
 		if (this.entityResolver == null) {
+			/*
+				以下不细究
+			 */
 			// Determine default EntityResolver to use.
-			// 决定将要使用的默认实体解析器
+			// 决定将要使用的默认实体解析器。
 
 			// 获得资源加载器
 			ResourceLoader resourceLoader = getResourceLoader();
@@ -498,11 +518,19 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * mode gets {@link #detectValidationMode detected} from the given resource.
 	 * <p>Override this method if you would like full control over the validation
 	 * mode, even when something other than {@link #VALIDATION_AUTO} was set.
+	 *
+	 * 为给定资源决定校验模式。
+	 * 如果没有显式的校验模式被配置，校验模式将从给定资源中获得。
+	 * 如果你想要完全地控制校验模式，就覆写此方法，即使当其他的一些东西被设置。
+	 *
 	 * @see #detectValidationMode
 	 */
 	protected int getValidationModeForResource(Resource resource) {
+		// 获得将要使用的校验模式
 		int validationModeToUse = getValidationMode();
+		// 如果将要使用的校验模式不是自动校验，则直接返回将校验模式
 		if (validationModeToUse != VALIDATION_AUTO) {
+			// 以下不细究
 			return validationModeToUse;
 		}
 		int detectedMode = detectValidationMode(resource);
