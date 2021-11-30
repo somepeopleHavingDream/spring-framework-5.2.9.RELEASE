@@ -51,6 +51,9 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	/** Logger available to subclasses. */
 	protected final Log logger = LogFactory.getLog(getClass());
 
+	/**
+	 * 该bean定义阅读器的bean定义注册表
+	 */
 	private final BeanDefinitionRegistry registry;
 
 	/**
@@ -62,6 +65,9 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	@Nullable
 	private ClassLoader beanClassLoader;
 
+	/**
+	 * 该bean定义阅读器的环境
+	 */
 	private Environment environment;
 
 	private BeanNameGenerator beanNameGenerator = DefaultBeanNameGenerator.INSTANCE;
@@ -95,7 +101,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	protected AbstractBeanDefinitionReader(BeanDefinitionRegistry registry) {
 		// 断言入参Bean定义注册表不为空，若为空则抛出异常，异常描述为：Bean定义注册表必须不为空。
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
-		// 将此实例的注册表设置为入参注册表
+		// 将入参注册表设置为此实例的注册表
 		this.registry = registry;
 
 		// Determine ResourceLoader to use.
@@ -116,6 +122,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 		// Inherit Environment if possible
 		// 如果可能的话，继承环境
 		if (this.registry instanceof EnvironmentCapable) {
+			// 以下不细究
 			this.environment = ((EnvironmentCapable) this.registry).getEnvironment();
 		}
 		else {

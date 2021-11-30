@@ -109,6 +109,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 */
 	private int validationMode = VALIDATION_AUTO;
 
+	/**
+	 * 该可扩展标记语言的bean定义阅读器的命名空间感知
+	 */
 	private boolean namespaceAware = false;
 
 	/**
@@ -117,6 +120,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	private Class<? extends BeanDefinitionDocumentReader> documentReaderClass =
 			DefaultBeanDefinitionDocumentReader.class;
 
+	/**
+	 * 该可扩展标记语言bean定义阅读器的问题报告器
+	 */
 	private ProblemReporter problemReporter = new FailFastProblemReporter();
 
 	private ReaderEventListener eventListener = new EmptyReaderEventListener();
@@ -142,6 +148,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 */
 	private ErrorHandler errorHandler = new SimpleSaxErrorHandler(logger);
 
+	/**
+	 * 该可扩展标记语言bean定义阅读器的可扩展标记语言校验模式侦测器
+	 */
 	private final XmlValidationModeDetector validationModeDetector = new XmlValidationModeDetector();
 
 	/**
@@ -222,7 +231,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/**
 	 * Return whether or not the XML parser should be XML namespace aware.
 	 *
-	 * 返回是否可扩展标记语言解析器应该是可扩展标记语言命名空间感知
+	 * 返回是否可扩展标记语言解析器应该是可扩展标记语言命名空间感知。
 	 */
 	public boolean isNamespaceAware() {
 		return this.namespaceAware;
@@ -385,10 +394,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 					"Detected cyclic loading of " + encodedResource + " - check your import definitions!");
 		}
 
-		/*
-			代码执行到此，说明入参已编码资源正在被加载
-		 */
-
 		// 尝试拿到此资源的输入流
 		try (InputStream inputStream = encodedResource.getResource().getInputStream()) {
 			// 根据输入流实例化输入源
@@ -533,6 +538,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			// 以下不细究
 			return validationModeToUse;
 		}
+		// 侦测校验模式
 		int detectedMode = detectValidationMode(resource);
 		if (detectedMode != VALIDATION_AUTO) {
 			return detectedMode;
@@ -549,9 +555,15 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * definition then DTD validation is used otherwise XSD validation is assumed.
 	 * <p>Override this method if you would like to customize resolution
 	 * of the {@link #VALIDATION_AUTO} mode.
+	 *
+	 * 在由提供资源所标识的可扩展标记语言文件上，侦测要执行哪种校验。
+	 * 如果文件有文档类型定义，DTD校验将被使用，否则XSD校验将被假定。
+	 * 如果你想自定义自动校验模式的解决方法，覆写此方法。
 	 */
 	protected int detectValidationMode(Resource resource) {
+		// 如果资源是打开的，则抛出异常
 		if (resource.isOpen()) {
+			// 以下不细究
 			throw new BeanDefinitionStoreException(
 					"Passed-in Resource [" + resource + "] contains an open stream: " +
 					"cannot determine validation mode automatically. Either pass in a Resource " +
@@ -561,9 +573,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 		InputStream inputStream;
 		try {
+			// 从资源处获得输入流
 			inputStream = resource.getInputStream();
 		}
 		catch (IOException ex) {
+			// 以下不细究
 			throw new BeanDefinitionStoreException(
 					"Unable to determine validation mode for [" + resource + "]: cannot open InputStream. " +
 					"Did you attempt to load directly from a SAX InputSource without specifying the " +
@@ -571,9 +585,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 		}
 
 		try {
+			// 校验模式侦测器侦测校验模式
 			return this.validationModeDetector.detectValidationMode(inputStream);
 		}
 		catch (IOException ex) {
+			// 以下不细究
 			throw new BeanDefinitionStoreException("Unable to determine validation mode for [" +
 					resource + "]: an error occurred whilst reading from the InputStream.", ex);
 		}
@@ -584,6 +600,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * Called by {@code loadBeanDefinitions}.
 	 * <p>Creates a new instance of the parser class and invokes
 	 * {@code registerBeanDefinitions} on it.
+	 *
+	 * 注册包含在给定文档对象模型文档里的bean定义。
+	 * 由加载bean定义调用。
+	 * 创建一个解析类实例，并且在其上面调用注册bean定义方法。
+	 *
 	 * @param doc the DOM document
 	 * @param resource the resource descriptor (for context information)
 	 * @return the number of bean definitions found
@@ -595,7 +616,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	public int registerBeanDefinitions(Document doc, Resource resource) throws BeanDefinitionStoreException {
 		// 创建并获得Bean定义文档阅读器
 		BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader();
-		// 获得Bean注册中心，拿到Bean定义数量（默认是0）
+		// 获得Bean注册表，拿到当前的Bean定义数量（一般是0）
 		int countBefore = getRegistry().getBeanDefinitionCount();
 
 		// 文档阅读器注册Bean定义，传入参数：文档对象、阅读器上下文
@@ -607,6 +628,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * Create the {@link BeanDefinitionDocumentReader} to use for actually
 	 * reading bean definitions from an XML document.
 	 * <p>The default implementation instantiates the specified "documentReaderClass".
+	 *
+	 * 创建bean定义文档阅读器以用于实际地从一个可扩展标记语言文档里读bean定义。
+	 * 默认实现实例化给定的文档阅读器类。
+	 *
 	 * @see #setDocumentReaderClass
 	 */
 	protected BeanDefinitionDocumentReader createBeanDefinitionDocumentReader() {
@@ -617,7 +642,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/**
 	 * Create the {@link XmlReaderContext} to pass over to the document reader.
 	 *
-	 * 创建可扩展标记语言阅读器上下文，以传递文档阅读器
+	 * 创建可扩展标记语言阅读器上下文，以传递文档阅读器。
 	 */
 	public XmlReaderContext createReaderContext(Resource resource) {
 		// 实例化并返回可扩展标记语言阅读器上下文

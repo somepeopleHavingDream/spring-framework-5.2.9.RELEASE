@@ -192,6 +192,10 @@ public abstract class ReflectionUtils {
 	 * if necessary. The {@code setAccessible(true)} method is only called
 	 * when actually necessary, to avoid unnecessary conflicts with a JVM
 	 * SecurityManager (if active).
+	 *
+	 * 使给定构造器可访问，如果有必要的话显式地设置它为可访问的。
+	 * 设置可访问方法仅当实际地需要时被调用，以避免Java虚拟机安全管理器的不必要冲突。
+	 *
 	 * @param ctor the constructor to make accessible
 	 * @see java.lang.reflect.Constructor#setAccessible
 	 */
@@ -204,6 +208,7 @@ public abstract class ReflectionUtils {
 		 */
 		if ((!Modifier.isPublic(ctor.getModifiers()) ||
 				!Modifier.isPublic(ctor.getDeclaringClass().getModifiers())) && !ctor.isAccessible()) {
+			// 以下不细究
 			ctor.setAccessible(true);
 		}
 	}

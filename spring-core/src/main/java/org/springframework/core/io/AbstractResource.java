@@ -91,6 +91,8 @@ public abstract class AbstractResource implements Resource {
 
 	/**
 	 * This implementation always returns {@code false}.
+	 *
+	 * 默认实现总是返回假。
 	 */
 	@Override
 	public boolean isOpen() {

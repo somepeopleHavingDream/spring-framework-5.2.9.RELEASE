@@ -28,6 +28,8 @@ import org.springframework.util.StringUtils;
 /**
  * Detects whether an XML stream is using DTD- or XSD-based validation.
  *
+ * 侦测一个可扩展标记语言流是正在使用DTD-还是基于XSD-based的校验。
+ *
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @author Sam Brannen
@@ -55,6 +57,8 @@ public class XmlValidationModeDetector {
 
 	/**
 	 * Indicates that XSD validation should be used (found no "DOCTYPE" declaration).
+	 *
+	 * 指示xsd校验应该被使用（没有找到“DOCTYPE”声明）。
 	 */
 	public static final int VALIDATION_XSD = 3;
 
@@ -85,12 +89,19 @@ public class XmlValidationModeDetector {
 	/**
 	 * Detect the validation mode for the XML document in the supplied {@link InputStream}.
 	 * Note that the supplied {@link InputStream} is closed by this method before returning.
+	 *
+	 * 在给定输入流里侦测可扩展标记语言文档的校验模式。
+	 * 注意：提供的输入流在返回之前被此方法关闭。
+	 *
 	 * @param inputStream the InputStream to parse
 	 * @throws IOException in case of I/O failure
 	 * @see #VALIDATION_DTD
 	 * @see #VALIDATION_XSD
 	 */
 	public int detectValidationMode(InputStream inputStream) throws IOException {
+		/*
+			以下不细究
+		 */
 		// Peek into the file to look for DOCTYPE.
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 		try {

@@ -120,6 +120,10 @@ public abstract class BeanUtils {
 	 * (for regular Java classes, expecting a standard no-arg setup).
 	 * <p>Note that this method tries to set the constructor accessible
 	 * if given a non-accessible (that is, non-public) constructor.
+	 *
+	 * 使用它的主构造器（对于Kotlin类，）或者它的默认构造器（对于常规的Java类，期待标准无参设置）实例化一个类。
+	 * 注意：如果给定一个不可访问的构造器，此方法将尝试去设置构造器的可访问性。
+	 *
 	 * @param clazz the class to instantiate
 	 * @return the new instance
 	 * @throws BeanInstantiationException if the bean cannot be instantiated.
@@ -136,6 +140,7 @@ public abstract class BeanUtils {
 
 		// 如果入参类对象是一个接口类对象，则抛出Bean实例化异常，因为接口不能被实例化
 		if (clazz.isInterface()) {
+			// 以下不细究
 			throw new BeanInstantiationException(clazz, "Specified class is an interface");
 		}
 
@@ -183,6 +188,10 @@ public abstract class BeanUtils {
 	 * <p>Note that this method tries to set the constructor accessible if given a
 	 * non-accessible (that is, non-public) constructor, and supports Kotlin classes
 	 * with optional parameters and default values.
+	 *
+	 * 使用给定构造器去实例化类的便捷方法。
+	 * 注意：此方法尝试去设置构造器的可访问性，如果给定一个不可访问（非共有）的构造器，并且支持带可选参数和默认值的kotlin类。
+	 *
 	 * @param ctor the constructor to instantiate
 	 * @param args the constructor arguments to apply (use {@code null} for an unspecified
 	 * parameter, Kotlin optional parameters and Java primitive types are supported)
@@ -200,6 +209,7 @@ public abstract class BeanUtils {
 
 			// 如果当前使用Kotlin反射，并且构造器所在类的类型是kotlin类型，则使用Kotlin委托实例化类
 			if (KotlinDetector.isKotlinReflectPresent() && KotlinDetector.isKotlinType(ctor.getDeclaringClass())) {
+				// 以下不细究
 				return KotlinDelegate.instantiateClass(ctor, args);
 			}
 			else {
@@ -212,6 +222,9 @@ public abstract class BeanUtils {
 				// 设置带默认值的参数
 				Object[] argsWithDefaultValues = new Object[args.length];
 				for (int i = 0 ; i < args.length; i++) {
+					/*
+						以下不细究
+					 */
 					// 如果入参参数值为null
 					if (args[i] == null) {
 						Class<?> parameterType = parameterTypes[i];
@@ -228,17 +241,20 @@ public abstract class BeanUtils {
 				return ctor.newInstance(argsWithDefaultValues);
 			}
 		}
-		// 异常处理
 		catch (InstantiationException ex) {
+			// 以下不细究
 			throw new BeanInstantiationException(ctor, "Is it an abstract class?", ex);
 		}
 		catch (IllegalAccessException ex) {
+			// 以下不细究
 			throw new BeanInstantiationException(ctor, "Is the constructor accessible?", ex);
 		}
 		catch (IllegalArgumentException ex) {
+			// 以下不细究
 			throw new BeanInstantiationException(ctor, "Illegal arguments for constructor", ex);
 		}
 		catch (InvocationTargetException ex) {
+			// 以下不细究
 			throw new BeanInstantiationException(ctor, "Constructor threw exception", ex.getTargetException());
 		}
 	}

@@ -71,7 +71,7 @@ public class DefaultDocumentLoader implements DocumentLoader {
 	 * Load the {@link Document} at the supplied {@link InputSource} using the standard JAXP-configured
 	 * XML parser.
 	 *
-	 * 使用标准的JAXP-configured的可扩展标记语言解析器，在提供的输入源上加载文档
+	 * 使用标准的JAXP-configured的可扩展标记语言解析器，在提供的输入源上加载文档。
 	 */
 	@Override
 	public Document loadDocument(InputSource inputSource, EntityResolver entityResolver,
@@ -92,7 +92,7 @@ public class DefaultDocumentLoader implements DocumentLoader {
 	/**
 	 * Create the {@link DocumentBuilderFactory} instance.
 	 *
-	 * 创建文档建造者工厂实例
+	 * 创建文档建造者工厂实例。
 	 *
 	 * @param validationMode the type of validation: {@link XmlValidationModeDetector#VALIDATION_DTD DTD}
 	 * or {@link XmlValidationModeDetector#VALIDATION_XSD XSD})
@@ -108,16 +108,21 @@ public class DefaultDocumentLoader implements DocumentLoader {
 		// 设置工厂是否感知命名空间
 		factory.setNamespaceAware(namespaceAware);
 
-		// 设置其他属性（暂不研究）
+		// 设置其他属性
 		if (validationMode != XmlValidationModeDetector.VALIDATION_NONE) {
 			factory.setValidating(true);
 			if (validationMode == XmlValidationModeDetector.VALIDATION_XSD) {
 				// Enforce namespace aware for XSD...
+				// 执行对于xsd的命名感知……
 				factory.setNamespaceAware(true);
 				try {
+					// 工厂设置属性
 					factory.setAttribute(SCHEMA_LANGUAGE_ATTRIBUTE, XSD_SCHEMA_LANGUAGE);
 				}
 				catch (IllegalArgumentException ex) {
+					/*
+						以下不细究
+					 */
 					ParserConfigurationException pcex = new ParserConfigurationException(
 							"Unable to validate using XSD: Your JAXP provider [" + factory +
 							"] does not support XML Schema. Are you running on Java 1.4 with Apache Crimson? " +
@@ -136,6 +141,10 @@ public class DefaultDocumentLoader implements DocumentLoader {
 	 * Create a JAXP DocumentBuilder that this bean definition reader
 	 * will use for parsing XML documents. Can be overridden in subclasses,
 	 * adding further initialization of the builder.
+	 *
+	 * 创建一个JAXP文档构建器，该bean定义阅读器将用它解析可扩展标记语言文档。
+	 * 能被子类覆写，以添加建造器的更多初始化。
+	 *
 	 * @param factory the JAXP DocumentBuilderFactory that the DocumentBuilder
 	 * should be created with
 	 * @param entityResolver the SAX EntityResolver to use

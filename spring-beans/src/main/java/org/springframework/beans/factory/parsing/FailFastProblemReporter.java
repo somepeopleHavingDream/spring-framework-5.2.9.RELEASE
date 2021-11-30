@@ -25,11 +25,17 @@ import org.springframework.lang.Nullable;
  * Simple {@link ProblemReporter} implementation that exhibits fail-fast
  * behavior when errors are encountered.
  *
+ * 当遭遇失败时扩展快速失败行为的简单问题报告器。
+ *
  * <p>The first error encountered results in a {@link BeanDefinitionParsingException}
  * being thrown.
  *
+ * 遭遇第一个错误导致Bean定义解析异常被抛出。
+ *
  * <p>Warnings are written to
  * {@link #setLogger(org.apache.commons.logging.Log) the log} for this class.
+ *
+ * 警告将被写进用于此类的日志。
  *
  * @author Rob Harrop
  * @author Juergen Hoeller

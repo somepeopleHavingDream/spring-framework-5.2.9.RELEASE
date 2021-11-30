@@ -79,6 +79,10 @@ public interface Resource extends InputStreamSource {
 	 * If {@code true}, the InputStream cannot be read multiple times,
 	 * and must be read and closed to avoid resource leaks.
 	 * <p>Will be {@code false} for typical resource descriptors.
+	 *
+	 * 表示此资源是否代表一个打开流的句柄。
+	 * 如果为真，输入流不能多次读，并且必须读完关闭以避免资源泄露。
+	 * 对于典型资源描述符将返回假。
 	 */
 	default boolean isOpen() {
 		return false;
