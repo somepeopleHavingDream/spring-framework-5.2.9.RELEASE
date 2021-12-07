@@ -79,6 +79,9 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	@Nullable
 	private XmlReaderContext readerContext;
 
+	/**
+	 * 该默认bean定义文档阅读器的bean定义解析器代理
+	 */
 	@Nullable
 	private BeanDefinitionParserDelegate delegate;
 
@@ -86,8 +89,13 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	/**
 	 * This implementation parses bean definitions according to the "spring-beans" XSD
 	 * (or DTD, historically).
+	 *
+	 * 此实现将根据spring-beans的xsd解析bean定义。
+	 *
 	 * <p>Opens a DOM Document; then initializes the default settings
 	 * specified at the {@code <beans/>} level; then parses the contained bean definitions.
+	 *
+	 * 打开一个文档对象模型文档；初始化在beans标签里指定的默认设置；然后解析包含的bean定义。
 	 */
 	@Override
 	public void registerBeanDefinitions(Document doc, XmlReaderContext readerContext) {
@@ -121,7 +129,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	/**
 	 * Register each bean definition within the given root {@code <beans/>} element.
 	 *
-	 * 在给定的根元素里，注册每个Bean定义
+	 * 在给定的根元素里，注册每个Bean定义。
 	 */
 	@SuppressWarnings("deprecation")  // for Environment.acceptsProfiles(String...)
 	protected void doRegisterBeanDefinitions(Element root) {
@@ -132,7 +140,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		// then ultimately reset this.delegate back to its original (parent) reference.
 		// this behavior emulates a stack of delegates without actually necessitating one.
 
-		// 获得父Bean定义解析器代理
+		// 获得父Bean定义解析器代理（一般为null）
 		BeanDefinitionParserDelegate parent = this.delegate;
 		// 创建一个基于当前阅读器上下文的新代理（内部方法暂不研究）
 		this.delegate = createDelegate(getReaderContext(), root, parent);
