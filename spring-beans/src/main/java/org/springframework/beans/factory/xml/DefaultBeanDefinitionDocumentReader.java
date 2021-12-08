@@ -173,10 +173,19 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		this.delegate = parent;
 	}
 
+	/**
+	 * 创建代理
+	 *
+	 * @param readerContext 可扩展标记语言阅读器上下文
+	 * @param root 跟元素
+	 * @param parentDelegate bean定义解析器代理
+	 * @return bean定义解析器代理
+	 */
 	protected BeanDefinitionParserDelegate createDelegate(
 			XmlReaderContext readerContext, Element root, @Nullable BeanDefinitionParserDelegate parentDelegate) {
-
+		// 实例化一个bean定义解析器代理
 		BeanDefinitionParserDelegate delegate = new BeanDefinitionParserDelegate(readerContext);
+		// bean定义解析器代理初始默认值
 		delegate.initDefaults(root, parentDelegate);
 		return delegate;
 	}

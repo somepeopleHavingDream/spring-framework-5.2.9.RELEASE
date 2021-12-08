@@ -301,6 +301,10 @@ public class BeanDefinitionParserDelegate {
 	 * init-method, destroy-method and merge settings. Support nested 'beans'
 	 * element use cases by falling back to the given parent in case the
 	 * defaults are not explicitly set locally.
+	 *
+	 * 初始化默认的懒初始化、自动装配、依赖检查设置、初始方法、销毁方法和合并设置。
+	 * 如果本地没有显式地设置默认值，则通过回退到给定的父bean定义解析器代理支持嵌套的beans元素用例。
+	 *
 	 * @see #populateDefaults(DocumentDefaultsDefinition, DocumentDefaultsDefinition, org.w3c.dom.Element)
 	 * @see #getDefaults()
 	 */
