@@ -35,6 +35,9 @@ public class ReaderContext {
 
 	private final ReaderEventListener eventListener;
 
+	/**
+	 * 该阅读器上下文
+	 */
 	private final SourceExtractor sourceExtractor;
 
 
@@ -201,6 +204,9 @@ public class ReaderContext {
 
 	/**
 	 * Call the source extractor for the given source object.
+	 *
+	 * 为给定源对象调用源提取器。
+	 *
 	 * @param sourceCandidate the original source object
 	 * @return the source object to store, or {@code null} for none.
 	 * @see #getSourceExtractor()
@@ -208,6 +214,7 @@ public class ReaderContext {
 	 */
 	@Nullable
 	public Object extractSource(Object sourceCandidate) {
+		// 源提取器提取源
 		return this.sourceExtractor.extractSource(sourceCandidate, this.resource);
 	}
 

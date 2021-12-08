@@ -29,6 +29,9 @@ import org.springframework.lang.Nullable;
  */
 public class DocumentDefaultsDefinition implements DefaultsDefinition {
 
+	/**
+	 * 该文档默认定义是否懒加载
+	 */
 	@Nullable
 	private String lazyInit;
 
@@ -53,6 +56,8 @@ public class DocumentDefaultsDefinition implements DefaultsDefinition {
 
 	/**
 	 * Set the default lazy-init flag for the document that's currently parsed.
+	 *
+	 * 为当前被解析的文档设置默认的懒初始化标记。
 	 */
 	public void setLazyInit(@Nullable String lazyInit) {
 		this.lazyInit = lazyInit;

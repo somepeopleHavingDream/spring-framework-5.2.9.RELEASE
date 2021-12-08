@@ -96,6 +96,9 @@ public class BeanDefinitionParserDelegate {
 
 	public static final String FALSE_VALUE = "false";
 
+	/**
+	 * 默认值
+	 */
 	public static final String DEFAULT_VALUE = "default";
 
 	public static final String DESCRIPTION_ELEMENT = "description";
@@ -212,21 +215,41 @@ public class BeanDefinitionParserDelegate {
 
 	public static final String QUALIFIER_ATTRIBUTE_ELEMENT = "attribute";
 
+	/**
+	 * 默认懒加载属性
+	 */
 	public static final String DEFAULT_LAZY_INIT_ATTRIBUTE = "default-lazy-init";
 
+	/**
+	 * 默认合并属性
+	 */
 	public static final String DEFAULT_MERGE_ATTRIBUTE = "default-merge";
 
+	/**
+	 * 默认自动装配属性
+	 */
 	public static final String DEFAULT_AUTOWIRE_ATTRIBUTE = "default-autowire";
 
+	/**
+	 * 默认自动装配候选属性
+	 */
 	public static final String DEFAULT_AUTOWIRE_CANDIDATES_ATTRIBUTE = "default-autowire-candidates";
 
+	/**
+	 * 默认初始化方法属性
+	 */
 	public static final String DEFAULT_INIT_METHOD_ATTRIBUTE = "default-init-method";
 
+	/**
+	 * 默认销毁方法属性
+	 */
 	public static final String DEFAULT_DESTROY_METHOD_ATTRIBUTE = "default-destroy-method";
-
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
+	/**
+	 * 该bean定义解析器代理的可扩展标记语言阅读器的上下文
+	 */
 	private final XmlReaderContext readerContext;
 
 	private final DocumentDefaultsDefinition defaults = new DocumentDefaultsDefinition();
@@ -309,6 +332,7 @@ public class BeanDefinitionParserDelegate {
 	 * @see #getDefaults()
 	 */
 	public void initDefaults(Element root, @Nullable BeanDefinitionParserDelegate parent) {
+		// 填充默认值
 		populateDefaults(this.defaults, (parent != null ? parent.defaults : null), root);
 		this.readerContext.fireDefaultsRegistered(this.defaults);
 	}
@@ -323,45 +347,65 @@ public class BeanDefinitionParserDelegate {
 	 * @param root the root element of the current bean definition document (or nested beans element)
 	 */
 	protected void populateDefaults(DocumentDefaultsDefinition defaults, @Nullable DocumentDefaultsDefinition parentDefaults, Element root) {
+		// 获得懒加载值
 		String lazyInit = root.getAttribute(DEFAULT_LAZY_INIT_ATTRIBUTE);
+		// 懒加载是否是默认值
 		if (isDefaultValue(lazyInit)) {
 			// Potentially inherited from outer <beans> sections, otherwise falling back to false.
+			// 默认继承自外部的<beans>章节，否则回滚到假值。
 			lazyInit = (parentDefaults != null ? parentDefaults.getLazyInit() : FALSE_VALUE);
 		}
+		// 设置是否懒加载
 		defaults.setLazyInit(lazyInit);
 
+		// 获得默认合并属性值
 		String merge = root.getAttribute(DEFAULT_MERGE_ATTRIBUTE);
+		// 如果默认合并属性值是默认值
 		if (isDefaultValue(merge)) {
 			// Potentially inherited from outer <beans> sections, otherwise falling back to false.
+			// 默认继承自外部的<beans>章节，否则回滚到假值。
 			merge = (parentDefaults != null ? parentDefaults.getMerge() : FALSE_VALUE);
 		}
+		// 设置是否合并
 		defaults.setMerge(merge);
 
+		// 获得自动装配属性值
 		String autowire = root.getAttribute(DEFAULT_AUTOWIRE_ATTRIBUTE);
 		if (isDefaultValue(autowire)) {
 			// Potentially inherited from outer <beans> sections, otherwise falling back to 'no'.
+			// 默认继承自外部的<beans>章节，否则回滚到假值。
 			autowire = (parentDefaults != null ? parentDefaults.getAutowire() : AUTOWIRE_NO_VALUE);
 		}
+		// 设置自动装配值
 		defaults.setAutowire(autowire);
 
+		// 如果根元素有默认自动装配候选属性
 		if (root.hasAttribute(DEFAULT_AUTOWIRE_CANDIDATES_ATTRIBUTE)) {
+			// 不细究
 			defaults.setAutowireCandidates(root.getAttribute(DEFAULT_AUTOWIRE_CANDIDATES_ATTRIBUTE));
 		}
 		else if (parentDefaults != null) {
+			// 不细究
 			defaults.setAutowireCandidates(parentDefaults.getAutowireCandidates());
 		}
 
+		// 如果根元素有默认初始化方法属性
 		if (root.hasAttribute(DEFAULT_INIT_METHOD_ATTRIBUTE)) {
+			// 不细究
 			defaults.setInitMethod(root.getAttribute(DEFAULT_INIT_METHOD_ATTRIBUTE));
 		}
 		else if (parentDefaults != null) {
+			// 不细究
 			defaults.setInitMethod(parentDefaults.getInitMethod());
 		}
 
+		// 如果根元素有默认销毁方法属性
 		if (root.hasAttribute(DEFAULT_DESTROY_METHOD_ATTRIBUTE)) {
+			// 以下不细究
 			defaults.setDestroyMethod(root.getAttribute(DEFAULT_DESTROY_METHOD_ATTRIBUTE));
 		}
 		else if (parentDefaults != null) {
+			// 以下不细究
 			defaults.setDestroyMethod(parentDefaults.getDestroyMethod());
 		}
 
@@ -1584,6 +1628,12 @@ public class BeanDefinitionParserDelegate {
 		return isDefaultNamespace(getNamespaceURI(node));
 	}
 
+	/**
+	 * 是否是默认值
+	 *
+	 * @param value 需要比对的值
+	 * @return 是否是默认值
+	 */
 	private boolean isDefaultValue(String value) {
 		return !StringUtils.hasLength(value) || DEFAULT_VALUE.equals(value);
 	}
