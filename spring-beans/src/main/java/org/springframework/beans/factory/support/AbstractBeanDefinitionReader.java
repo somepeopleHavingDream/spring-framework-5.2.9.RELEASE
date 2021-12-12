@@ -62,6 +62,9 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	@Nullable
 	private ResourceLoader resourceLoader;
 
+	/**
+	 * 该可扩展标记语言bean定义阅读器的类加载器
+	 */
 	@Nullable
 	private ClassLoader beanClassLoader;
 

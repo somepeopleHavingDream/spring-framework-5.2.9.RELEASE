@@ -187,6 +187,11 @@ public abstract class CollectionUtils {
 	 * '{@code source}'. If no element in '{@code candidates}' is present in
 	 * '{@code source}' returns {@code null}. Iteration order is
 	 * {@link Collection} implementation specific.
+	 *
+	 * 返回包含在源里的候选者的第一个元素。
+	 * 如果源中没有候选元素，则返回null。
+	 * 迭代顺序取决于集合实现。
+	 *
 	 * @param source the source Collection
 	 * @param candidates the candidates to search for
 	 * @return the first present object, or {@code null} if not found
@@ -194,14 +199,19 @@ public abstract class CollectionUtils {
 	@SuppressWarnings("unchecked")
 	@Nullable
 	public static <E> E findFirstMatch(Collection<?> source, Collection<E> candidates) {
+		// 简单参数校验
 		if (isEmpty(source) || isEmpty(candidates)) {
 			return null;
 		}
+
+		// 遍历候选者，从源中找到是否有该候选者，如果有，则当即返回该候选者
 		for (Object candidate : candidates) {
 			if (source.contains(candidate)) {
 				return (E) candidate;
 			}
 		}
+
+		// 找不到则返回null
 		return null;
 	}
 

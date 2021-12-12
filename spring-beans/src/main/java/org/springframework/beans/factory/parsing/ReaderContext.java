@@ -23,26 +23,40 @@ import org.springframework.lang.Nullable;
  * Context that gets passed along a bean definition reading process,
  * encapsulating all relevant configuration as well as state.
  *
+ * 通过bean定义读取过程的传递上下文，封装所有相关的配置和状态。
+ *
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @since 2.0
  */
 public class ReaderContext {
 
+	/**
+	 * 该阅读器上下文的资源
+	 */
 	private final Resource resource;
 
+	/**
+	 * 该阅读器上下文的问题报告器
+	 */
 	private final ProblemReporter problemReporter;
 
+	/**
+	 * 该阅读器上下文的阅读器事件监听器
+	 */
 	private final ReaderEventListener eventListener;
 
 	/**
-	 * 该阅读器上下文
+	 * 该阅读器上下文的源提取器
 	 */
 	private final SourceExtractor sourceExtractor;
 
 
 	/**
 	 * Construct a new {@code ReaderContext}.
+	 *
+	 * 构建新的阅读器上下文。
+	 *
 	 * @param resource the XML bean definition resource
 	 * @param problemReporter the problem reporter in use
 	 * @param eventListener the event listener in use
@@ -50,7 +64,7 @@ public class ReaderContext {
 	 */
 	public ReaderContext(Resource resource, ProblemReporter problemReporter,
 			ReaderEventListener eventListener, SourceExtractor sourceExtractor) {
-
+		// 设置该阅读器上下文的资源、问题报告器、事件监听器、源提取器
 		this.resource = resource;
 		this.problemReporter = problemReporter;
 		this.eventListener = eventListener;

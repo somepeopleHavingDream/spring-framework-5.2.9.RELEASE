@@ -44,6 +44,9 @@ import org.springframework.lang.Nullable;
  */
 public class XmlReaderContext extends ReaderContext {
 
+	/**
+	 * 该可扩展标记语言阅读器上下文的可扩展标记语言bean定义阅读器
+	 */
 	private final XmlBeanDefinitionReader reader;
 
 	private final NamespaceHandlerResolver namespaceHandlerResolver;
@@ -51,6 +54,9 @@ public class XmlReaderContext extends ReaderContext {
 
 	/**
 	 * Construct a new {@code XmlReaderContext}.
+	 *
+	 * 构建一个新的可扩展标记语言阅读器上下文。
+	 *
 	 * @param resource the XML bean definition resource
 	 * @param problemReporter the problem reporter in use
 	 * @param eventListener the event listener in use
@@ -106,6 +112,10 @@ public class XmlReaderContext extends ReaderContext {
 	 * Return the bean class loader to use, if any.
 	 * <p>Note that this will be null in regular scenarios,
 	 * as an indication to lazily resolve bean classes.
+	 *
+	 * 返回要使用的bean类，如果有的话。
+	 * 注意：在常规场景下这将会是null，因为懒解析bean类的指示。
+	 *
 	 * @see XmlBeanDefinitionReader#setBeanClassLoader
 	 */
 	@Nullable

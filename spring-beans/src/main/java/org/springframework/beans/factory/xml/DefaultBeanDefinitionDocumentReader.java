@@ -76,6 +76,9 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
+	/**
+	 * 该默认bean定义文档阅读器的可扩展标记语言阅读器上下文
+	 */
 	@Nullable
 	private XmlReaderContext readerContext;
 
@@ -142,13 +145,17 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 		// 获得父Bean定义解析器代理（一般为null）
 		BeanDefinitionParserDelegate parent = this.delegate;
-		// 创建一个基于当前阅读器上下文的新代理（内部方法暂不研究）
+		// 创建一个基于当前阅读器上下文的新代理
 		this.delegate = createDelegate(getReaderContext(), root, parent);
 
-		// 此处暂不细究
+		// 如果该代理是默认命名空间
 		if (this.delegate.isDefaultNamespace(root)) {
+			// 根节点获得描述属性
 			String profileSpec = root.getAttribute(PROFILE_ATTRIBUTE);
 			if (StringUtils.hasText(profileSpec)) {
+				/*
+					以下不细究
+				 */
 				String[] specifiedProfiles = StringUtils.tokenizeToStringArray(
 						profileSpec, BeanDefinitionParserDelegate.MULTI_VALUE_ATTRIBUTE_DELIMITERS);
 				// We cannot use Profiles.of(...) since profile expressions are not supported
@@ -167,7 +174,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		preProcessXml(root);
 		// 解析Bean定义
 		parseBeanDefinitions(root, this.delegate);
-		// 后置处理可扩展标记语言，默认为空闲，可由子类重载
+		// 后置处理可扩展标记语言，默认为空实现，可由子类重载
 		postProcessXml(root);
 
 		this.delegate = parent;
@@ -187,6 +194,8 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		BeanDefinitionParserDelegate delegate = new BeanDefinitionParserDelegate(readerContext);
 		// bean定义解析器代理初始默认值
 		delegate.initDefaults(root, parentDelegate);
+
+		// 返回代理
 		return delegate;
 	}
 
@@ -194,7 +203,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 * Parse the elements at the root level in the document:
 	 * "import", "alias", "bean".
 	 *
-	 * 在文档里的根级别解析元素：“import”，“alias”，“bean”
+	 * 在文档里的根级别解析元素：“import”，“alias”，“bean”。
 	 *
 	 * @param root the DOM root element of the document
 	 */
@@ -219,25 +228,33 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 						parseDefaultElement(ele, delegate);
 					}
 					else {
-						// 解析自定义元素
+						// 以下不细究
 						delegate.parseCustomElement(ele);
 					}
 				}
 			}
 		}
 		else {
-			// 如果根节点不在默认命名空间，则解析自定义元素
+			// 以下不细究
 			delegate.parseCustomElement(root);
 		}
 	}
 
+	/**
+	 * 默认bean定义文档阅读器解析默认元素
+	 *
+	 * @param ele 元素
+	 * @param delegate bean定义解析器代理
+	 */
 	private void parseDefaultElement(Element ele, BeanDefinitionParserDelegate delegate) {
 		// 暂不研究对import结点的解析逻辑
 		if (delegate.nodeNameEquals(ele, IMPORT_ELEMENT)) {
+			// 不细究
 			importBeanDefinitionResource(ele);
 		}
 		// 暂不研究对alias结点的解析逻辑
 		else if (delegate.nodeNameEquals(ele, ALIAS_ELEMENT)) {
+			// 不细究
 			processAliasRegistration(ele);
 		}
 		else if (delegate.nodeNameEquals(ele, BEAN_ELEMENT)) {
@@ -246,6 +263,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		}
 		// 暂不研究对beans结点的解析逻辑
 		else if (delegate.nodeNameEquals(ele, NESTED_BEANS_ELEMENT)) {
+			// 不细究
 			// recurse
 			doRegisterBeanDefinitions(ele);
 		}
@@ -351,7 +369,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 * Process the given bean element, parsing the bean definition
 	 * and registering it with the registry.
 	 *
-	 * 处理给定的Bean元素，解析Bean定义并将其注册到注册表中
+	 * 处理给定的Bean元素，解析Bean定义并将其注册到注册表中。
 	 */
 	protected void processBeanDefinition(Element ele, BeanDefinitionParserDelegate delegate) {
 		// 代理解析一个入参Bean定义元素，获取Bean定义拥有者
@@ -372,7 +390,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 			}
 
 			// Send registration event.
-			// 发送注册事件
+			// 发送注册事件。
 			getReaderContext().fireComponentRegistered(new BeanComponentDefinition(bdHolder));
 		}
 	}
@@ -382,13 +400,23 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 * Allow the XML to be extensible by processing any custom element types first,
 	 * before we start to process the bean definitions. This method is a natural
 	 * extension point for any other custom pre-processing of the XML.
+	 *
+	 * 在我们开始处理bean定义之前，允许通过首先处理任何自定义元素类型使得可扩展标记语言变得可扩展。
+	 * 此方法对于任何其他的可扩展标记语言的预处理是一个自然的扩展点。
+	 *
 	 * <p>The default implementation is empty. Subclasses can override this method to
 	 * convert custom elements into standard Spring bean definitions, for example.
 	 * Implementors have access to the parser's bean definition reader and the
 	 * underlying XML resource, through the corresponding accessors.
+	 *
+	 * 默认的实现是空的。
+	 * 子类可以覆写此方法以将自定义的元素转换为标准的spring bean定义，比如。
+	 * 实现器能访问解析器的bean定义和潜在的可扩展标记语言资源，通过对应的访问器。
+	 *
 	 * @see #getReaderContext()
 	 */
 	protected void preProcessXml(Element root) {
+		// 空实现
 	}
 
 	/**

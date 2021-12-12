@@ -137,7 +137,9 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	public static final String INFER_METHOD = "(inferred)";
 
-
+	/**
+	 * 该bean定义的bean类。
+	 */
 	@Nullable
 	private volatile Object beanClass;
 
@@ -175,9 +177,15 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Nullable
 	private String factoryMethodName;
 
+	/**
+	 * 该抽象bean定义的构造器参数值
+	 */
 	@Nullable
 	private ConstructorArgumentValues constructorArgumentValues;
 
+	/**
+	 * 该抽象bean定义的可变属性值
+	 */
 	@Nullable
 	private MutablePropertyValues propertyValues;
 
@@ -206,6 +214,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Create a new AbstractBeanDefinition with default settings.
+	 *
+	 * 创建带默认设置的抽象bean定义。
 	 */
 	protected AbstractBeanDefinition() {
 		this(null, null);
@@ -214,8 +224,11 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	/**
 	 * Create a new AbstractBeanDefinition with the given
 	 * constructor argument values and property values.
+	 *
+	 * 用给定构造器参数值和属性值创建一个新的抽象bean定义。
 	 */
 	protected AbstractBeanDefinition(@Nullable ConstructorArgumentValues cargs, @Nullable MutablePropertyValues pvs) {
+		// 设置该bean定义的构造器参数值和属性值
 		this.constructorArgumentValues = cargs;
 		this.propertyValues = pvs;
 	}
@@ -380,6 +393,8 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Specify the bean class name of this bean definition.
+	 *
+	 * 指定此bean定义的bean类名。
 	 */
 	@Override
 	public void setBeanClassName(@Nullable String beanClassName) {

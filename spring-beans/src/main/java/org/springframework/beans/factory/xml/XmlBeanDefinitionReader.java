@@ -121,12 +121,18 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			DefaultBeanDefinitionDocumentReader.class;
 
 	/**
-	 * 该可扩展标记语言bean定义阅读器的问题报告器
+	 * 该可扩展标记语言bean定义阅读器的问题报告器，默认为快速失败问题报告器
 	 */
 	private ProblemReporter problemReporter = new FailFastProblemReporter();
 
+	/**
+	 * 该可扩展标记语言bean定义阅读器的阅读器事件监听器，默认为空阅读器事件监听器
+	 */
 	private ReaderEventListener eventListener = new EmptyReaderEventListener();
 
+	/**
+	 * 该可扩展标记语言bean定义阅读器
+	 */
 	private SourceExtractor sourceExtractor = new NullSourceExtractor();
 
 	@Nullable

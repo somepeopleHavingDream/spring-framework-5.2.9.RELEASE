@@ -50,6 +50,9 @@ public class DocumentDefaultsDefinition implements DefaultsDefinition {
 	@Nullable
 	private String destroyMethod;
 
+	/**
+	 * 该文档默认定义所使用的源
+	 */
 	@Nullable
 	private Object source;
 
@@ -151,6 +154,9 @@ public class DocumentDefaultsDefinition implements DefaultsDefinition {
 	/**
 	 * Set the configuration source {@code Object} for this metadata element.
 	 * <p>The exact type of the object will depend on the configuration mechanism used.
+	 *
+	 * 为此元数据元素设置配置源对象。
+	 * 对象的精确类型将取决于使用的配置机制
 	 */
 	public void setSource(@Nullable Object source) {
 		this.source = source;
