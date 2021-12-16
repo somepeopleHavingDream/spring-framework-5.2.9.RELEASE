@@ -77,8 +77,6 @@ public class EncodedResource implements InputStreamSource {
 	 * Create a new {@code EncodedResource} for the given {@code Resource},
 	 * using the specified {@code Charset}.
 	 *
-	 * 为给定资源创建一个新的已编码资源，使用指定的字符集。
-	 *
 	 * @param resource the {@code Resource} to hold (never {@code null})
 	 * @param charset the {@code Charset} to use for reading from the resource
 	 */

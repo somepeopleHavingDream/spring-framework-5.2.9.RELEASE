@@ -36,16 +36,12 @@ public final class ParseState {
 
 	/**
 	 * Internal {@link ArrayDeque} storage.
-	 *
-	 * 内部存储。
 	 */
 	private final ArrayDeque<Entry> state;
 
 
 	/**
 	 * Create a new {@code ParseState} with an empty {@link ArrayDeque}.
-	 *
-	 * 用空的数组双向队列创建一个新的解析状态实例。
 	 */
 	public ParseState() {
 		this.state = new ArrayDeque<>();
@@ -62,8 +58,6 @@ public final class ParseState {
 
 	/**
 	 * Add a new {@link Entry} to the {@link ArrayDeque}.
-	 *
-	 * 添加一个新的条目到数组双向队列。
 	 */
 	public void push(Entry entry) {
 		this.state.push(entry);

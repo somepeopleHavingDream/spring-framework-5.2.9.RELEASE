@@ -48,8 +48,6 @@ public abstract class BeanDefinitionReaderUtils {
 	 * Create a new GenericBeanDefinition for the given parent name and class name,
 	 * eagerly loading the bean class if a ClassLoader has been specified.
 	 *
-	 * 为给定父名和类名创建新的通用bean定义，如果类加载器已经被指定则热切地加载bean类。
-	 *
 	 * @param parentName the name of the parent bean, if any
 	 * @param className the name of the bean class, if any
 	 * @param classLoader the ClassLoader to use for loading bean classes

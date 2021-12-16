@@ -166,14 +166,6 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		this.delegate = parent;
 	}
 
-	/**
-	 * 创建代理
-	 *
-	 * @param readerContext 可扩展标记语言阅读器上下文
-	 * @param root 跟元素
-	 * @param parentDelegate bean定义解析器代理
-	 * @return bean定义解析器代理
-	 */
 	protected BeanDefinitionParserDelegate createDelegate(
 			XmlReaderContext readerContext, Element root, @Nullable BeanDefinitionParserDelegate parentDelegate) {
 		// 实例化一个bean定义解析器代理
@@ -348,12 +340,12 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 * and registering it with the registry.
 	 */
 	protected void processBeanDefinition(Element ele, BeanDefinitionParserDelegate delegate) {
-		// 代理解析一个入参Bean定义元素，获取Bean定义拥有者
+		// 代理解析一个入参Bean定义元素，获取Bean定义拥有器
 		BeanDefinitionHolder bdHolder = delegate.parseBeanDefinitionElement(ele);
 
 		// 如果bean拥有者不为null
 		if (bdHolder != null) {
-			// 如果需要的话装饰bean拥有者（不细究）
+			// 如果需要的话装饰bean拥有器
 			bdHolder = delegate.decorateBeanDefinitionIfRequired(ele, bdHolder);
 			try {
 				// Register the final decorated instance.
@@ -361,6 +353,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 				BeanDefinitionReaderUtils.registerBeanDefinition(bdHolder, getReaderContext().getRegistry());
 			}
 			catch (BeanDefinitionStoreException ex) {
+				// 不细究
 				getReaderContext().error("Failed to register bean definition with name '" +
 						bdHolder.getBeanName() + "'", ele, ex);
 			}

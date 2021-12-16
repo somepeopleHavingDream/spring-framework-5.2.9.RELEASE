@@ -157,13 +157,12 @@ public class ReaderContext {
 	 * Fire a defaults-registered event.
 	 */
 	public void fireDefaultsRegistered(DefaultsDefinition defaultsDefinition) {
+		// 向事件监听器注册默认定义
 		this.eventListener.defaultsRegistered(defaultsDefinition);
 	}
 
 	/**
 	 * Fire a component-registered event.
-	 *
-	 * 发射一个组件注册事件。
 	 */
 	public void fireComponentRegistered(ComponentDefinition componentDefinition) {
 		// 一般componentRegistered方法都是空实现
@@ -203,8 +202,6 @@ public class ReaderContext {
 
 	/**
 	 * Call the source extractor for the given source object.
-	 *
-	 * 为给定源对象调用源提取器。
 	 *
 	 * @param sourceCandidate the original source object
 	 * @return the source object to store, or {@code null} for none.

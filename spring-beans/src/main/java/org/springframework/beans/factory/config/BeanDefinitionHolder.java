@@ -41,9 +41,6 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 
 	private final BeanDefinition beanDefinition;
 
-	/**
-	 * 存取bean名的其实是Bean定义拥有者类
-	 */
 	private final String beanName;
 
 	@Nullable
@@ -66,8 +63,11 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 	 * @param aliases alias names for the bean, or {@code null} if none
 	 */
 	public BeanDefinitionHolder(BeanDefinition beanDefinition, String beanName, @Nullable String[] aliases) {
+		// 简单参数校验
 		Assert.notNull(beanDefinition, "BeanDefinition must not be null");
 		Assert.notNull(beanName, "Bean name must not be null");
+
+		// 设置该bean定义拥有器的bean定义和bean名称及别名数组
 		this.beanDefinition = beanDefinition;
 		this.beanName = beanName;
 		this.aliases = aliases;

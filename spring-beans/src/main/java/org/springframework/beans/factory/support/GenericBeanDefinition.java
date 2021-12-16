@@ -48,8 +48,6 @@ public class GenericBeanDefinition extends AbstractBeanDefinition {
 	 * Create a new GenericBeanDefinition, to be configured through its bean
 	 * properties and configuration methods.
 	 *
-	 * 创建一个新的通用bean定义，将通过它的bean属性和配置方法变得可配置。
-	 *
 	 * @see #setBeanClass
 	 * @see #setScope
 	 * @see #setConstructorArgumentValues

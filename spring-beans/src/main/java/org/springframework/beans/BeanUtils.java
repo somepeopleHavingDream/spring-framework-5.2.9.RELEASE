@@ -121,9 +121,6 @@ public abstract class BeanUtils {
 	 * <p>Note that this method tries to set the constructor accessible
 	 * if given a non-accessible (that is, non-public) constructor.
 	 *
-	 * 使用它的主构造器（对于Kotlin类，）或者它的默认构造器（对于常规的Java类，期待标准无参设置）实例化一个类。
-	 * 注意：如果给定一个不可访问的构造器，此方法将尝试去设置构造器的可访问性。
-	 *
 	 * @param clazz the class to instantiate
 	 * @return the new instance
 	 * @throws BeanInstantiationException if the bean cannot be instantiated.

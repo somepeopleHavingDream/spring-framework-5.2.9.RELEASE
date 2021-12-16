@@ -212,29 +212,14 @@ public class BeanDefinitionParserDelegate {
 
 	public static final String QUALIFIER_ATTRIBUTE_ELEMENT = "attribute";
 
-	/**
-	 * 默认懒加载属性
-	 */
 	public static final String DEFAULT_LAZY_INIT_ATTRIBUTE = "default-lazy-init";
 
-	/**
-	 * 默认合并属性
-	 */
 	public static final String DEFAULT_MERGE_ATTRIBUTE = "default-merge";
 
-	/**
-	 * 默认自动装配属性
-	 */
 	public static final String DEFAULT_AUTOWIRE_ATTRIBUTE = "default-autowire";
 
-	/**
-	 * 默认自动装配候选属性
-	 */
 	public static final String DEFAULT_AUTOWIRE_CANDIDATES_ATTRIBUTE = "default-autowire-candidates";
 
-	/**
-	 * 默认初始化方法属性
-	 */
 	public static final String DEFAULT_INIT_METHOD_ATTRIBUTE = "default-init-method";
 
 	public static final String DEFAULT_DESTROY_METHOD_ATTRIBUTE = "default-destroy-method";
@@ -315,9 +300,6 @@ public class BeanDefinitionParserDelegate {
 	 * init-method, destroy-method and merge settings. Support nested 'beans'
 	 * element use cases by falling back to the given parent in case the
 	 * defaults are not explicitly set locally.
-	 *
-	 * 初始化默认的懒初始化、自动装配、依赖检查设置、初始方法、销毁方法和合并设置。
-	 * 如果本地没有显式地设置默认值，则通过回退到给定的父bean定义解析器代理支持嵌套的beans元素用例。
 	 *
 	 * @see #populateDefaults(DocumentDefaultsDefinition, DocumentDefaultsDefinition, org.w3c.dom.Element)
 	 * @see #getDefaults()
@@ -494,6 +476,9 @@ public class BeanDefinitionParserDelegate {
 		if (beanDefinition != null) {
 			// 如果bean名不含有文本值
 			if (!StringUtils.hasText(beanName)) {
+				/*
+					以下不细究
+				 */
 				try {
 					// 设置bean名
 					if (containingBean != null) {
@@ -523,11 +508,12 @@ public class BeanDefinitionParserDelegate {
 				}
 			}
 
-			// 实例化并返回一个Bean定义拥有者
+			// 实例化并返回一个Bean定义拥有器
 			String[] aliasesArray = StringUtils.toStringArray(aliases);
 			return new BeanDefinitionHolder(beanDefinition, beanName, aliasesArray);
 		}
 
+		// 不细究
 		return null;
 	}
 
@@ -561,9 +547,6 @@ public class BeanDefinitionParserDelegate {
 	/**
 	 * Parse the bean definition itself, without regard to name or aliases. May return
 	 * {@code null} if problems occurred during the parsing of the bean definition.
-	 *
-	 * 解析Bean定义本身，不管是名称还是别名。
-	 * 如果在解析Bean定义期间问题发生，则可能返回null。
 	 */
 	@Nullable
 	public AbstractBeanDefinition parseBeanDefinitionElement(
@@ -638,13 +621,18 @@ public class BeanDefinitionParserDelegate {
 			@Nullable BeanDefinition containingBean, AbstractBeanDefinition bd) {
 		// 如果该元素有single标签，则直接抛错
 		if (ele.hasAttribute(SINGLETON_ATTRIBUTE)) {
+			// 不细究
 			error("Old 1.x 'singleton' attribute in use - upgrade to 'scope' declaration", ele);
 		}
-		// 如果该元素有scope属性，则为入参Bean定义设置该元素的scope属性值
+		// 如果该元素有scope属性
 		else if (ele.hasAttribute(SCOPE_ATTRIBUTE)) {
+			// 为入参Bean定义设置该元素的scope属性值
 			bd.setScope(ele.getAttribute(SCOPE_ATTRIBUTE));
 		}
 		else if (containingBean != null) {
+			/*
+				以下不细究
+			 */
 			// Take default from containing bean in case of an inner bean definition.
 			// 在内部bean定义的情况下，从包含bean中取默认
 			bd.setScope(containingBean.getScope());
@@ -652,6 +640,7 @@ public class BeanDefinitionParserDelegate {
 
 		// 如果该元素有abstract属性
 		if (ele.hasAttribute(ABSTRACT_ATTRIBUTE)) {
+			// 不细究
 			bd.setAbstract(TRUE_VALUE.equals(ele.getAttribute(ABSTRACT_ATTRIBUTE)));
 		}
 
@@ -724,8 +713,6 @@ public class BeanDefinitionParserDelegate {
 
 	/**
 	 * Create a bean definition for the given class name and parent name.
-	 *
-	 * 为给定类和父名创建bean定义。
 	 *
 	 * @param className the name of the bean class
 	 * @param parentName the name of the bean's parent bean
@@ -1498,6 +1485,7 @@ public class BeanDefinitionParserDelegate {
 	 * @return the decorated bean definition
 	 */
 	public BeanDefinitionHolder decorateBeanDefinitionIfRequired(Element ele, BeanDefinitionHolder originalDef) {
+		// 装饰bean定义，如果有必要的话
 		return decorateBeanDefinitionIfRequired(ele, originalDef, null);
 	}
 
@@ -1510,10 +1498,12 @@ public class BeanDefinitionParserDelegate {
 	 */
 	public BeanDefinitionHolder decorateBeanDefinitionIfRequired(
 			Element ele, BeanDefinitionHolder originalDef, @Nullable BeanDefinition containingBd) {
-
+		// 记录原始bean定义拥有器
 		BeanDefinitionHolder finalDefinition = originalDef;
 
 		// Decorate based on custom attributes first.
+		// 首先根据自定义属性来装饰。
+		// 获得该xml元素的属性
 		NamedNodeMap attributes = ele.getAttributes();
 		for (int i = 0; i < attributes.getLength(); i++) {
 			Node node = attributes.item(i);
