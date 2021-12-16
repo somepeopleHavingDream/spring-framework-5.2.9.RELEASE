@@ -44,9 +44,6 @@ import org.springframework.lang.Nullable;
  */
 public class XmlReaderContext extends ReaderContext {
 
-	/**
-	 * 该可扩展标记语言阅读器上下文的可扩展标记语言bean定义阅读器
-	 */
 	private final XmlBeanDefinitionReader reader;
 
 	private final NamespaceHandlerResolver namespaceHandlerResolver;
@@ -54,8 +51,6 @@ public class XmlReaderContext extends ReaderContext {
 
 	/**
 	 * Construct a new {@code XmlReaderContext}.
-	 *
-	 * 构建一个新的可扩展标记语言阅读器上下文。
 	 *
 	 * @param resource the XML bean definition resource
 	 * @param problemReporter the problem reporter in use

@@ -84,9 +84,6 @@ import org.springframework.util.xml.DomUtils;
  */
 public class BeanDefinitionParserDelegate {
 
-	/**
-	 * 该bean定义解析器代理的bean命名空间统一资源标识符
-	 */
 	public static final String BEANS_NAMESPACE_URI = "http://www.springframework.org/schema/beans";
 
 	public static final String MULTI_VALUE_ATTRIBUTE_DELIMITERS = ",; ";
@@ -99,9 +96,6 @@ public class BeanDefinitionParserDelegate {
 
 	public static final String FALSE_VALUE = "false";
 
-	/**
-	 * 默认值
-	 */
 	public static final String DEFAULT_VALUE = "default";
 
 	public static final String DESCRIPTION_ELEMENT = "description";
@@ -116,25 +110,16 @@ public class BeanDefinitionParserDelegate {
 
 	public static final String AUTOWIRE_AUTODETECT_VALUE = "autodetect";
 
-	/**
-	 * 名称属性
-	 */
 	public static final String NAME_ATTRIBUTE = "name";
 
 	public static final String BEAN_ELEMENT = "bean";
 
 	public static final String META_ELEMENT = "meta";
 
-	/**
-	 * Id属性
-	 */
 	public static final String ID_ATTRIBUTE = "id";
 
 	public static final String PARENT_ATTRIBUTE = "parent";
 
-	/**
-	 * 类属性
-	 */
 	public static final String CLASS_ATTRIBUTE = "class";
 
 	public static final String ABSTRACT_ATTRIBUTE = "abstract";
@@ -252,35 +237,20 @@ public class BeanDefinitionParserDelegate {
 	 */
 	public static final String DEFAULT_INIT_METHOD_ATTRIBUTE = "default-init-method";
 
-	/**
-	 * 默认销毁方法属性
-	 */
 	public static final String DEFAULT_DESTROY_METHOD_ATTRIBUTE = "default-destroy-method";
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	/**
-	 * 该bean定义解析器代理的可扩展标记语言阅读器的上下文
-	 */
 	private final XmlReaderContext readerContext;
 
-	/**
-	 * 该bean定义解析器代理的文档默认定义，默认为文档默认定义
-	 */
 	private final DocumentDefaultsDefinition defaults = new DocumentDefaultsDefinition();
 
-	/**
-	 * 该bean定义解析器代理的解析状态
-	 */
 	private final ParseState parseState = new ParseState();
 
 	/**
 	 * Stores all used bean names so we can enforce uniqueness on a per
 	 * beans-element basis. Duplicate bean ids/names may not exist within the
 	 * same level of beans element nesting, but may be duplicated across levels.
-	 *
-	 * 存储所有已使用的bean名，以便我们能在每个beans元素基础上执行唯一性。
-	 * 重复的bean ids或名称在beans元素的嵌套里可能不存在，但是可能会跨级别重复。
 	 */
 	private final Set<String> usedNames = new HashSet<>();
 
@@ -288,8 +258,6 @@ public class BeanDefinitionParserDelegate {
 	/**
 	 * Create a new BeanDefinitionParserDelegate associated with the supplied
 	 * {@link XmlReaderContext}.
-	 *
-	 * 创建一个与提供的可扩展标记语言阅读器上下文相关联的bean定义解析器代理。
 	 */
 	public BeanDefinitionParserDelegate(XmlReaderContext readerContext) {
 		Assert.notNull(readerContext, "XmlReaderContext must not be null");
@@ -471,10 +439,6 @@ public class BeanDefinitionParserDelegate {
 	 * Parses the supplied {@code <bean>} element. May return {@code null}
 	 * if there were errors during parse. Errors are reported to the
 	 * {@link org.springframework.beans.factory.parsing.ProblemReporter}.
-	 *
-	 * 解析提供的bean元素。
-	 * 如果在解析期间存在错误，则返回null。
-	 * 错误将被报告到问题报告器。
 	 */
 	@Nullable
 	public BeanDefinitionHolder parseBeanDefinitionElement(Element ele) {
@@ -486,10 +450,6 @@ public class BeanDefinitionParserDelegate {
 	 * Parses the supplied {@code <bean>} element. May return {@code null}
 	 * if there were errors during parse. Errors are reported to the
 	 * {@link org.springframework.beans.factory.parsing.ProblemReporter}.
-	 *
-	 * 解析给定的bean元素。
-	 * 如果在解析期间有错误发生，则返回null。
-	 * 错误将被报告到问题报告器。
 	 */
 	@Nullable
 	public BeanDefinitionHolder parseBeanDefinitionElement(Element ele, @Nullable BeanDefinition containingBean) {
@@ -1629,10 +1589,6 @@ public class BeanDefinitionParserDelegate {
 	 * Subclasses may override the default implementation to provide a
 	 * different namespace identification mechanism.
 	 *
-	 * 获得给定结点的命名空间统一资源标识符。
-	 * 默认实现使用结点的获取命名空间统一资源标识符方法。
-	 * 子类也可覆盖默认实现以提供不同的命名空间鉴别机制。
-	 *
 	 * @param node the node
 	 */
 	@Nullable
@@ -1675,20 +1631,12 @@ public class BeanDefinitionParserDelegate {
 
 	/**
 	 * Determine whether the given node indicates the default namespace.
-	 *
-	 * 决定是否给定结点表示默认空间。
 	 */
 	public boolean isDefaultNamespace(Node node) {
 		// 获得入参结点的命名空间统一资源标识符，返回当前命名空间是否是默认命名空间
 		return isDefaultNamespace(getNamespaceURI(node));
 	}
 
-	/**
-	 * 是否是默认值
-	 *
-	 * @param value 需要比对的值
-	 * @return 是否是默认值
-	 */
 	private boolean isDefaultValue(String value) {
 		return !StringUtils.hasLength(value) || DEFAULT_VALUE.equals(value);
 	}

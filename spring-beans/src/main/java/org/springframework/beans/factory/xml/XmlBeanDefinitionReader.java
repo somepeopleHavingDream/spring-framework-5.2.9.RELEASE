@@ -85,8 +85,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Indicates that the validation mode should be detected automatically.
-	 *
-	 * 表示校验模式应该被自动的侦测。
 	 */
 	public static final int VALIDATION_AUTO = XmlValidationModeDetector.VALIDATION_AUTO;
 
@@ -104,64 +102,31 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/** Constants instance for this class. */
 	private static final Constants constants = new Constants(XmlBeanDefinitionReader.class);
 
-	/**
-	 * 用于当前可扩展标记语言bean定义阅读器的校验模式
-	 */
 	private int validationMode = VALIDATION_AUTO;
 
-	/**
-	 * 该可扩展标记语言的bean定义阅读器的命名空间感知
-	 */
 	private boolean namespaceAware = false;
 
-	/**
-	 * 默认Bean定义文档阅读器的字节码对象
-	 */
 	private Class<? extends BeanDefinitionDocumentReader> documentReaderClass =
 			DefaultBeanDefinitionDocumentReader.class;
 
-	/**
-	 * 该可扩展标记语言bean定义阅读器的问题报告器，默认为快速失败问题报告器
-	 */
 	private ProblemReporter problemReporter = new FailFastProblemReporter();
 
-	/**
-	 * 该可扩展标记语言bean定义阅读器的阅读器事件监听器，默认为空阅读器事件监听器
-	 */
 	private ReaderEventListener eventListener = new EmptyReaderEventListener();
 
-	/**
-	 * 该可扩展标记语言bean定义阅读器
-	 */
 	private SourceExtractor sourceExtractor = new NullSourceExtractor();
 
 	@Nullable
 	private NamespaceHandlerResolver namespaceHandlerResolver;
 
-	/**
-	 * 用于当前可扩展标记语言Bean定义阅读器的文档加载器
-	 */
 	private DocumentLoader documentLoader = new DefaultDocumentLoader();
 
-	/**
-	 * 用于当前可扩展标记语言bean定义阅读器的实体解析器
-	 */
 	@Nullable
 	private EntityResolver entityResolver;
 
-	/**
-	 * 用于当前可扩展标记语言bean定义阅读器的错误处理器
-	 */
 	private ErrorHandler errorHandler = new SimpleSaxErrorHandler(logger);
 
-	/**
-	 * 该可扩展标记语言bean定义阅读器的可扩展标记语言校验模式侦测器
-	 */
 	private final XmlValidationModeDetector validationModeDetector = new XmlValidationModeDetector();
 
-	/**
-	 * 该可扩展标记语言bean定义阅读器当前正在加载的资源
-	 */
 	private final ThreadLocal<Set<EncodedResource>> resourcesCurrentlyBeingLoaded =
 			new NamedThreadLocal<Set<EncodedResource>>("XML bean definition resources currently being loaded"){
 				@Override
@@ -173,8 +138,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Create new XmlBeanDefinitionReader for the given bean factory.
-	 *
-	 * 为给定的Bean工厂创建一个新的可扩展标记语言Bean定义阅读器。
 	 *
 	 * @param registry the BeanFactory to load bean definitions into,
 	 * in the form of a BeanDefinitionRegistry
@@ -216,8 +179,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Return the validation mode to use.
-	 *
-	 * 返回要使用的校验模式。
 	 */
 	public int getValidationMode() {
 		return this.validationMode;
@@ -307,8 +268,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/**
 	 * Return the EntityResolver to use, building a default resolver
 	 * if none specified.
-	 *
-	 * 返回将要使用的实体解析器，如果没有指定则构建默认的解析器。
 	 */
 	protected EntityResolver getEntityResolver() {
 		// 如果实体解析器为null
@@ -361,8 +320,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/**
 	 * Load bean definitions from the specified XML file.
 	 *
-	 * 从指定可扩展标记语言文件中加载bean定义。
-	 *
 	 * @param resource the resource descriptor for the XML file
 	 * @return the number of bean definitions found
 	 * @throws BeanDefinitionStoreException in case of loading or parsing errors
@@ -375,8 +332,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Load bean definitions from the specified XML file.
-	 *
-	 * 从指定可扩展标记语言文件中加载Bean定义。
 	 *
 	 * @param encodedResource the resource descriptor for the XML file,
 	 * allowing to specify an encoding to use for parsing the file
@@ -458,8 +413,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/**
 	 * Actually load bean definitions from the specified XML file.
 	 *
-	 * 从指定的可扩展标记语言文件中实际地加载bean定义。
-	 *
 	 * @param inputSource the SAX InputSource to read from
 	 * @param resource the resource descriptor for the XML file
 	 * @return the number of bean definitions found
@@ -507,8 +460,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Actually load the specified document using the configured DocumentLoader.
-	 *
-	 * 使用被配置的文档加载器实际地加载指定文档。
 	 *
 	 * @param inputSource the SAX InputSource to read from
 	 * @param resource the resource descriptor for the XML file
@@ -647,8 +598,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Create the {@link XmlReaderContext} to pass over to the document reader.
-	 *
-	 * 创建可扩展标记语言阅读器上下文，以传递文档阅读器。
 	 */
 	public XmlReaderContext createReaderContext(Resource resource) {
 		// 实例化并返回可扩展标记语言阅读器上下文

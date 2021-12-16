@@ -42,9 +42,6 @@ import org.springframework.util.StringUtils;
 public abstract class AbstractRefreshableConfigApplicationContext extends AbstractRefreshableApplicationContext
 		implements BeanNameAware, InitializingBean {
 
-	/**
-	 * 配置路径
-	 */
 	@Nullable
 	private String[] configLocations;
 
@@ -59,8 +56,6 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 
 	/**
 	 * Create a new AbstractRefreshableConfigApplicationContext with the given parent context.
-	 *
-	 * 用给定父上下文创建一个新的抽象可刷新配置应用上下文
 	 *
 	 * @param parent the parent context
 	 */
@@ -81,9 +76,6 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 	/**
 	 * Set the config locations for this application context.
 	 * <p>If not set, the implementation may use a default as appropriate.
-	 *
-	 * 为此应用上下文设置配置路径。
-	 * 如果没设置，实现可酌情使用默认。
 	 */
 	public void setConfigLocations(@Nullable String... locations) {
 		// 如果路径不为空
@@ -113,11 +105,6 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 	 * <p>The default implementation returns {@code null}. Subclasses can override
 	 * this to provide a set of resource locations to load bean definitions from.
 	 *
-	 * 返回资源路径数组，该资源路径数组引用此上下文应该用以构建的可扩展标记语言bean定义文件。
-	 * 还将包括路径模式，这将通过资源模式解析器获得解析。
-	 * 默认的实现返回null。
-	 * 子类能够覆写此方法以提供资源路径集合，以加载bean定义表单。
-	 *
 	 * @return an array of resource locations, or {@code null} if none
 	 * @see #getResources
 	 * @see #getResourcePatternResolver
@@ -144,9 +131,6 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 	/**
 	 * Resolve the given path, replacing placeholders with corresponding
 	 * environment property values if necessary. Applied to config locations.
-	 *
-	 * 解析给定路径，如果有必要的话，用相对应的环境属性值代替占位符。
-	 * 应用到配置路径。
 	 *
 	 * @param path the original file path
 	 * @return the resolved file path

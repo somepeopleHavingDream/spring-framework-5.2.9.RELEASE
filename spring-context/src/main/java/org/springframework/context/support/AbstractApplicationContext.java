@@ -189,14 +189,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	private String displayName = ObjectUtils.identityToString(this);
 
 	/** Parent context. */
-	// 父上下文
 	@Nullable
 	private ApplicationContext parent;
 
 	/**
 	 * Environment used by this context.
-	 *
-	 * 被此上下文使用的环境。
 	 * */
 	@Nullable
 	private ConfigurableEnvironment environment;
@@ -257,8 +254,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * Create a new AbstractApplicationContext with no parent.
-	 *
-	 * 创建一个不带父上下文的抽象应用上下文。
 	 */
 	public AbstractApplicationContext() {
 		// 设置资源路径解析器
@@ -267,8 +262,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * Create a new AbstractApplicationContext with the given parent context.
-	 *
-	 * 用给定的父上下文创建一个新的抽象应用上下文。
 	 *
 	 * @param parent the parent context
 	 */
@@ -330,9 +323,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Return the parent context, or {@code null} if there is no parent
 	 * (that is, this context is the root of the context hierarchy).
-	 *
-	 * 返回父上下文，或者null，如果没有父上下文
-	 * （也就是说，此上下文是上下文结构的根）。
 	 */
 	@Override
 	@Nullable
@@ -358,9 +348,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * form, allowing for further customization.
 	 * <p>If none specified, a default environment will be initialized via
 	 * {@link #createEnvironment()}.
-	 *
-	 * 返回在此可配置表单里用于此应用上下文环境。
-	 * 如果没有指定，默认的环境将通过创建环境方法被初始化
 	 */
 	@Override
 	public ConfigurableEnvironment getEnvironment() {
@@ -378,9 +365,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Create and return a new {@link StandardEnvironment}.
 	 * <p>Subclasses may override this method in order to supply
 	 * a custom {@link ConfigurableEnvironment} implementation.
-	 *
-	 * 创建并返回一个新的标准环境。
-	 * 子类也能覆写此方法以提供自定义的ConfigurableEnvironment实现。
 	 */
 	protected ConfigurableEnvironment createEnvironment() {
 		return new StandardEnvironment();
@@ -670,8 +654,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Prepare this context for refreshing, setting its startup date and
 	 * active flag as well as performing any initialization of property sources.
-	 *
-	 * 准备用于刷新的上下文，设置它的启动时间和活跃标记，并且执行属性源的任何初始化。
 	 */
 	protected void prepareRefresh() {
 		// Switch to active.
@@ -723,8 +705,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * <p>Replace any stub property sources with actual instances.
 	 *
-	 * 用实际实例代替任何根数据源。
-	 *
 	 * @see org.springframework.core.env.PropertySource.StubPropertySource
 	 * @see org.springframework.web.context.support.WebApplicationContextUtils#initServletPropertySources
 	 */
@@ -735,7 +715,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * Tell the subclass to refresh the internal bean factory.
-	 * 告诉子类去刷新内部bean工厂。
 	 *
 	 * @return the fresh BeanFactory instance
 	 * @see #refreshBeanFactory()
@@ -1464,8 +1443,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Return the internal bean factory of the parent context if it implements
 	 * ConfigurableApplicationContext; else, return the parent context itself.
 	 *
-	 * 如果当前上下文实例实现了可配置应用上下文，则返回父类上下文的内部Bean工厂；
-	 * 否则，返回它本身的父类上下文。
 	 * @see org.springframework.context.ConfigurableApplicationContext#getBeanFactory
 	 */
 	@Nullable
@@ -1563,11 +1540,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * or return a single BeanFactory instance that it holds. In the latter case, it will
 	 * usually throw an IllegalStateException if refreshing the context more than once.
 	 *
-	 * 子类必须实现此方法去执行实际的配置加载。
-	 * 刷新方法在任何其他初始化工作之前调用此方法。
-	 * 子类要么创建一个新的bean工厂，并且拥有对它的引用，要么去返回一个它拥有的单bean工厂。
-	 * 在后一种情况，它通常将抛出违规状态异常，如果多次刷新上下文。
-	 *
 	 * @throws BeansException if initialization of the bean factory failed
 	 * @throws IllegalStateException if already initialized and multiple refresh
 	 * attempts are not supported
@@ -1587,11 +1559,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * <p>Note: Subclasses should check whether the context is still active before
 	 * returning the internal bean factory. The internal factory should generally be
 	 * considered unavailable once the context has been closed.
-	 *
-	 * 子类在这必须返回它们内部的bean工厂。
-	 * 它们应该有效地实现查找，以便它能够没有性能损耗地重复调用。
-	 * 注意：子类在返回内部bean工厂之前应该检查上下文是否仍然是活跃的。
-	 * 一旦上下文被关闭，内部工厂通常应该被认为是不可利用的。
 	 *
 	 * @return this application context's internal bean factory (never {@code null})
 	 * @throws IllegalStateException if the context does not hold an internal bean factory yet

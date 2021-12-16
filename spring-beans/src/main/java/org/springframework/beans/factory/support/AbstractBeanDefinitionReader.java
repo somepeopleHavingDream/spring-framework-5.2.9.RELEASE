@@ -51,26 +51,14 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	/** Logger available to subclasses. */
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	/**
-	 * 该bean定义阅读器的bean定义注册表
-	 */
 	private final BeanDefinitionRegistry registry;
 
-	/**
-	 * 用于此bean定义阅读者的资源加载器
-	 */
 	@Nullable
 	private ResourceLoader resourceLoader;
 
-	/**
-	 * 该可扩展标记语言bean定义阅读器的类加载器
-	 */
 	@Nullable
 	private ClassLoader beanClassLoader;
 
-	/**
-	 * 该bean定义阅读器的环境
-	 */
 	private Environment environment;
 
 	private BeanNameGenerator beanNameGenerator = DefaultBeanNameGenerator.INSTANCE;
@@ -88,13 +76,6 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	 * environment will be used by this reader.  Otherwise, the reader will initialize and
 	 * use a {@link StandardEnvironment}. All ApplicationContext implementations are
 	 * EnvironmentCapable, while normal BeanFactory implementations are not.
-	 *
-	 * 为给定bean工厂创建一个新的抽象Bean定义阅读者。
-	 * 如果传递进来的bean工厂既没有实现Bean定义注册表接口，也没有实现资源加载者接口，那么它也将被用作默认的资源加载者。
-	 * 如果给定一个普通的bean定义注册表，默认的资源加载者将会是路径匹配资源模式解析者。
-	 * 如果传递进来的bean工厂也实现了环境能力接口，它的环境将被阅读者使用。
-	 * 否则，阅读者将初始化并且使用标准环境。
-	 * 所有的应用上下文实现都是环境能力，而普通的bean工厂实现则不是。
 	 *
 	 * @param registry the BeanFactory to load bean definitions into,
 	 * in the form of a BeanDefinitionRegistry
@@ -186,9 +167,6 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	 * Set the Environment to use when reading bean definitions. Most often used
 	 * for evaluating profile information to determine which bean definitions
 	 * should be read and which should be omitted.
-	 *
-	 * 当阅读bean定义时设置使用的环境。
-	 * 大多数经常被用来评估配置信息以决定哪个bean定义应该被读取，哪个bean定义应该被忽略。
 	 */
 	public void setEnvironment(Environment environment) {
 		// 断言：入参环境必不为null
@@ -241,9 +219,6 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	 * Load bean definitions from the specified resource location.
 	 * <p>The location can also be a location pattern, provided that the
 	 * ResourceLoader of this bean definition reader is a ResourcePatternResolver.
-	 *
-	 * 从给定资源路径中加载bean定义。
-	 * 此路径可以是路径模式，前提是此bean定义阅读器的资源加载器是资源模式解析器。
 	 *
 	 * @param location the resource location, to be loaded with the ResourceLoader
 	 * (or ResourcePatternResolver) of this bean definition reader

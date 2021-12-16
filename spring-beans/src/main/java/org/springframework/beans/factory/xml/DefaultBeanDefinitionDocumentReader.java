@@ -76,15 +76,9 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	/**
-	 * 该默认bean定义文档阅读器的可扩展标记语言阅读器上下文
-	 */
 	@Nullable
 	private XmlReaderContext readerContext;
 
-	/**
-	 * 该默认bean定义文档阅读器的bean定义解析器代理
-	 */
 	@Nullable
 	private BeanDefinitionParserDelegate delegate;
 
@@ -93,12 +87,8 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 * This implementation parses bean definitions according to the "spring-beans" XSD
 	 * (or DTD, historically).
 	 *
-	 * 此实现将根据spring-beans的xsd解析bean定义。
-	 *
 	 * <p>Opens a DOM Document; then initializes the default settings
 	 * specified at the {@code <beans/>} level; then parses the contained bean definitions.
-	 *
-	 * 打开一个文档对象模型文档；初始化在beans标签里指定的默认设置；然后解析包含的bean定义。
 	 */
 	@Override
 	public void registerBeanDefinitions(Document doc, XmlReaderContext readerContext) {
@@ -111,8 +101,6 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 	/**
 	 * Return the descriptor for the XML resource that this parser works on.
-	 *
-	 * 返回此解析器工作的可扩展标记语言资源的描述符。
 	 */
 	protected final XmlReaderContext getReaderContext() {
 		Assert.state(this.readerContext != null, "No XmlReaderContext available");
@@ -131,8 +119,6 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 	/**
 	 * Register each bean definition within the given root {@code <beans/>} element.
-	 *
-	 * 在给定的根元素里，注册每个Bean定义。
 	 */
 	@SuppressWarnings("deprecation")  // for Environment.acceptsProfiles(String...)
 	protected void doRegisterBeanDefinitions(Element root) {
@@ -203,8 +189,6 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 * Parse the elements at the root level in the document:
 	 * "import", "alias", "bean".
 	 *
-	 * 在文档里的根级别解析元素：“import”，“alias”，“bean”。
-	 *
 	 * @param root the DOM root element of the document
 	 */
 	protected void parseBeanDefinitions(Element root, BeanDefinitionParserDelegate delegate) {
@@ -240,12 +224,6 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		}
 	}
 
-	/**
-	 * 默认bean定义文档阅读器解析默认元素
-	 *
-	 * @param ele 元素
-	 * @param delegate bean定义解析器代理
-	 */
 	private void parseDefaultElement(Element ele, BeanDefinitionParserDelegate delegate) {
 		// 暂不研究对import结点的解析逻辑
 		if (delegate.nodeNameEquals(ele, IMPORT_ELEMENT)) {
@@ -368,8 +346,6 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	/**
 	 * Process the given bean element, parsing the bean definition
 	 * and registering it with the registry.
-	 *
-	 * 处理给定的Bean元素，解析Bean定义并将其注册到注册表中。
 	 */
 	protected void processBeanDefinition(Element ele, BeanDefinitionParserDelegate delegate) {
 		// 代理解析一个入参Bean定义元素，获取Bean定义拥有者
@@ -401,17 +377,10 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 * before we start to process the bean definitions. This method is a natural
 	 * extension point for any other custom pre-processing of the XML.
 	 *
-	 * 在我们开始处理bean定义之前，允许通过首先处理任何自定义元素类型使得可扩展标记语言变得可扩展。
-	 * 此方法对于任何其他的可扩展标记语言的预处理是一个自然的扩展点。
-	 *
 	 * <p>The default implementation is empty. Subclasses can override this method to
 	 * convert custom elements into standard Spring bean definitions, for example.
 	 * Implementors have access to the parser's bean definition reader and the
 	 * underlying XML resource, through the corresponding accessors.
-	 *
-	 * 默认的实现是空的。
-	 * 子类可以覆写此方法以将自定义的元素转换为标准的spring bean定义，比如。
-	 * 实现器能访问解析器的bean定义和潜在的可扩展标记语言资源，通过对应的访问器。
 	 *
 	 * @see #getReaderContext()
 	 */

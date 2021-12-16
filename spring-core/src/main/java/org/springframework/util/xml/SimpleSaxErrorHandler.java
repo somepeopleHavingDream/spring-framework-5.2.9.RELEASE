@@ -31,16 +31,11 @@ import org.xml.sax.SAXParseException;
  */
 public class SimpleSaxErrorHandler implements ErrorHandler {
 
-	/**
-	 * 用于当前简单sax错误处理器的日志器
-	 */
 	private final Log logger;
 
 	/**
 	 * Create a new SimpleSaxErrorHandler for the given
 	 * Commons Logging logger instance.
-	 *
-	 * 为给定通用日志记录器实例创建一个新的简单sax错误处理器。
 	 */
 	public SimpleSaxErrorHandler(Log logger) {
 		this.logger = logger;

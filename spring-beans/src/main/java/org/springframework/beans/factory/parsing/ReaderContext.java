@@ -31,31 +31,16 @@ import org.springframework.lang.Nullable;
  */
 public class ReaderContext {
 
-	/**
-	 * 该阅读器上下文的资源
-	 */
 	private final Resource resource;
 
-	/**
-	 * 该阅读器上下文的问题报告器
-	 */
 	private final ProblemReporter problemReporter;
 
-	/**
-	 * 该阅读器上下文的阅读器事件监听器
-	 */
 	private final ReaderEventListener eventListener;
 
-	/**
-	 * 该阅读器上下文的源提取器
-	 */
 	private final SourceExtractor sourceExtractor;
-
 
 	/**
 	 * Construct a new {@code ReaderContext}.
-	 *
-	 * 构建新的阅读器上下文。
 	 *
 	 * @param resource the XML bean definition resource
 	 * @param problemReporter the problem reporter in use

@@ -72,9 +72,6 @@ public class DefaultResourceLoader implements ResourceLoader {
 	 * <p>ClassLoader access will happen using the thread context class loader
 	 * at the time of this ResourceLoader's initialization.
 	 *
-	 * 创建一个新的默认资源加载器。
-	 * 类加载器访问在资源加载器的初始化时将使用线程上下文加载器而发生。
-	 *
 	 * @see java.lang.Thread#getContextClassLoader()
 	 */
 	public DefaultResourceLoader() {

@@ -46,9 +46,6 @@ public class EncodedResource implements InputStreamSource {
 
 	private final Resource resource;
 
-	/**
-	 * 当前已编码资源的编码
-	 */
 	@Nullable
 	private final String encoding;
 
@@ -59,8 +56,6 @@ public class EncodedResource implements InputStreamSource {
 	/**
 	 * Create a new {@code EncodedResource} for the given {@code Resource},
 	 * not specifying an explicit encoding or {@code Charset}.
-	 *
-	 * 为给定资源创建一个新的已编码资源，而不指定一个显式的编码或字符集。
 	 *
 	 * @param resource the {@code Resource} to hold (never {@code null})
 	 */
@@ -91,13 +86,6 @@ public class EncodedResource implements InputStreamSource {
 		this(resource, null, charset);
 	}
 
-	/**
-	 * 已编码资源的构造方法
-	 *
-	 * @param resource 资源
-	 * @param encoding 编码
-	 * @param charset 字符集
-	 */
 	private EncodedResource(Resource resource, @Nullable String encoding, @Nullable Charset charset) {
 		super();
 

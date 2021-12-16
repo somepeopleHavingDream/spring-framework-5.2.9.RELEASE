@@ -33,8 +33,6 @@ public interface DocumentLoader {
 	/**
 	 * Load a {@link Document document} from the supplied {@link InputSource source}.
 	 *
-	 * 从给定输入源中加载文档。
-	 *
 	 * @param inputSource the source of the document that is to be loaded
 	 * @param entityResolver the resolver that is to be used to resolve any entities
 	 * @param errorHandler used to report any errors during document loading
