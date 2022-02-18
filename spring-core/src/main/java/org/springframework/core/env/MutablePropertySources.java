@@ -46,8 +46,6 @@ public class MutablePropertySources implements PropertySources {
 
 	/**
 	 * Create a new {@link MutablePropertySources} object.
-	 *
-	 * 创建一个新的可变属性源对象。
 	 */
 	public MutablePropertySources() {
 	}

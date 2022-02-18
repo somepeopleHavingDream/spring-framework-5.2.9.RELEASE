@@ -178,11 +178,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 
 	/** Logger used by this class. Available to subclasses. */
-	// 被此类使用的日志器。对子类也可用。
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	/** Unique id for this context, if any. */
-	// 用于此上下文的唯一Id，如果存在的话。
 	private String id = ObjectUtils.identityToString(this);
 
 	/** Display name. */
@@ -199,25 +197,19 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	private ConfigurableEnvironment environment;
 
 	/** BeanFactoryPostProcessors to apply on refresh.
-	 *
-	 * 在再刷新中将被应用的Bean工厂后置处理器。
 	 * */
 	private final List<BeanFactoryPostProcessor> beanFactoryPostProcessors = new ArrayList<>();
 
 	/** System time in milliseconds when this context started. */
-	// 当上下文启动时的毫秒级系统时间
 	private long startupDate;
 
 	/** Flag that indicates whether this context is currently active. */
-	// 标志此上下文当前是否活跃的标记。
 	private final AtomicBoolean active = new AtomicBoolean();
 
 	/** Flag that indicates whether this context has been closed already. */
-	// 标志此上下文是否已经被关闭的标记。
 	private final AtomicBoolean closed = new AtomicBoolean();
 
 	/** Synchronization monitor for the "refresh" and "destroy". */
-	// 用户“刷新”和“销毁”的同步监视器。
 	private final Object startupShutdownMonitor = new Object();
 
 	/** Reference to the JVM shutdown hook, if registered. */
@@ -243,7 +235,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	private final Set<ApplicationListener<?>> applicationListeners = new LinkedHashSet<>();
 
 	/** Local listeners registered before refresh. */
-	// 在刷新之前注册的本地监听器
 	@Nullable
 	private Set<ApplicationListener<?>> earlyApplicationListeners;
 
@@ -290,6 +281,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	@Override
 	public String getId() {
+		// 返回当前应用上下文的Id
 		return this.id;
 	}
 
@@ -327,6 +319,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Override
 	@Nullable
 	public ApplicationContext getParent() {
+		// 返回此应用上下文的父类应用上下文
 		return this.parent;
 	}
 
@@ -351,13 +344,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	@Override
 	public ConfigurableEnvironment getEnvironment() {
-		// 如果此实例的环境为空，则创建环境
+		// 如果此应用上下文的环境为空，则创建环境
 		if (this.environment == null) {
-			// 创建并设置环境
+			// 创建并设值当前应用上下文的环境
 			this.environment = createEnvironment();
 		}
 
-		// 返回此实例的环境
+		// 返回此应用上下文的环境
 		return this.environment;
 	}
 
@@ -367,6 +360,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * a custom {@link ConfigurableEnvironment} implementation.
 	 */
 	protected ConfigurableEnvironment createEnvironment() {
+		// 实例化并返回标准环境
 		return new StandardEnvironment();
 	}
 
@@ -658,12 +652,18 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void prepareRefresh() {
 		// Switch to active.
 		// 切换到活跃状态
+		// 设值当前应用上下文的开启时间
 		this.startupDate = System.currentTimeMillis();
+		// 修改当前应用上下文的关闭状态为假
 		this.closed.set(false);
+		// 修改当前应用上下文的活跃状态为真
 		this.active.set(true);
 
-		// 日志操作
+		// 日志操作，判断当前日志器级别
 		if (logger.isDebugEnabled()) {
+			/*
+				以下不细究
+			 */
 			if (logger.isTraceEnabled()) {
 				logger.trace("Refreshing " + this);
 			}
@@ -680,18 +680,22 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// see ConfigurablePropertyResolver#setRequiredProperties
 		// 验证所有被标记为需要的属性都是可解析的：
 		// 看ConfigurablePropertyResolver#setRequiredProperties
+
+		// 拿到当前应用上下文的环境，校验必须的属性
 		getEnvironment().validateRequiredProperties();
 
 		// Store pre-refresh ApplicationListeners...
 		// 存储预刷新的应用监听器
+		// 如果之前的应用监听器集为空
 		if (this.earlyApplicationListeners == null) {
-			// 如果之前的应用监听器集为空，则新创建一个上下文监听器集，并把此上下文监听器放入其中
+			// 设值之前的应用监听器集
 			this.earlyApplicationListeners = new LinkedHashSet<>(this.applicationListeners);
 		}
 		else {
-			// 如果之前的上下文监听器集不为空
+			/*
+				以下不细究
+			 */
 			// Reset local application listeners to pre-refresh state.
-			// 重新设置本地应用监听器为预刷新状态
 			this.applicationListeners.clear();
 			this.applicationListeners.addAll(this.earlyApplicationListeners);
 		}
@@ -699,6 +703,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Allow for the collection of early ApplicationEvents,
 		// to be published once the multicaster is available...
 		// 允许收集之前的应用事件，一旦多播器可用则事件将被推送……
+
+		// 设值当前应用上下文的之前应用事件
 		this.earlyApplicationEvents = new LinkedHashSet<>();
 	}
 
@@ -1447,8 +1453,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	@Nullable
 	protected BeanFactory getInternalParentBeanFactory() {
-		// 如果父类上下文实例是可配置应用上下文实例，则将此父类上下文实例强转为可配置应用上下文实例后再调用获得Bean工厂方法，
-		// 否则，直接调用获取应用上下文的方法。
+		// 如果父类应用上下文实例是可配置应用上下文实例，则将此父类应用上下文实例强转为可配置应用上下文实例后再调用获得Bean工厂方法，
+		// 否则，直接调用获取父类应用上下文的方法。
 		return (getParent() instanceof ConfigurableApplicationContext ?
 				((ConfigurableApplicationContext) getParent()).getBeanFactory() : getParent());
 	}
@@ -1503,6 +1509,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	@Override
 	public Resource[] getResources(String locationPattern) throws IOException {
+		// 通过当前应用上下文的资源模式解析器，去获得入参路径模式下的所有资源
 		return this.resourcePatternResolver.getResources(locationPattern);
 	}
 

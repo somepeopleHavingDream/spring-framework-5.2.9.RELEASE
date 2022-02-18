@@ -143,6 +143,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * in the form of a BeanDefinitionRegistry
 	 */
 	public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
+		// 调用父类的构造方法
 		super(registry);
 	}
 
@@ -155,6 +156,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see #setNamespaceAware
 	 */
 	public void setValidating(boolean validating) {
+		// 设值当前可扩展标记语言bean定义阅读器的校验模式和命名空间感知
 		this.validationMode = (validating ? VALIDATION_AUTO : VALIDATION_NONE);
 		this.namespaceAware = !validating;
 	}

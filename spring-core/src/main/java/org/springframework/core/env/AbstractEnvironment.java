@@ -107,14 +107,8 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 
 	private final Set<String> defaultProfiles = new LinkedHashSet<>(getReservedDefaultProfiles());
 
-	/**
-	 * 用于该环境的可变的属性源
-	 */
 	private final MutablePropertySources propertySources = new MutablePropertySources();
 
-	/**
-	 * 用于该环境的可配置属性解析者
-	 */
 	private final ConfigurablePropertyResolver propertyResolver =
 			new PropertySourcesPropertyResolver(this.propertySources);
 
@@ -522,6 +516,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 
 	@Override
 	public void validateRequiredProperties() throws MissingRequiredPropertiesException {
+		// 通过当前环境的属性解析器，校验必须的属性
 		this.propertyResolver.validateRequiredProperties();
 	}
 

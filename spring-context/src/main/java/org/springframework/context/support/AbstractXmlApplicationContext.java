@@ -93,7 +93,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 		// Configure the bean definition reader with this context's
 		// resource loading environment.
 		// 用此上下文的资源加载环境配置Bean定义阅读器
-		// 给bean定义阅读器设置环境、资源加载器、资源实体解析器
+		// 给bean定义阅读器设置环境（当前可扩展标记语言应用上下文的环境）、资源加载器（当前可扩展标记语言应用上下文）、资源实体解析器
 		beanDefinitionReader.setEnvironment(this.getEnvironment());
 		beanDefinitionReader.setResourceLoader(this);
 		beanDefinitionReader.setEntityResolver(new ResourceEntityResolver(this));
@@ -103,7 +103,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 		// 允许子类去提供阅读器的定制初始化，然后实际地加载bean定义来处理
 		// 初始化Bean定义阅读器
 		initBeanDefinitionReader(beanDefinitionReader);
-		// 加载Bean定义
+		// 使用bean定义阅读器来加载当前可扩展标记语言应用上下文的Bean定义
 		loadBeanDefinitions(beanDefinitionReader);
 	}
 
@@ -142,14 +142,13 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 			/*
 				以下不细究
 			 */
-			// 如果配置资源不为null，则入参可扩展标记语言Bean定义阅读器加载配置资源的Bean定义
 			reader.loadBeanDefinitions(configResources);
 		}
 
 		// 获得配置路径
 		String[] configLocations = getConfigLocations();
 		if (configLocations != null) {
-			// 如果配置路径不为null，则从配置路径中加载Bean定义
+			// 如果配置路径不为null，则阅读器从配置路径中加载Bean定义
 			reader.loadBeanDefinitions(configLocations);
 		}
 	}

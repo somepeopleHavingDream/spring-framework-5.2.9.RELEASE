@@ -74,8 +74,6 @@ public class AntPathMatcher implements PathMatcher {
 
 	/**
 	 * Default path separator: "/".
-	 *
-	 * 默认路径分隔符："/"
 	 */
 	public static final String DEFAULT_PATH_SEPARATOR = "/";
 
@@ -106,11 +104,9 @@ public class AntPathMatcher implements PathMatcher {
 
 	/**
 	 * Create a new instance with the {@link #DEFAULT_PATH_SEPARATOR}.
-	 *
-	 * 用给定路径分隔符创建一个新实例。
 	 */
 	public AntPathMatcher() {
-		// 设置路径分隔符、路径分隔符模式缓存
+		// 设值当前蚂蚁路径匹配器的路径分隔符、路径分隔符模式缓存
 		this.pathSeparator = DEFAULT_PATH_SEPARATOR;
 		this.pathSeparatorPatternCache = new PathSeparatorPatternCache(DEFAULT_PATH_SEPARATOR);
 	}
@@ -929,8 +925,6 @@ public class AntPathMatcher implements PathMatcher {
 
 	/**
 	 * A simple cache for patterns that depend on the configured path separator.
-	 *
-	 * 模式的简单缓存，该模式依赖于已配置的路径分隔符。
 	 */
 	private static class PathSeparatorPatternCache {
 
@@ -939,6 +933,7 @@ public class AntPathMatcher implements PathMatcher {
 		private final String endsOnDoubleWildCard;
 
 		public PathSeparatorPatternCache(String pathSeparator) {
+			// 设值当前路径分隔符模式缓存的单通配符结尾和双通配符结尾
 			this.endsOnWildCard = pathSeparator + "*";
 			this.endsOnDoubleWildCard = pathSeparator + "**";
 		}

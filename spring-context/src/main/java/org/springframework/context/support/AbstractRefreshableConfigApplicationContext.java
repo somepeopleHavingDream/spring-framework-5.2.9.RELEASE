@@ -111,7 +111,7 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 	 */
 	@Nullable
 	protected String[] getConfigLocations() {
-		// 如果当前实例的配置路径不为null，则返回当前配置路径，否则返回默认配置路径（默认配置路径则为null）
+		// 如果当前可刷新配置应用上下文的配置路径不为null，则返回当前可刷新配置应用上下文的配置路径，否则返回默认配置路径（默认配置路径则为null）
 		return (this.configLocations != null ? this.configLocations : getDefaultConfigLocations());
 	}
 

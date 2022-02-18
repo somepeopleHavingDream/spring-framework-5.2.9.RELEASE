@@ -84,6 +84,7 @@ public class PluggableSchemaResolver implements EntityResolver {
 	 * @see PropertiesLoaderUtils#loadAllProperties(String, ClassLoader)
 	 */
 	public PluggableSchemaResolver(@Nullable ClassLoader classLoader) {
+		// 设值当前可插拔模式解析器的类加载器和模式映射位置
 		this.classLoader = classLoader;
 		this.schemaMappingsLocation = DEFAULT_SCHEMA_MAPPINGS_LOCATION;
 	}

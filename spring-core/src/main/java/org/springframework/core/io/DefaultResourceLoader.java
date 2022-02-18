@@ -36,15 +36,9 @@ import org.springframework.util.StringUtils;
  * {@link org.springframework.context.support.AbstractApplicationContext}.
  * Can also be used standalone.
  *
- * ResourceLoader接口的默认实现。
- * 被ResourceEditor使用，并且作为基类服务于org.springframework.context.support.AbstractApplicationContext。
- * 能够被单独使用。
- *
  * <p>Will return a {@link UrlResource} if the location value is a URL,
  * and a {@link ClassPathResource} if it is a non-URL path or a
  * "classpath:" pseudo-URL.
- *
- * 如果地址值是一个URL，它将返回UrlResource，如果地址是非url路径或者以“classpath:”开头的伪url，它将返回ClassPathResource。
  *
  * @author Juergen Hoeller
  * @since 10.03.2004
@@ -53,15 +47,9 @@ import org.springframework.util.StringUtils;
  */
 public class DefaultResourceLoader implements ResourceLoader {
 
-	/**
-	 * 用于此默认资源加载器的类加载器
-	 */
 	@Nullable
 	private ClassLoader classLoader;
 
-	/**
-	 * 用于此默认资源加载器的协议解析器
-	 */
 	private final Set<ProtocolResolver> protocolResolvers = new LinkedHashSet<>(4);
 
 	private final Map<Class<?>, Map<Resource, ?>> resourceCaches = new ConcurrentHashMap<>(4);
@@ -75,7 +63,7 @@ public class DefaultResourceLoader implements ResourceLoader {
 	 * @see java.lang.Thread#getContextClassLoader()
 	 */
 	public DefaultResourceLoader() {
-		// 获得并设置类加载器
+		// 获得并设置当前默认资源加载器的类加载器
 		this.classLoader = ClassUtils.getDefaultClassLoader();
 	}
 
@@ -133,10 +121,10 @@ public class DefaultResourceLoader implements ResourceLoader {
 	 * Return the collection of currently registered protocol resolvers,
 	 * allowing for introspection as well as modification.
 	 *
-	 * 返回当前已注册的协议解析器集，以允许内省和修改。
 	 * @since 4.3
 	 */
 	public Collection<ProtocolResolver> getProtocolResolvers() {
+		// 返回当前默认资源加载器的协议解析器
 		return this.protocolResolvers;
 	}
 
@@ -163,10 +151,10 @@ public class DefaultResourceLoader implements ResourceLoader {
 
 	@Override
 	public Resource getResource(String location) {
-		// 断言，路径必不为空
+		// 断言，路径不为null
 		Assert.notNull(location, "Location must not be null");
 
-		// 获得所有协议解析器，只要有一个协议解析器能从该入参路径中解析出资源，则直接返回该资源
+		// 获得当前默认资源加载器的所有协议解析器
 		for (ProtocolResolver protocolResolver : getProtocolResolvers()) {
 			/*
 				以下不细究
@@ -179,7 +167,7 @@ public class DefaultResourceLoader implements ResourceLoader {
 
 		// 如果路径以“/”开头
 		if (location.startsWith("/")) {
-			// 通过路径获得资源
+			// 以下不细究
 			return getResourceByPath(location);
 		}
 		// 如果路径以“classpath”开头
@@ -188,9 +176,6 @@ public class DefaultResourceLoader implements ResourceLoader {
 			return new ClassPathResource(location.substring(CLASSPATH_URL_PREFIX.length()), getClassLoader());
 		}
 		else {
-			/*
-				以下不细究
-			 */
 			try {
 				// Try to parse the location as a URL...
 				// 尝试将路径解析为一个统一资源定位地址

@@ -83,7 +83,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	 * @see #setEnvironment
 	 */
 	protected AbstractBeanDefinitionReader(BeanDefinitionRegistry registry) {
-		// 断言入参Bean定义注册表不为空，若为空则抛出异常，异常描述为：Bean定义注册表必须不为空。
+		// 断言入参Bean定义注册表不为空，若为null则抛出异常，异常描述为：Bean定义注册表必须不为null。
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
 		// 将入参注册表设置为此实例的注册表
 		this.registry = registry;
@@ -95,11 +95,10 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 			/*
 				以下不细究
 			 */
-			// 则将入参注册表强转为资源加载器类型后赋值给此资源加载器成员变量
 			this.resourceLoader = (ResourceLoader) this.registry;
 		}
 		else {
-			// 否则，将路径匹配资源模式解析器赋值给此资源加载器成员变量
+			// 否则，将当前bean定义阅读器的资源加载器设值为路劲匹配资源模式解析器
 			this.resourceLoader = new PathMatchingResourcePatternResolver();
 		}
 
@@ -110,7 +109,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 			this.environment = ((EnvironmentCapable) this.registry).getEnvironment();
 		}
 		else {
-			// 设置环境
+			// 设值当前bean定义阅读器的环境
 			this.environment = new StandardEnvironment();
 		}
 	}
@@ -143,6 +142,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	@Override
 	@Nullable
 	public ResourceLoader getResourceLoader() {
+		// 返回当前bean定义阅读器的资源加载器
 		return this.resourceLoader;
 	}
 
@@ -232,15 +232,16 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	 * @see #loadBeanDefinitions(org.springframework.core.io.Resource[])
 	 */
 	public int loadBeanDefinitions(String location, @Nullable Set<Resource> actualResources) throws BeanDefinitionStoreException {
-		// 获得资源加载器，如果资源加载器为null，则抛出Bean定义存储异常
+		// 获得当前bean定义阅读器的资源加载器
 		ResourceLoader resourceLoader = getResourceLoader();
+		// 如果资源加载器为null
 		if (resourceLoader == null) {
 			// 以下不细究
 			throw new BeanDefinitionStoreException(
 					"Cannot load bean definitions from location [" + location + "]: no ResourceLoader available");
 		}
 
-		// 如果该资源加载器实例属于资源模式解析器
+		// 如果该资源加载器实例是资源模式解析器的实例
 		if (resourceLoader instanceof ResourcePatternResolver) {
 			// Resource pattern matching available.
 			// 资源模式匹配可用。
@@ -266,12 +267,8 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 			/*
 				以下不细究
 			 */
-
-			// 如果该资源加载器实例不属于资源模式解析器，属于其他
 			// Can only load single resources by absolute URL.
-			// 仅能通过完整统一资源定位符加载单个资源。
 			Resource resource = resourceLoader.getResource(location);
-			// 在此资源中加载bean定义
 			int count = loadBeanDefinitions(resource);
 			if (actualResources != null) {
 				actualResources.add(resource);

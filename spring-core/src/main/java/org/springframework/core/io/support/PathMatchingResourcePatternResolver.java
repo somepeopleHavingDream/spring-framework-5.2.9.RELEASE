@@ -200,14 +200,8 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 		}
 	}
 
-	/**
-	 * 资源加载器
-	 */
 	private final ResourceLoader resourceLoader;
 
-	/**
-	 * 用于此路径匹配资源模式解析器的路径匹配器
-	 */
 	private PathMatcher pathMatcher = new AntPathMatcher();
 
 
@@ -218,7 +212,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	 * @see org.springframework.core.io.DefaultResourceLoader
 	 */
 	public PathMatchingResourcePatternResolver() {
-		// 生成默认资源加载器
+		// 为当前路径匹配资源模式解析器的资源加载器设值
 		this.resourceLoader = new DefaultResourceLoader();
 	}
 
@@ -249,10 +243,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 
 	/**
 	 * Return the ResourceLoader that this pattern resolver works with.
-	 *
-	 * 返回与此模式解析器工作的资源加载器。
 	 */
 	public ResourceLoader getResourceLoader() {
+		// 返回当前路径匹配资源模式解析器的资源加载器
 		return this.resourceLoader;
 	}
 
@@ -274,10 +267,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 
 	/**
 	 * Return the PathMatcher that this resource pattern resolver uses.
-	 *
-	 * 返回该路径匹配资源模式解析器使用的路径匹配器。
 	 */
 	public PathMatcher getPathMatcher() {
+		// 返回当前路径匹配资源模式解析器的路径匹配器
 		return this.pathMatcher;
 	}
 
@@ -298,16 +290,12 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 				以下不细究
 			*/
 			// a class path resource (multiple resources for same name possible)
-			// 一个类路径资源（多个资源可能有相同的名字）
-			// 获得路径匹配器，用该路径匹配器判断该入参路径模式前缀是不是一个模式
 			if (getPathMatcher().isPattern(locationPattern.substring(CLASSPATH_ALL_URL_PREFIX.length()))) {
 				// a class path resource pattern
-				// 如果该入参路径模式前缀是一个模式，则找到路径匹配资源（暂时不研究）
 				return findPathMatchingResources(locationPattern);
 			}
 			else {
 				// all class path resources with the given name
-				// 给定名字的所有类路径资源
 				return findAllClassPathResources(locationPattern.substring(CLASSPATH_ALL_URL_PREFIX.length()));
 			}
 		}
@@ -319,7 +307,7 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 			int prefixEnd = (locationPattern.startsWith("war:") ? locationPattern.indexOf("*/") + 1 :
 					locationPattern.indexOf(':') + 1);
 
-			// 如果子串是个模式（文件模式）
+			// 获得当前路径匹配资源模式解析器的路径匹配器，用以检查路径是否是“模式”
 			if (getPathMatcher().isPattern(locationPattern.substring(prefixEnd))) {
 				/*
 					以下不细究
