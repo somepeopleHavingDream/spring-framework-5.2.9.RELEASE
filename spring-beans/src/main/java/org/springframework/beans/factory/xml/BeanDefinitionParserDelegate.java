@@ -245,7 +245,10 @@ public class BeanDefinitionParserDelegate {
 	 * {@link XmlReaderContext}.
 	 */
 	public BeanDefinitionParserDelegate(XmlReaderContext readerContext) {
+		// 断言：入参阅读器上下文必不为null
 		Assert.notNull(readerContext, "XmlReaderContext must not be null");
+
+		// 设值当前bean定义解析器代理的阅读器上下文
 		this.readerContext = readerContext;
 	}
 
@@ -307,6 +310,7 @@ public class BeanDefinitionParserDelegate {
 	public void initDefaults(Element root, @Nullable BeanDefinitionParserDelegate parent) {
 		// 填充默认值
 		populateDefaults(this.defaults, (parent != null ? parent.defaults : null), root);
+		// 当前bean定义解析器代理的阅读器上下文触发注册默认事件
 		this.readerContext.fireDefaultsRegistered(this.defaults);
 	}
 
@@ -455,7 +459,6 @@ public class BeanDefinitionParserDelegate {
 			/*
 				以下不细究
 			 */
-			// 若代码执行到这，说明当前xml元素无id属性值，在此使用第一个别名作为该bean的bean名称
 			beanName = aliases.remove(0);
 			if (logger.isTraceEnabled()) {
 				logger.trace("No XML 'id' specified - using '" + beanName +
@@ -520,20 +523,23 @@ public class BeanDefinitionParserDelegate {
 	/**
 	 * Validate that the specified bean name and aliases have not been used already
 	 * within the current level of beans element nesting.
-	 *
-	 * 校验给定的bean名和别名是否还未在beans的嵌套元素的当前级别中被使用。
 	 */
 	protected void checkNameUniqueness(String beanName, List<String> aliases, Element beanElement) {
 		String foundName = null;
 
+		// 如果入参bean名是字符串，并且入参bean名已经被使用了
 		if (StringUtils.hasText(beanName) && this.usedNames.contains(beanName)) {
 			// 不细究
 			foundName = beanName;
 		}
+
+		// 如果入参bean名没有被使用
 		if (foundName == null) {
 			// 从已使用的bean名中找到是否有给定别名
 			foundName = CollectionUtils.findFirstMatch(this.usedNames, aliases);
 		}
+
+		// 如果入参bean名没有被使用
 		if (foundName != null) {
 			// 不细究
 			error("Bean name '" + foundName + "' is already used in this <beans> element", beanElement);
@@ -574,12 +580,14 @@ public class BeanDefinitionParserDelegate {
 
 			// 解析并设置Bean定义属性
 			parseBeanDefinitionAttributes(ele, beanName, containingBean, bd);
-			// 设置描述属性
+			// 设置bean定义的描述属性
 			bd.setDescription(DomUtils.getChildElementValueByTagName(ele, DESCRIPTION_ELEMENT));
 
 			// 解析元元素
 			// 以下方法暂不细究
+			// 解析元元素
 			parseMetaElements(ele, bd);
+			// 解析查找覆盖子元素
 			parseLookupOverrideSubElements(ele, bd.getMethodOverrides());
 			parseReplacedMethodSubElements(ele, bd.getMethodOverrides());
 
@@ -626,7 +634,7 @@ public class BeanDefinitionParserDelegate {
 		}
 		// 如果该元素有scope属性
 		else if (ele.hasAttribute(SCOPE_ATTRIBUTE)) {
-			// 为入参Bean定义设置该元素的scope属性值
+			// 为入参Bean定义设置该元素的范围属性值
 			bd.setScope(ele.getAttribute(SCOPE_ATTRIBUTE));
 		}
 		else if (containingBean != null) {
@@ -721,15 +729,13 @@ public class BeanDefinitionParserDelegate {
 	 */
 	protected AbstractBeanDefinition createBeanDefinition(@Nullable String className, @Nullable String parentName)
 			throws ClassNotFoundException {
-		// 根据parentName和类名、阅读器上下文的Bean类加载器，创建Bean定义
+		// 通过bean定义阅读器工具类来创建bean定义
 		return BeanDefinitionReaderUtils.createBeanDefinition(
 				parentName, className, this.readerContext.getBeanClassLoader());
 	}
 
 	/**
 	 * Parse the meta elements underneath the given element, if any.
-	 *
-	 * 解析给定元素下的元元素，如果存在的话。
 	 */
 	public void parseMetaElements(Element ele, BeanMetadataAttributeAccessor attributeAccessor) {
 		NodeList nl = ele.getChildNodes();
@@ -738,6 +744,9 @@ public class BeanDefinitionParserDelegate {
 
 			// 如果该节点是候补元素，并且节点名是meta
 			if (isCandidateElement(node) && nodeNameEquals(node, META_ELEMENT)) {
+				/*
+					以下不细究
+				 */
 				Element metaElement = (Element) node;
 				String key = metaElement.getAttribute(KEY_ATTRIBUTE);
 				String value = metaElement.getAttribute(VALUE_ATTRIBUTE);
@@ -822,6 +831,9 @@ public class BeanDefinitionParserDelegate {
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node node = nl.item(i);
 			if (isCandidateElement(node) && nodeNameEquals(node, LOOKUP_METHOD_ELEMENT)) {
+				/*
+					以下不细究
+				 */
 				Element ele = (Element) node;
 				String methodName = ele.getAttribute(NAME_ATTRIBUTE);
 				String beanRef = ele.getAttribute(BEAN_ELEMENT);
@@ -1583,6 +1595,7 @@ public class BeanDefinitionParserDelegate {
 	 */
 	@Nullable
 	public String getNamespaceURI(Node node) {
+		// 返回入参结点的命名空间统一资源标识符
 		return node.getNamespaceURI();
 	}
 
@@ -1612,10 +1625,9 @@ public class BeanDefinitionParserDelegate {
 
 	/**
 	 * Determine whether the given URI indicates the default namespace.
-	 *
-	 * 确定给定的统一资源标识符是否指示默认的命名空间。
 	 */
 	public boolean isDefaultNamespace(@Nullable String namespaceUri) {
+		// 确定给定的统一资源标识符是否指示默认的命名空间
 		return !StringUtils.hasLength(namespaceUri) || BEANS_NAMESPACE_URI.equals(namespaceUri);
 	}
 
@@ -1632,6 +1644,11 @@ public class BeanDefinitionParserDelegate {
 	}
 
 	private boolean isCandidateElement(Node node) {
+		/*
+			如果符合以下条件，则返回真
+			1 入参结点是元素实例
+			2 入参结点不在默认的命名空间，或者入参结点的父结点不在默认的命名空间里
+		 */
 		return (node instanceof Element && (isDefaultNamespace(node) || !isDefaultNamespace(node.getParentNode())));
 	}
 

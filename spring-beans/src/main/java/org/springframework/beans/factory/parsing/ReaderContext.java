@@ -157,7 +157,7 @@ public class ReaderContext {
 	 * Fire a defaults-registered event.
 	 */
 	public void fireDefaultsRegistered(DefaultsDefinition defaultsDefinition) {
-		// 向事件监听器注册默认定义
+		// 向当前阅读器上下文的事件监听器注册默认定义
 		this.eventListener.defaultsRegistered(defaultsDefinition);
 	}
 

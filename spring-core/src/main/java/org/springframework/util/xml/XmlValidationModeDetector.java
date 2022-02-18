@@ -86,9 +86,6 @@ public class XmlValidationModeDetector {
 	 * Detect the validation mode for the XML document in the supplied {@link InputStream}.
 	 * Note that the supplied {@link InputStream} is closed by this method before returning.
 	 *
-	 * 在给定输入流里侦测可扩展标记语言文档的校验模式。
-	 * 注意：提供的输入流在返回之前被此方法关闭。
-	 *
 	 * @param inputStream the InputStream to parse
 	 * @throws IOException in case of I/O failure
 	 * @see #VALIDATION_DTD

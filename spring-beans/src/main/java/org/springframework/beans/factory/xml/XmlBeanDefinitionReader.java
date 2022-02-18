@@ -183,6 +183,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * Return the validation mode to use.
 	 */
 	public int getValidationMode() {
+		// 返回当前可扩展标记语言bean定义阅读器的校验模式
 		return this.validationMode;
 	}
 
@@ -199,10 +200,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Return whether or not the XML parser should be XML namespace aware.
-	 *
-	 * 返回是否可扩展标记语言解析器应该是可扩展标记语言命名空间感知。
 	 */
 	public boolean isNamespaceAware() {
+		// 返回当前可扩展标记语言bean定义阅读器是否是命名空间感知的
 		return this.namespaceAware;
 	}
 
@@ -258,12 +258,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * Set a SAX entity resolver to be used for parsing.
 	 * <p>By default, {@link ResourceEntityResolver} will be used. Can be overridden
 	 * for custom entity resolution, for example relative to some specific base path.
-	 *
-	 * 设置将被用于解析的SAX实体解析器。
-	 * 默认的，资源实体解析器将被使用。
-	 * 能被覆写以用于自定义的实体解析，比如相对于一些指定的基路径。
 	 */
 	public void setEntityResolver(@Nullable EntityResolver entityResolver) {
+		// 设值当前可扩展标记语言bean定义阅读器的实体解析器
 		this.entityResolver = entityResolver;
 	}
 
@@ -272,22 +269,17 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * if none specified.
 	 */
 	protected EntityResolver getEntityResolver() {
-		// 如果实体解析器为null
+		// 如果当前可扩展标记语言Bean定义阅读器的实体解析器为null
 		if (this.entityResolver == null) {
 			/*
 				以下不细究
 			 */
 			// Determine default EntityResolver to use.
-			// 决定将要使用的默认实体解析器。
-
-			// 获得资源加载器
 			ResourceLoader resourceLoader = getResourceLoader();
 			if (resourceLoader != null) {
-				// 如果资源加载器不为null，则使用资源实体解析器
 				this.entityResolver = new ResourceEntityResolver(resourceLoader);
 			}
 			else {
-				// 如果资源加载器为null，则使用委托实体解析器
 				this.entityResolver = new DelegatingEntityResolver(getBeanClassLoader());
 			}
 		}
@@ -343,14 +335,16 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	public int loadBeanDefinitions(EncodedResource encodedResource) throws BeanDefinitionStoreException {
 		// 断言入参已加载资源实例不为null
 		Assert.notNull(encodedResource, "EncodedResource must not be null");
+		// 如果日志器是trace级别
 		if (logger.isTraceEnabled()) {
+			// 不细究
 			logger.trace("Loading XML bean definitions from " + encodedResource);
 		}
 
 		// 获得当前正在被加载的资源集合
 		Set<EncodedResource> currentResources = this.resourcesCurrentlyBeingLoaded.get();
 
-		// 将入参已编码资源对象添加进当前正在被加载的资源集合，如果加入集合失败，则抛出Bean定义存储异常
+		// 将入参已编码资源对象添加进当前正在被加载的资源集合
 		if (!currentResources.add(encodedResource)) {
 			// 以下不细究
 			throw new BeanDefinitionStoreException(
@@ -471,7 +465,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see DocumentLoader#loadDocument
 	 */
 	protected Document doLoadDocument(InputSource inputSource, Resource resource) throws Exception {
-		// 入参：输入源、实体解析器、错误处理器、校验模式、是否感知命名空间
+		// 入参：输入源、实体解析器、错误处理器、校验模式、是否感知命名空间，再使用当前可扩展标记语言bean定义阅读器的文档加载器加载文档
 		return this.documentLoader.loadDocument(inputSource, getEntityResolver(), this.errorHandler,
 				getValidationModeForResource(resource), isNamespaceAware());
 	}
@@ -482,10 +476,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * mode gets {@link #detectValidationMode detected} from the given resource.
 	 * <p>Override this method if you would like full control over the validation
 	 * mode, even when something other than {@link #VALIDATION_AUTO} was set.
-	 *
-	 * 为给定资源决定校验模式。
-	 * 如果没有显式的校验模式被配置，校验模式将从给定资源中获得。
-	 * 如果你想要完全地控制校验模式，就覆写此方法，即使当其他的一些东西被设置。
 	 *
 	 * @see #detectValidationMode
 	 */
@@ -500,8 +490,14 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 		// 侦测校验模式
 		int detectedMode = detectValidationMode(resource);
 		if (detectedMode != VALIDATION_AUTO) {
+			// 返回侦测模式
 			return detectedMode;
 		}
+
+		/*
+			以下不细究
+		 */
+
 		// Hmm, we didn't get a clear indication... Let's assume XSD,
 		// since apparently no DTD declaration has been found up until
 		// detection stopped (before finding the document's root tag).
@@ -514,10 +510,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * definition then DTD validation is used otherwise XSD validation is assumed.
 	 * <p>Override this method if you would like to customize resolution
 	 * of the {@link #VALIDATION_AUTO} mode.
-	 *
-	 * 在由提供资源所标识的可扩展标记语言文件上，侦测要执行哪种校验。
-	 * 如果文件有文档类型定义，DTD校验将被使用，否则XSD校验将被假定。
-	 * 如果你想自定义自动校验模式的解决方法，覆写此方法。
 	 */
 	protected int detectValidationMode(Resource resource) {
 		// 如果资源是打开的，则抛出异常
@@ -544,7 +536,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 		}
 
 		try {
-			// 校验模式侦测器侦测校验模式
+			// 使用当前可扩展标记语言bean定义阅读器的校验模式侦测器侦测校验模式
 			return this.validationModeDetector.detectValidationMode(inputStream);
 		}
 		catch (IOException ex) {
@@ -559,10 +551,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * Called by {@code loadBeanDefinitions}.
 	 * <p>Creates a new instance of the parser class and invokes
 	 * {@code registerBeanDefinitions} on it.
-	 *
-	 * 注册包含在给定文档对象模型文档里的bean定义。
-	 * 由加载bean定义调用。
-	 * 创建一个解析类实例，并且在其上面调用注册bean定义方法。
 	 *
 	 * @param doc the DOM document
 	 * @param resource the resource descriptor (for context information)
@@ -588,13 +576,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * reading bean definitions from an XML document.
 	 * <p>The default implementation instantiates the specified "documentReaderClass".
 	 *
-	 * 创建bean定义文档阅读器以用于实际地从一个可扩展标记语言文档里读bean定义。
-	 * 默认实现实例化给定的文档阅读器类。
-	 *
 	 * @see #setDocumentReaderClass
 	 */
 	protected BeanDefinitionDocumentReader createBeanDefinitionDocumentReader() {
-		// 实例化一个文档阅读器实例
+		// 实例化返回一个bean定义文档阅读器实例
 		return BeanUtils.instantiateClass(this.documentReaderClass);
 	}
 
@@ -610,15 +595,16 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/**
 	 * Lazily create a default NamespaceHandlerResolver, if not set before.
 	 *
-	 * 懒加载地创建默认命名空间处理者解析器，如果之前没有设置的话
-	 *
 	 * @see #createDefaultNamespaceHandlerResolver()
 	 */
 	public NamespaceHandlerResolver getNamespaceHandlerResolver() {
-		// 如果命名空间处理者解析器为null，则创建一个默认命名空间处理者解析器，并返回
+		// 如果当前可扩展标记语言的bean定义阅读器的命名空间处理者解析器为null
 		if (this.namespaceHandlerResolver == null) {
+			// 创建并设值当前可扩展标记语言bean定义阅读器的命名空间处理者解析器
 			this.namespaceHandlerResolver = createDefaultNamespaceHandlerResolver();
 		}
+
+		// 返回当前可扩展标记语言bean定义阅读器的命名空间处理者解析器
 		return this.namespaceHandlerResolver;
 	}
 
@@ -628,8 +614,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see DefaultNamespaceHandlerResolver#DefaultNamespaceHandlerResolver(ClassLoader)
 	 */
 	protected NamespaceHandlerResolver createDefaultNamespaceHandlerResolver() {
-		// 获得类加载器，如果资源类加载器不为null，则用资源类加载器，否则用Bean类加载器
+		// 获得类加载器，如果资源类加载器不为null，则用资源加载器的类加载器，否则用Bean类加载器
 		ClassLoader cl = (getResourceLoader() != null ? getResourceLoader().getClassLoader() : getBeanClassLoader());
+		// 实例化并返回默认命名空间处理者解析器
 		return new DefaultNamespaceHandlerResolver(cl);
 	}
 

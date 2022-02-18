@@ -44,6 +44,7 @@ public final class ParseState {
 	 * Create a new {@code ParseState} with an empty {@link ArrayDeque}.
 	 */
 	public ParseState() {
+		// 设值当前解析状态的状态成员变量
 		this.state = new ArrayDeque<>();
 	}
 

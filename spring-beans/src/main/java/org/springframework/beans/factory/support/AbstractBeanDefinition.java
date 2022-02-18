@@ -207,6 +207,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * Create a new AbstractBeanDefinition with default settings.
 	 */
 	protected AbstractBeanDefinition() {
+		// 调用本类的构造方法
 		this(null, null);
 	}
 
@@ -215,7 +216,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * constructor argument values and property values.
 	 */
 	protected AbstractBeanDefinition(@Nullable ConstructorArgumentValues cargs, @Nullable MutablePropertyValues pvs) {
-		// 设置该bean定义的构造器参数值和属性值
+		// 设值当前bean定义的构造器参数值和属性值
 		this.constructorArgumentValues = cargs;
 		this.propertyValues = pvs;
 	}
@@ -924,6 +925,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * <p>Never returns {@code null}.
 	 */
 	public MethodOverrides getMethodOverrides() {
+		// 返回当前bean定义的方法覆盖
 		return this.methodOverrides;
 	}
 

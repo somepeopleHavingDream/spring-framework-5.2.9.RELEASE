@@ -60,7 +60,7 @@ public abstract class BeanDefinitionReaderUtils {
 		// 实例化一个通用Bean定义
 		GenericBeanDefinition bd = new GenericBeanDefinition();
 
-		// 设置父类名（一般为null）
+		// 为通用bean定义设置父bean名
 		bd.setParentName(parentName);
 
 		// 如果类名不为null
@@ -71,7 +71,7 @@ public abstract class BeanDefinitionReaderUtils {
 				bd.setBeanClass(ClassUtils.forName(className, classLoader));
 			}
 			else {
-				// 设置该通用Bean定义的Bean类名
+				// 为通用bean定义设置bean类名
 				bd.setBeanClassName(className);
 			}
 		}

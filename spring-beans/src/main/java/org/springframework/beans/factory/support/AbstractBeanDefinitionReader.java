@@ -121,6 +121,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 
 	@Override
 	public final BeanDefinitionRegistry getRegistry() {
+		// 返回当前bean定义阅读器的注册表
 		return this.registry;
 	}
 

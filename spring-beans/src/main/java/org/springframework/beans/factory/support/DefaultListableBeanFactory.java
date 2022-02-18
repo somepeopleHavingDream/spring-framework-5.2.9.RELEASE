@@ -166,9 +166,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	/**
 	 * Map of bean definition objects, keyed by bean name.
-	 *
-	 * Bean定义对象的映射，以bean名为键。
-	 * 初始容量为256。
 	 * */
 	private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>(256);
 
@@ -478,6 +475,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Override
 	public int getBeanDefinitionCount() {
+		// 返回当前默认可列出bean工厂的bean定义映射数量
 		return this.beanDefinitionMap.size();
 	}
 

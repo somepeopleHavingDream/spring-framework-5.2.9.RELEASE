@@ -51,8 +51,6 @@ public class DefaultNamespaceHandlerResolver implements NamespaceHandlerResolver
 
 	/**
 	 * The location to look for the mapping files. Can be present in multiple JAR files.
-	 *
-	 * 查找映射文件的位置。能在多个Java归档资源文件中存在
 	 */
 	public static final String DEFAULT_HANDLER_MAPPINGS_LOCATION = "META-INF/spring.handlers";
 
@@ -91,6 +89,7 @@ public class DefaultNamespaceHandlerResolver implements NamespaceHandlerResolver
 	 * @see #DEFAULT_HANDLER_MAPPINGS_LOCATION
 	 */
 	public DefaultNamespaceHandlerResolver(@Nullable ClassLoader classLoader) {
+		// 调用本类的构造方法
 		this(classLoader, DEFAULT_HANDLER_MAPPINGS_LOCATION);
 	}
 
@@ -102,7 +101,10 @@ public class DefaultNamespaceHandlerResolver implements NamespaceHandlerResolver
 	 * @param handlerMappingsLocation the mapping file location
 	 */
 	public DefaultNamespaceHandlerResolver(@Nullable ClassLoader classLoader, String handlerMappingsLocation) {
+		// 断言：入参处理器映射地址必定不为null
 		Assert.notNull(handlerMappingsLocation, "Handler mappings location must not be null");
+
+		// 设值当前默认命名空间处理者解析器的类加载器和处理器映射地址
 		this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
 		this.handlerMappingsLocation = handlerMappingsLocation;
 	}

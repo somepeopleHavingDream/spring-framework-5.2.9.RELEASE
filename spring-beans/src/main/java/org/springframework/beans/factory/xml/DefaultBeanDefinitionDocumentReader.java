@@ -92,7 +92,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 */
 	@Override
 	public void registerBeanDefinitions(Document doc, XmlReaderContext readerContext) {
-		// 设置阅读器上下文
+		// 设值当前默认bean定义文档阅读器的阅读器上下文
 		this.readerContext = readerContext;
 
 		// 处理注册Bean定义，传入文档的根元素
@@ -103,7 +103,9 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 * Return the descriptor for the XML resource that this parser works on.
 	 */
 	protected final XmlReaderContext getReaderContext() {
+		// 断言：当前默认bean定义文档阅读器的阅读器上下文不为null
 		Assert.state(this.readerContext != null, "No XmlReaderContext available");
+		// 返回此默认bean定义文档阅读器的阅读器上下文
 		return this.readerContext;
 	}
 
@@ -131,7 +133,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 		// 获得父Bean定义解析器代理（一般为null）
 		BeanDefinitionParserDelegate parent = this.delegate;
-		// 创建一个基于当前阅读器上下文的新代理
+		// 创建一个基于当前阅读器上下文的新bean定义解析器代理
 		this.delegate = createDelegate(getReaderContext(), root, parent);
 
 		// 如果该代理是默认命名空间
@@ -198,7 +200,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 				if (node instanceof Element) {
 					Element ele = (Element) node;
 
-					// 如果当前结点处在默认命名空间里，则按默认方式解析当前元素
+					// 如果当前遍历结点处在默认命名空间里，则按默认方式解析当前元素
 					if (delegate.isDefaultNamespace(ele)) {
 						// 解析默认元素
 						parseDefaultElement(ele, delegate);
@@ -217,12 +219,12 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	}
 
 	private void parseDefaultElement(Element ele, BeanDefinitionParserDelegate delegate) {
-		// 暂不研究对import结点的解析逻辑
+		// 如果入参结点名为“import”
 		if (delegate.nodeNameEquals(ele, IMPORT_ELEMENT)) {
 			// 不细究
 			importBeanDefinitionResource(ele);
 		}
-		// 暂不研究对alias结点的解析逻辑
+		// 如果入参结点名为“alias”
 		else if (delegate.nodeNameEquals(ele, ALIAS_ELEMENT)) {
 			// 不细究
 			processAliasRegistration(ele);
@@ -231,7 +233,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 			// 处理Bean标签的结点
 			processBeanDefinition(ele, delegate);
 		}
-		// 暂不研究对beans结点的解析逻辑
+		// 如果入参结点名为“beans”
 		else if (delegate.nodeNameEquals(ele, NESTED_BEANS_ELEMENT)) {
 			// 不细究
 			// recurse

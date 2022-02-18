@@ -94,15 +94,25 @@ public abstract class DomUtils {
 	 */
 	@Nullable
 	public static Element getChildElementByTagName(Element ele, String childEleName) {
+		// 断言，入参元素和入参子元素名必不能为null
 		Assert.notNull(ele, "Element must not be null");
 		Assert.notNull(childEleName, "Element name must not be null");
+
+		// 获得入参元素的所有子结点
 		NodeList nl = ele.getChildNodes();
+		// 遍历所有子结点
 		for (int i = 0; i < nl.getLength(); i++) {
+			// 获得当前遍历结点
 			Node node = nl.item(i);
+
+			// 如果当前遍历结点是元素的实例，并且结点名匹配上了入参子元素结点名
 			if (node instanceof Element && nodeNameMatch(node, childEleName)) {
+				// 返回当前遍历结点
 				return (Element) node;
 			}
 		}
+
+		// 返回null
 		return null;
 	}
 
@@ -114,6 +124,7 @@ public abstract class DomUtils {
 	 */
 	@Nullable
 	public static String getChildElementValueByTagName(Element ele, String childEleName) {
+		// 通过标签名获得子元素
 		Element child = getChildElementByTagName(ele, childEleName);
 		return (child != null ? getTextValue(child) : null);
 	}
@@ -182,6 +193,7 @@ public abstract class DomUtils {
 	 * Matches the given node's name and local name against the given desired name.
 	 */
 	private static boolean nodeNameMatch(Node node, String desiredName) {
+		// 比对入参结点的结点名和本地名称
 		return (desiredName.equals(node.getNodeName()) || desiredName.equals(node.getLocalName()));
 	}
 

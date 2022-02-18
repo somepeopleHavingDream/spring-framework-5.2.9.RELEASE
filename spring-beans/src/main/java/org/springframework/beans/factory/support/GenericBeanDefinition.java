@@ -54,6 +54,7 @@ public class GenericBeanDefinition extends AbstractBeanDefinition {
 	 * @see #setPropertyValues
 	 */
 	public GenericBeanDefinition() {
+		// 调用父类的构造方法
 		super();
 	}
 
@@ -69,6 +70,7 @@ public class GenericBeanDefinition extends AbstractBeanDefinition {
 
 	@Override
 	public void setParentName(@Nullable String parentName) {
+		// 设值当前通用bean定义的父bean名
 		this.parentName = parentName;
 	}
 

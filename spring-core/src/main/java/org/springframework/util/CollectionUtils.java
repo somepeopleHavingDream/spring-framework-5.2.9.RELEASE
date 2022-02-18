@@ -188,10 +188,6 @@ public abstract class CollectionUtils {
 	 * '{@code source}' returns {@code null}. Iteration order is
 	 * {@link Collection} implementation specific.
 	 *
-	 * 返回包含在源里的候选者的第一个元素。
-	 * 如果源中没有候选元素，则返回null。
-	 * 迭代顺序取决于集合实现。
-	 *
 	 * @param source the source Collection
 	 * @param candidates the candidates to search for
 	 * @return the first present object, or {@code null} if not found

@@ -173,19 +173,18 @@ public class FileSystemXmlApplicationContext extends AbstractXmlApplicationConte
 	 * interpreted as relative to the current VM working directory.
 	 * This is consistent with the semantics in a Servlet container.
 	 *
-	 * 返回资源路径作为文件系统路径。
-	 * 注意：即使给定的路径以斜杠开头，它仍将解释为相对于当前虚拟机工作目录。
-	 * 这和在Servlet容器里的语意是一致的。
-	 *
 	 * @param path the path to the resource
 	 * @return the Resource handle
 	 * @see org.springframework.web.context.support.XmlWebApplicationContext#getResourceByPath
 	 */
 	@Override
 	protected Resource getResourceByPath(String path) {
+		// 如果入参路径以“/”开头
 		if (path.startsWith("/")) {
+			// 不细究
 			path = path.substring(1);
 		}
+
 		// 实例化并返回文件系统资源
 		return new FileSystemResource(path);
 	}

@@ -60,6 +60,7 @@ public class EncodedResource implements InputStreamSource {
 	 * @param resource the {@code Resource} to hold (never {@code null})
 	 */
 	public EncodedResource(Resource resource) {
+		// 调用本类的其他的构造方法
 		this(resource, null, null);
 	}
 
@@ -85,12 +86,13 @@ public class EncodedResource implements InputStreamSource {
 	}
 
 	private EncodedResource(Resource resource, @Nullable String encoding, @Nullable Charset charset) {
+		// 调用父类的构造方法
 		super();
 
 		// 断言入参资源必不为null
 		Assert.notNull(resource, "Resource must not be null");
 
-		// 设置资源、编码、字符集
+		// 设值当前已编码资源的资源、编码、字符集
 		this.resource = resource;
 		this.encoding = encoding;
 		this.charset = charset;
@@ -99,18 +101,15 @@ public class EncodedResource implements InputStreamSource {
 
 	/**
 	 * Return the {@code Resource} held by this {@code EncodedResource}.
-	 *
-	 * 返回被此已编码资源拥有的资源。
 	 */
 	public final Resource getResource() {
+		// 返回当前已编码资源的资源
 		return this.resource;
 	}
 
 	/**
 	 * Return the encoding to use for reading from the {@linkplain #getResource() resource},
 	 * or {@code null} if none specified.
-	 *
-	 * 返回要使用的编码，用于读取资源，或者如果没有指定的话则为null。
 	 */
 	@Nullable
 	public final String getEncoding() {

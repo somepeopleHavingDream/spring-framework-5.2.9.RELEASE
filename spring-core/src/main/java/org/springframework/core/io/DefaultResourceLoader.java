@@ -92,15 +92,12 @@ public class DefaultResourceLoader implements ResourceLoader {
 	 * <p>Will get passed to ClassPathResource's constructor for all
 	 * ClassPathResource objects created by this resource loader.
 	 *
-	 * 返回类加载器以加载类路径资源。
-	 * 将传递给由此资源加载器创造的所有类路径资源对象的类路径资源的构造器。
-	 *
 	 * @see ClassPathResource
 	 */
 	@Override
 	@Nullable
 	public ClassLoader getClassLoader() {
-		// 如果此实例的类加载器不为空，则返回，否则返回默认类加载器
+		// 如果此默认资源加载器的类加载器不为空，则返回，否则返回默认类加载器
 		return (this.classLoader != null ? this.classLoader : ClassUtils.getDefaultClassLoader());
 	}
 
@@ -180,7 +177,10 @@ public class DefaultResourceLoader implements ResourceLoader {
 				// Try to parse the location as a URL...
 				// 尝试将路径解析为一个统一资源定位地址
 				URL url = new URL(location);
-				// 根据该统一资源定位地址是文件统一资源定位地址还是普通资源定位地址，返回响应的资源实例
+
+				/*
+					以下不细究
+				 */
 				return (ResourceUtils.isFileURL(url) ? new FileUrlResource(url) : new UrlResource(url));
 			}
 			catch (MalformedURLException ex) {
@@ -198,10 +198,6 @@ public class DefaultResourceLoader implements ResourceLoader {
 	 * be appropriate for standalone implementations but can be overridden,
 	 * e.g. for implementations targeted at a Servlet container.
 	 *
-	 * 返回对于在给定路径上的资源的资源句柄。
-	 * 默认实现支持类路径。
-	 * 这应该适用于单独的实现，但是可以被覆写，比如在Servlet容器里的目标实现。
-	 *
 	 * @param path the path to the resource
 	 * @return the corresponding Resource handle
 	 * @see ClassPathResource
@@ -209,6 +205,7 @@ public class DefaultResourceLoader implements ResourceLoader {
 	 * @see org.springframework.web.context.support.XmlWebApplicationContext#getResourceByPath
 	 */
 	protected Resource getResourceByPath(String path) {
+		// 实例化并返回类路径上下文资源
 		return new ClassPathContextResource(path, getClassLoader());
 	}
 
@@ -220,6 +217,7 @@ public class DefaultResourceLoader implements ResourceLoader {
 	protected static class ClassPathContextResource extends ClassPathResource implements ContextResource {
 
 		public ClassPathContextResource(String path, @Nullable ClassLoader classLoader) {
+			// 调用父类的构造方法
 			super(path, classLoader);
 		}
 

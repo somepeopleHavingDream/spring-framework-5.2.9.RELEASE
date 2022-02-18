@@ -83,7 +83,7 @@ public class DefaultDocumentLoader implements DocumentLoader {
 		// 创建文档建造者
 		DocumentBuilder builder = createDocumentBuilder(factory, entityResolver, errorHandler);
 
-		// 文档建造者解析输入源，返回文档实例
+		// 文档建造器解析输入源，返回文档实例
 		return builder.parse(inputSource);
 	}
 
@@ -104,9 +104,12 @@ public class DefaultDocumentLoader implements DocumentLoader {
 		// 设置工厂是否感知命名空间
 		factory.setNamespaceAware(namespaceAware);
 
-		// 设置其他属性
+		// 如果入参校验模式不是无校验模式
 		if (validationMode != XmlValidationModeDetector.VALIDATION_NONE) {
+			// 将文档建造者工厂设值为校验模式
 			factory.setValidating(true);
+
+			// 如果入参校验模式是xsd校验
 			if (validationMode == XmlValidationModeDetector.VALIDATION_XSD) {
 				// Enforce namespace aware for XSD...
 				// 执行对于xsd的命名感知……
@@ -151,17 +154,19 @@ public class DefaultDocumentLoader implements DocumentLoader {
 		// 实例化一个文档构建者
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
 
-		// 如果实体解析器不为null，则设置实体解析器
+		// 如果入参实体解析器不为null
 		if (entityResolver != null) {
+			// 设置文档构建者的实体解析器
 			docBuilder.setEntityResolver(entityResolver);
 		}
 
-		// 如果错误处理者不为null，则设置错误处理者
+		// 如果错误处理者不为null
 		if (errorHandler != null) {
+			// 设置文档建造器的错误处理器
 			docBuilder.setErrorHandler(errorHandler);
 		}
 
-		// 返回文档构建者
+		// 返回文档建造器
 		return docBuilder;
 	}
 
