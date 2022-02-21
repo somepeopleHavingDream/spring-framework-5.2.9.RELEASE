@@ -37,6 +37,7 @@ public class NullSourceExtractor implements SourceExtractor {
 	@Override
 	@Nullable
 	public Object extractSource(Object sourceCandidate, @Nullable Resource definitionResource) {
+		// 返回null
 		return null;
 	}
 

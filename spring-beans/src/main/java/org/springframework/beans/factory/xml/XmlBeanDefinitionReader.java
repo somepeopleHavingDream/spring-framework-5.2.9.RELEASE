@@ -374,8 +374,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			// 处理完成后，从正在被加载资源集合中移除此编码集合
 			currentResources.remove(encodedResource);
 
-			// 如果当前正在被加载资源集合为空，则移除资源正在被加载标记
+			// 如果当前正在被加载资源集合为空
 			if (currentResources.isEmpty()) {
+				// 移除资源正在被加载标记
 				this.resourcesCurrentlyBeingLoaded.remove();
 			}
 		}
@@ -425,30 +426,39 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			// 注册Bean定义
 			int count = registerBeanDefinitions(doc, resource);
 			if (logger.isDebugEnabled()) {
+				// 不细究
 				logger.debug("Loaded " + count + " bean definitions from " + resource);
 			}
+
+			// 返回此次注册了的bean定义数量
 			return count;
 		}
 		catch (BeanDefinitionStoreException ex) {
+			// 不细究
 			throw ex;
 		}
 		catch (SAXParseException ex) {
+			// 不细究
 			throw new XmlBeanDefinitionStoreException(resource.getDescription(),
 					"Line " + ex.getLineNumber() + " in XML document from " + resource + " is invalid", ex);
 		}
 		catch (SAXException ex) {
+			// 不细究
 			throw new XmlBeanDefinitionStoreException(resource.getDescription(),
 					"XML document from " + resource + " is invalid", ex);
 		}
 		catch (ParserConfigurationException ex) {
+			// 不细究
 			throw new BeanDefinitionStoreException(resource.getDescription(),
 					"Parser configuration exception parsing XML from " + resource, ex);
 		}
 		catch (IOException ex) {
+			// 不细究
 			throw new BeanDefinitionStoreException(resource.getDescription(),
 					"IOException parsing XML document from " + resource, ex);
 		}
 		catch (Throwable ex) {
+			// 不细究
 			throw new BeanDefinitionStoreException(resource.getDescription(),
 					"Unexpected exception parsing XML document from " + resource, ex);
 		}
@@ -568,6 +578,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 		// 文档阅读器注册Bean定义，传入参数：文档对象、阅读器上下文
 		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
+		// 返回此次注册了的bean定义数量
 		return getRegistry().getBeanDefinitionCount() - countBefore;
 	}
 

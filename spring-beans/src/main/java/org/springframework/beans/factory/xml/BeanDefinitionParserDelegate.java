@@ -266,6 +266,7 @@ public class BeanDefinitionParserDelegate {
 	 */
 	@Nullable
 	protected Object extractSource(Element ele) {
+		// 通过当前bean定义解析器代理的阅读器上下文提取源
 		return this.readerContext.extractSource(ele);
 	}
 
@@ -483,7 +484,6 @@ public class BeanDefinitionParserDelegate {
 					以下不细究
 				 */
 				try {
-					// 设置bean名
 					if (containingBean != null) {
 						beanName = BeanDefinitionReaderUtils.generateBeanName(
 								beanDefinition, this.readerContext.getRegistry(), true);
@@ -589,25 +589,33 @@ public class BeanDefinitionParserDelegate {
 			parseMetaElements(ele, bd);
 			// 解析查找覆盖子元素
 			parseLookupOverrideSubElements(ele, bd.getMethodOverrides());
+			// 解析替代方法子元素
 			parseReplacedMethodSubElements(ele, bd.getMethodOverrides());
-
+			// 解析构造参数元素
 			parseConstructorArgElements(ele, bd);
+			// 解析属性元素
 			parsePropertyElements(ele, bd);
+			// 解析限定符元素
 			parseQualifierElements(ele, bd);
 
+			// 设值bean定义的资源
 			bd.setResource(this.readerContext.getResource());
+			// 设值bean定义的源
 			bd.setSource(extractSource(ele));
 
 			// 返回该已经设置了一些属性的抽象Bean定义对象
 			return bd;
 		}
 		catch (ClassNotFoundException ex) {
+			// 不细究
 			error("Bean class [" + className + "] not found", ele, ex);
 		}
 		catch (NoClassDefFoundError err) {
+			// 不细究
 			error("Class that bean class [" + className + "] depends on not found", ele, err);
 		}
 		catch (Throwable ex) {
+			// 不细究
 			error("Unexpected failure during bean definition parsing", ele, ex);
 		}
 		finally {
@@ -740,6 +748,9 @@ public class BeanDefinitionParserDelegate {
 	public void parseMetaElements(Element ele, BeanMetadataAttributeAccessor attributeAccessor) {
 		NodeList nl = ele.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
+			/*
+				以下不细究
+			 */
 			Node node = nl.item(i);
 
 			// 如果该节点是候补元素，并且节点名是meta
@@ -790,6 +801,9 @@ public class BeanDefinitionParserDelegate {
 	public void parseConstructorArgElements(Element beanEle, BeanDefinition bd) {
 		NodeList nl = beanEle.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
+			/*
+				以下不细究
+			 */
 			Node node = nl.item(i);
 			if (isCandidateElement(node) && nodeNameEquals(node, CONSTRUCTOR_ARG_ELEMENT)) {
 				parseConstructorArgElement((Element) node, bd);
@@ -803,6 +817,9 @@ public class BeanDefinitionParserDelegate {
 	public void parsePropertyElements(Element beanEle, BeanDefinition bd) {
 		NodeList nl = beanEle.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
+			/*
+				以下不细究
+			 */
 			Node node = nl.item(i);
 			if (isCandidateElement(node) && nodeNameEquals(node, PROPERTY_ELEMENT)) {
 				parsePropertyElement((Element) node, bd);
@@ -816,6 +833,9 @@ public class BeanDefinitionParserDelegate {
 	public void parseQualifierElements(Element beanEle, AbstractBeanDefinition bd) {
 		NodeList nl = beanEle.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
+			/*
+				以下不细究
+			 */
 			Node node = nl.item(i);
 			if (isCandidateElement(node) && nodeNameEquals(node, QUALIFIER_ELEMENT)) {
 				parseQualifierElement((Element) node, bd);
@@ -829,6 +849,9 @@ public class BeanDefinitionParserDelegate {
 	public void parseLookupOverrideSubElements(Element beanEle, MethodOverrides overrides) {
 		NodeList nl = beanEle.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
+			/*
+				以下不细究
+			 */
 			Node node = nl.item(i);
 			if (isCandidateElement(node) && nodeNameEquals(node, LOOKUP_METHOD_ELEMENT)) {
 				/*
@@ -850,6 +873,9 @@ public class BeanDefinitionParserDelegate {
 	public void parseReplacedMethodSubElements(Element beanEle, MethodOverrides overrides) {
 		NodeList nl = beanEle.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
+			/*
+				以下不细究
+			 */
 			Node node = nl.item(i);
 			if (isCandidateElement(node) && nodeNameEquals(node, REPLACED_METHOD_ELEMENT)) {
 				Element replacedMethodEle = (Element) node;
@@ -1518,18 +1544,26 @@ public class BeanDefinitionParserDelegate {
 		// 获得该xml元素的属性
 		NamedNodeMap attributes = ele.getAttributes();
 		for (int i = 0; i < attributes.getLength(); i++) {
+			// 获得当前属性结点
 			Node node = attributes.item(i);
+			// 做装饰操作，如果有必要的话
 			finalDefinition = decorateIfRequired(node, finalDefinition, containingBd);
 		}
 
 		// Decorate based on custom nested elements.
+		// 基于自定义嵌套元素，进行装饰
 		NodeList children = ele.getChildNodes();
 		for (int i = 0; i < children.getLength(); i++) {
+			/*
+				以下不细究
+			 */
 			Node node = children.item(i);
 			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				finalDefinition = decorateIfRequired(node, finalDefinition, containingBd);
 			}
 		}
+
+		// 返回最终bean定义
 		return finalDefinition;
 	}
 
@@ -1543,9 +1577,13 @@ public class BeanDefinitionParserDelegate {
 	 */
 	public BeanDefinitionHolder decorateIfRequired(
 			Node node, BeanDefinitionHolder originalDef, @Nullable BeanDefinition containingBd) {
-
+		// 获得入参结点的命名空间统一资源标识符
 		String namespaceUri = getNamespaceURI(node);
+		// 如果命名空间统一资源标识符不为null，并且不在默认命名空间内
 		if (namespaceUri != null && !isDefaultNamespace(namespaceUri)) {
+			/*
+				以下不细究
+			 */
 			NamespaceHandler handler = this.readerContext.getNamespaceHandlerResolver().resolve(namespaceUri);
 			if (handler != null) {
 				BeanDefinitionHolder decorated =
@@ -1564,6 +1602,8 @@ public class BeanDefinitionParserDelegate {
 				}
 			}
 		}
+
+		// 返回原始bean定义
 		return originalDef;
 	}
 

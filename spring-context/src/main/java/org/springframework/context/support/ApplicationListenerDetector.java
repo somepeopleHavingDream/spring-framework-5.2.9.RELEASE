@@ -53,6 +53,7 @@ class ApplicationListenerDetector implements DestructionAwareBeanPostProcessor, 
 
 
 	public ApplicationListenerDetector(AbstractApplicationContext applicationContext) {
+		// 设值当前应用监听器侦测器的应用上下文
 		this.applicationContext = applicationContext;
 	}
 

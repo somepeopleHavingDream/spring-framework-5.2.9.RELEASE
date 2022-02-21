@@ -64,6 +64,7 @@ public class SpelParserConfiguration {
 	 * @param compilerClassLoader the ClassLoader to use as the basis for expression compilation
 	 */
 	public SpelParserConfiguration(@Nullable SpelCompilerMode compilerMode, @Nullable ClassLoader compilerClassLoader) {
+		// 调用本类的构造方法
 		this(compilerMode, compilerClassLoader, false, false, Integer.MAX_VALUE);
 	}
 
@@ -97,7 +98,7 @@ public class SpelParserConfiguration {
 	 */
 	public SpelParserConfiguration(@Nullable SpelCompilerMode compilerMode, @Nullable ClassLoader compilerClassLoader,
 			boolean autoGrowNullReferences, boolean autoGrowCollections, int maximumAutoGrowSize) {
-
+		// 设值当前spel解析器配置的编译模式、编译类加载器、自动增长空引用、自动增长集合、最大自定增长大小
 		this.compilerMode = (compilerMode != null ? compilerMode : defaultCompilerMode);
 		this.compilerClassLoader = compilerClassLoader;
 		this.autoGrowNullReferences = autoGrowNullReferences;

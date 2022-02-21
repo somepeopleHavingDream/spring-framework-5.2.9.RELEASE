@@ -729,14 +729,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
 		// 刷新bean工厂（此为抽象方法，由子类继承实现）
 		refreshBeanFactory();
+
+		// 获得并返回当前应用上下文的bean工厂
 		return getBeanFactory();
 	}
 
 	/**
 	 * Configure the factory's standard context characteristics,
 	 * such as the context's ClassLoader and post-processors.
-	 *
-	 * 配置工厂标准上下文特点，比如上下文类加载器和后置处理器
 	 *
 	 * @param beanFactory the BeanFactory to configure
 	 */
@@ -753,6 +753,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// 配置带上下文回调的bean工厂
 		// bean工厂添加bean后置处理器
 		beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
+
 		// bean工厂忽略一些依赖接口：EnvironmentAware、EmbeddedValueResolverAware、ResourceLoaderAware、
 		// ApplicationEventPublisherAware、MessageSourceAware、ApplicationContextAware
 		beanFactory.ignoreDependencyInterface(EnvironmentAware.class);
@@ -780,10 +781,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Detect a LoadTimeWeaver and prepare for weaving, if found.
 		// 侦测加载时间织入器，并且准备织入，如果找到了的话。
 		if (beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
-			// bean工厂添加bean后置处理器
+			/*
+				以下不细究
+			 */
 			beanFactory.addBeanPostProcessor(new LoadTimeWeaverAwareProcessor(beanFactory));
 			// Set a temporary ClassLoader for type matching.
-			// 设置用于类型匹配的临时类加载器。
 			beanFactory.setTempClassLoader(new ContextTypeMatchClassLoader(beanFactory.getBeanClassLoader()));
 		}
 

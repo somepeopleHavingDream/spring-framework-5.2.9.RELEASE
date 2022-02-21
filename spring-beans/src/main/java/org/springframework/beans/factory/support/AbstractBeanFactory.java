@@ -165,8 +165,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	private final List<StringValueResolver> embeddedValueResolvers = new CopyOnWriteArrayList<>();
 
 	/** BeanPostProcessors to apply.
-	 *
-	 * 将被应用的Bean后置处理器。
 	 * */
 	private final List<BeanPostProcessor> beanPostProcessors = new CopyOnWriteArrayList<>();
 
@@ -185,15 +183,11 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	/**
 	 * Map from bean name to merged RootBeanDefinition.
-	 *
-	 * 从bean名到已合并RootBeanDefinition的映射。
 	 * */
 	private final Map<String, RootBeanDefinition> mergedBeanDefinitions = new ConcurrentHashMap<>(256);
 
 	/**
 	 * Names of beans that have already been created at least once.
-	 *
-	 * 已经被创建至少一次的bean名集合。
 	 * */
 	private final Set<String> alreadyCreated = Collections.newSetFromMap(new ConcurrentHashMap<>(256));
 
@@ -471,6 +465,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public boolean containsBean(String name) {
+		// 将入参名转换为bean名
 		String beanName = transformedBeanName(name);
 		if (containsSingleton(beanName) || containsBeanDefinition(beanName)) {
 			return (!BeanFactoryUtils.isFactoryDereference(name) || isFactoryBean(name));
@@ -827,6 +822,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public boolean containsLocalBean(String name) {
+		// 获得转换后的bean名称
 		String beanName = transformedBeanName(name);
 		return ((containsSingleton(beanName) || containsBeanDefinition(beanName)) &&
 				(!BeanFactoryUtils.isFactoryDereference(name) || isFactoryBean(beanName)));
@@ -861,6 +857,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	@Override
 	@Nullable
 	public ClassLoader getBeanClassLoader() {
+		// 返回当前bean工厂的bean类加载器
 		return this.beanClassLoader;
 	}
 
@@ -887,12 +884,14 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public void setBeanExpressionResolver(@Nullable BeanExpressionResolver resolver) {
+		// 设值当前bean工厂的bean表达式解析器
 		this.beanExpressionResolver = resolver;
 	}
 
 	@Override
 	@Nullable
 	public BeanExpressionResolver getBeanExpressionResolver() {
+		// 返回当前bean工厂的bean表达式解析器
 		return this.beanExpressionResolver;
 	}
 
@@ -909,7 +908,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public void addPropertyEditorRegistrar(PropertyEditorRegistrar registrar) {
+		// 断言入参注册器不能为null
 		Assert.notNull(registrar, "PropertyEditorRegistrar must not be null");
+		// 往当前bean工厂的属性编辑器注册器集中添加注册器
 		this.propertyEditorRegistrars.add(registrar);
 	}
 
@@ -1006,15 +1007,20 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 		// Track whether it is instantiation/destruction aware
 		// 跟踪是否是初始化/销毁感知
+		// 如果入参bean后置处理器是实例化感知bean后置处理器实例
 		if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+			// 不细究
 			this.hasInstantiationAwareBeanPostProcessors = true;
 		}
+		// 如果入参bean后置处理器是销毁感知bean后置处理器实例
 		if (beanPostProcessor instanceof DestructionAwareBeanPostProcessor) {
+			// 设值当前bean工厂为有销毁感知bean后置处理器
 			this.hasDestructionAwareBeanPostProcessors = true;
 		}
 
 		// Add to end of list
 		// 添加到集合末尾
+		// 将入参bean后置处理器添加到bena后置处理器集的末尾
 		this.beanPostProcessors.add(beanPostProcessor);
 	}
 
@@ -1157,16 +1163,27 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public boolean isFactoryBean(String name) throws NoSuchBeanDefinitionException {
+		// 获得转换后的bean名称
 		String beanName = transformedBeanName(name);
+		// 获得单例bean
 		Object beanInstance = getSingleton(beanName, false);
+		// 如果bean实例不存在
 		if (beanInstance != null) {
+			// 返回bean示例是否是工厂bean类的实例
 			return (beanInstance instanceof FactoryBean);
 		}
+
 		// No singleton instance found -> check bean definition.
+		// 如果当前bean工厂不包括指定bean名的bean定义，并且父bean工厂是可配置bean工厂的实例
 		if (!containsBeanDefinition(beanName) && getParentBeanFactory() instanceof ConfigurableBeanFactory) {
+			/*
+				以下不细究
+			 */
 			// No bean definition found in this factory -> delegate to parent.
 			return ((ConfigurableBeanFactory) getParentBeanFactory()).isFactoryBean(name);
 		}
+
+		// 返回入参bean是否是工厂bean
 		return isFactoryBean(beanName, getMergedLocalBeanDefinition(beanName));
 	}
 
@@ -1361,9 +1378,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 */
 	protected RootBeanDefinition getMergedLocalBeanDefinition(String beanName) throws BeansException {
 		// Quick check on the concurrent map first, with minimal locking.
-		// 首先在并发映射里用最小锁快速检查。
+		// 首先在并发映射里用最小锁快速检查
+		// 从已合并bean定义中获得根bean定义
 		RootBeanDefinition mbd = this.mergedBeanDefinitions.get(beanName);
+		// 如果根bean定义不为null，并且根bean定义不需要被重新合并
 		if (mbd != null && !mbd.stale) {
+			// 返回已合并的bean定义
 			return mbd;
 		}
 
@@ -1381,16 +1401,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 */
 	protected RootBeanDefinition getMergedBeanDefinition(String beanName, BeanDefinition bd)
 			throws BeanDefinitionStoreException {
-
+		// 获得并返回已合并的bean定义
 		return getMergedBeanDefinition(beanName, bd, null);
 	}
 
 	/**
 	 * Return a RootBeanDefinition for the given bean, by merging with the
 	 * parent if the given bean's definition is a child bean definition.
-	 *
-	 * 返回给定bean的根bean定义，
-	 * 通过合并父bean，如果给定bean定义是一个子bean定义的话。
 	 *
 	 * @param beanName the name of the bean definition bean定义名
 	 * @param bd the original bean definition (Root/ChildBeanDefinition) 原始的bean定义（根/子bean定义）
@@ -1866,9 +1883,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * <p>This allows the bean factory to optimize its caching for repeated
 	 * creation of the specified bean.
 	 *
-	 * 标记指定bean为已创建（或者将要被创建）。
-	 * 这允许bean工厂为指定bean的重复创建优化其缓存。
-	 *
 	 * @param beanName the name of the bean
 	 */
 	protected void markBeanAsCreated(String beanName) {
@@ -1933,22 +1947,17 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * Check whether this factory's bean creation phase already started,
 	 * i.e. whether any bean has been marked as created in the meantime.
 	 *
-	 * 检查是否此工厂的bean创建阶段已经开始，
-	 * 在此期间是否有任何bean被标记为已创建。
-	 *
 	 * @since 4.2.2
 	 * @see #markBeanAsCreated
 	 */
 	protected boolean hasBeanCreationStarted() {
+		// 返回当前bean工厂是否有已经创建的bean
 		return !this.alreadyCreated.isEmpty();
 	}
 
 	/**
 	 * Get the object for the given bean instance, either the bean
 	 * instance itself or its created object in case of a FactoryBean.
-	 *
-	 * 获得用于给定bean实例的对象，
-	 * 如果是工厂bean，则是它本身或者是由它创建的对象。
 	 *
 	 * @param beanInstance the shared bean instance
 	 * @param name the name that may include factory dereference prefix

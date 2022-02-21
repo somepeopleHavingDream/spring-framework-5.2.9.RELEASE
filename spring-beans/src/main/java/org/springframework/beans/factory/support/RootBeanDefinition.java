@@ -62,8 +62,6 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 
 	/**
 	 * Determines if the definition needs to be re-merged.
-	 *
-	 * 决定bean定义是否需要被重新合并。
 	 * */
 	volatile boolean stale;
 

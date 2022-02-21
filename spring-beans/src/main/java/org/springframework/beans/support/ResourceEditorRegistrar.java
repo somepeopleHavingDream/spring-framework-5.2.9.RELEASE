@@ -76,6 +76,7 @@ public class ResourceEditorRegistrar implements PropertyEditorRegistrar {
 	 * @see org.springframework.context.ApplicationContext
 	 */
 	public ResourceEditorRegistrar(ResourceLoader resourceLoader, PropertyResolver propertyResolver) {
+		// 设值当前资源编辑器注册器的资源加载器和属性解析器
 		this.resourceLoader = resourceLoader;
 		this.propertyResolver = propertyResolver;
 	}

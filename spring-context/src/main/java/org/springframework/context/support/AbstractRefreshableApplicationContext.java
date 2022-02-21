@@ -160,9 +160,11 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 			// 加载当前可刷新应用上下文的bean定义至bean工厂中
 			loadBeanDefinitions(beanFactory);
 
+			// 设值当前可刷新应用上下文的bean工厂
 			this.beanFactory = beanFactory;
 		}
 		catch (IOException ex) {
+			// 不细究
 			throw new ApplicationContextException("I/O error parsing bean definition source for " + getDisplayName(), ex);
 		}
 	}
@@ -203,8 +205,9 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 		// 获得本实例的Bean工厂
 		DefaultListableBeanFactory beanFactory = this.beanFactory;
 
-		// 如果bean工厂为空，则抛出违规状态异常
+		// 如果bean工厂为空
 		if (beanFactory == null) {
+			// 不细究
 			throw new IllegalStateException("BeanFactory not initialized or already closed - " +
 					"call 'refresh' before accessing beans via the ApplicationContext");
 		}

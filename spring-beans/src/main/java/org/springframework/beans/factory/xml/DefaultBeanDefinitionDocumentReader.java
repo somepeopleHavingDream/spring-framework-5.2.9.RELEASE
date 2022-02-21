@@ -165,6 +165,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		// 后置处理可扩展标记语言，默认为空实现，可由子类重载
 		postProcessXml(root);
 
+		// 设值当前默认bean定义文档阅读器的代理
 		this.delegate = parent;
 	}
 
@@ -229,6 +230,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 			// 不细究
 			processAliasRegistration(ele);
 		}
+		// 如果入参结点名为“bean”
 		else if (delegate.nodeNameEquals(ele, BEAN_ELEMENT)) {
 			// 处理Bean标签的结点
 			processBeanDefinition(ele, delegate);
@@ -345,9 +347,9 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		// 代理解析一个入参Bean定义元素，获取Bean定义拥有器
 		BeanDefinitionHolder bdHolder = delegate.parseBeanDefinitionElement(ele);
 
-		// 如果bean拥有者不为null
+		// 如果bean拥有器不为null
 		if (bdHolder != null) {
-			// 如果需要的话装饰bean拥有器
+			// 如果必要的话，用bean定义解析器代理装饰bean定义
 			bdHolder = delegate.decorateBeanDefinitionIfRequired(ele, bdHolder);
 			try {
 				// Register the final decorated instance.
@@ -362,6 +364,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 			// Send registration event.
 			// 发送注册事件。
+			// 获得当前默认bean定义文档阅读器的阅读器上下文，触发注册组件事件
 			getReaderContext().fireComponentRegistered(new BeanComponentDefinition(bdHolder));
 		}
 	}

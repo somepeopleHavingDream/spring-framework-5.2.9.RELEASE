@@ -34,7 +34,10 @@ public class BeanExpressionContext {
 
 
 	public BeanExpressionContext(ConfigurableBeanFactory beanFactory, @Nullable Scope scope) {
+		// 断言入参bean工厂必不为null
 		Assert.notNull(beanFactory, "BeanFactory must not be null");
+
+		// 设值当前bean表达式上下文的bean工厂和范围
 		this.beanFactory = beanFactory;
 		this.scope = scope;
 	}

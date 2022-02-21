@@ -446,13 +446,12 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	/**
 	 * Return whether this definition specifies a bean class.
 	 *
-	 * 返回是否此定义指定了bean类。
-	 *
 	 * @see #getBeanClass()
 	 * @see #setBeanClass(Class)
 	 * @see #resolveBeanClass(ClassLoader)
 	 */
 	public boolean hasBeanClass() {
+		// 返回当前bean定义是否为Class类实例
 		return (this.beanClass instanceof Class);
 	}
 
@@ -856,6 +855,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Override
 	@Nullable
 	public String getFactoryMethodName() {
+		// 返回当前bean定义的工厂方法名称
 		return this.factoryMethodName;
 	}
 
@@ -934,6 +934,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @since 5.0.2
 	 */
 	public boolean hasMethodOverrides() {
+		// 如果当前bean定义的方法覆写不为空
 		return !this.methodOverrides.isEmpty();
 	}
 
@@ -1070,6 +1071,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * (for the purpose of showing context in case of errors).
 	 */
 	public void setResource(@Nullable Resource resource) {
+		// 设值当前bean定义的资源
 		this.resource = resource;
 	}
 
@@ -1122,17 +1124,20 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	/**
 	 * Validate this bean definition.
 	 *
-	 * 校验此bean定义。
-	 *
 	 * @throws BeanDefinitionValidationException in case of validation failure
 	 */
 	public void validate() throws BeanDefinitionValidationException {
+		// 如果当前bean定义有方法覆写，并且工厂方法存在
 		if (hasMethodOverrides() && getFactoryMethodName() != null) {
+			// 不细究
 			throw new BeanDefinitionValidationException(
 					"Cannot combine factory method with container-generated method overrides: " +
 					"the factory method must create the concrete bean instance.");
 		}
+
+		// 如果当前bean定义有bean类对象
 		if (hasBeanClass()) {
+			// 不细究
 			prepareMethodOverrides();
 		}
 	}

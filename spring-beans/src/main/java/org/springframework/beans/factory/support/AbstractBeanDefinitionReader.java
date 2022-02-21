@@ -207,6 +207,8 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 			// 加载该资源的Bean定义
 			count += loadBeanDefinitions(resource);
 		}
+
+		// 返回此次加载了的bean定义数量
 		return count;
 	}
 
@@ -251,15 +253,24 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 				Resource[] resources = ((ResourcePatternResolver) resourceLoader).getResources(location);
 				// 从资源数组中加载Bean定义
 				int count = loadBeanDefinitions(resources);
+
+				// 如果存在实际的资源
 				if (actualResources != null) {
+					// 不细究
 					Collections.addAll(actualResources, resources);
 				}
+
+				// 如果日志器级别是trace
 				if (logger.isTraceEnabled()) {
+					// 不细究
 					logger.trace("Loaded " + count + " bean definitions from location pattern [" + location + "]");
 				}
+
+				// 返回此次加载的bean定义数量
 				return count;
 			}
 			catch (IOException ex) {
+				// 不细究
 				throw new BeanDefinitionStoreException(
 						"Could not resolve bean definition resource pattern [" + location + "]", ex);
 			}
@@ -292,6 +303,8 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 			// 加载当前遍历路径下的bean定义
 			count += loadBeanDefinitions(location);
 		}
+
+		// 返回此次加载的bean定义数量
 		return count;
 	}
 

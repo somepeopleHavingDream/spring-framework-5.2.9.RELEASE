@@ -43,6 +43,7 @@ public class EmbeddedValueResolver implements StringValueResolver {
 
 
 	public EmbeddedValueResolver(ConfigurableBeanFactory beanFactory) {
+		// 设值当前嵌入式值解析器的表达式上下文和表达式解析器
 		this.exprContext = new BeanExpressionContext(beanFactory, null);
 		this.exprResolver = beanFactory.getBeanExpressionResolver();
 	}

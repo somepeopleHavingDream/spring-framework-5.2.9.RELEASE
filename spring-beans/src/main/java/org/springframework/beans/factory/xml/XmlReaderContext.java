@@ -83,11 +83,10 @@ public class XmlReaderContext extends ReaderContext {
 	/**
 	 * Return the bean definition registry to use.
 	 *
-	 * 返回要使用的Bean定义注册表。
-	 *
 	 * @see XmlBeanDefinitionReader#XmlBeanDefinitionReader(BeanDefinitionRegistry)
 	 */
 	public final BeanDefinitionRegistry getRegistry() {
+		// 通过当前可扩展标记语言阅读器上下文的阅读器，获得注册表
 		return this.reader.getRegistry();
 	}
 
