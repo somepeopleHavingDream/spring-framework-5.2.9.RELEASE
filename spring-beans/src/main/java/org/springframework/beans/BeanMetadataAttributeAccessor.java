@@ -39,12 +39,14 @@ public class BeanMetadataAttributeAccessor extends AttributeAccessorSupport impl
 	 * <p>The exact type of the object will depend on the configuration mechanism used.
 	 */
 	public void setSource(@Nullable Object source) {
+		// 设值当前bean元数据属性访问器的源
 		this.source = source;
 	}
 
 	@Override
 	@Nullable
 	public Object getSource() {
+		// 返回当前bean元数据属性访问器的源
 		return this.source;
 	}
 
@@ -76,7 +78,9 @@ public class BeanMetadataAttributeAccessor extends AttributeAccessorSupport impl
 	@Override
 	@Nullable
 	public Object getAttribute(String name) {
+		// 调用父类的获取属性方法，获取bean元数据属性
 		BeanMetadataAttribute attribute = (BeanMetadataAttribute) super.getAttribute(name);
+		// 如果属性不为null，则获取属性值，否则返回null
 		return (attribute != null ? attribute.getValue() : null);
 	}
 

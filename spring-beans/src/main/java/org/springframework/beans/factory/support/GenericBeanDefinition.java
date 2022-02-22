@@ -77,6 +77,7 @@ public class GenericBeanDefinition extends AbstractBeanDefinition {
 	@Override
 	@Nullable
 	public String getParentName() {
+		// 返回当前通用bean定义的父bean名称
 		return this.parentName;
 	}
 

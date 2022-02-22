@@ -227,51 +227,93 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @param original the original bean definition to copy from
 	 */
 	protected AbstractBeanDefinition(BeanDefinition original) {
+		// 设值当前bean定义的父bean名称
 		setParentName(original.getParentName());
+		// 设值当前bean定义的bean类名称
 		setBeanClassName(original.getBeanClassName());
+		// 设值当前bean定义的范围
 		setScope(original.getScope());
+		// 设值当前bean定义是否是抽象的
 		setAbstract(original.isAbstract());
+		// 设值当前bean定义的工厂bean名
 		setFactoryBeanName(original.getFactoryBeanName());
+		// 设值当前bean定义的工厂方法名
 		setFactoryMethodName(original.getFactoryMethodName());
+		// 设值当前bean定义的角色
 		setRole(original.getRole());
+		// 设值当前bean定义的源
 		setSource(original.getSource());
+		// 从原bean定义中复制属性
 		copyAttributesFrom(original);
 
+		// 如果原始bean定义是抽象bean定义
 		if (original instanceof AbstractBeanDefinition) {
+			// 将原来的bean定义强转为抽象bean定义
 			AbstractBeanDefinition originalAbd = (AbstractBeanDefinition) original;
+
+			// 如果原始抽象bean定义有bean类
 			if (originalAbd.hasBeanClass()) {
+				// 不细究
 				setBeanClass(originalAbd.getBeanClass());
 			}
+			// 如果原始抽象bean定义有构造器参数值
 			if (originalAbd.hasConstructorArgumentValues()) {
+				// 不细究
 				setConstructorArgumentValues(new ConstructorArgumentValues(original.getConstructorArgumentValues()));
 			}
+			// 如果原始抽象bean定义有属性值
 			if (originalAbd.hasPropertyValues()) {
+				// 不细究
 				setPropertyValues(new MutablePropertyValues(original.getPropertyValues()));
 			}
+			// 如果原始抽象bean定义有方法覆写
 			if (originalAbd.hasMethodOverrides()) {
+				// 不细究
 				setMethodOverrides(new MethodOverrides(originalAbd.getMethodOverrides()));
 			}
+
+			// 获得原始抽象bean定义是否是懒加载的
 			Boolean lazyInit = originalAbd.getLazyInit();
 			if (lazyInit != null) {
+				// 设值当前bean定义是否是懒加载的
 				setLazyInit(lazyInit);
 			}
+
+			// 设值当前bean定义的自动装配模式
 			setAutowireMode(originalAbd.getAutowireMode());
+			// 设值当前bean定义的依赖检查
 			setDependencyCheck(originalAbd.getDependencyCheck());
+			// 设值当前bean定义的依赖
 			setDependsOn(originalAbd.getDependsOn());
+			// 设值当前bean定义的自动装配候选
 			setAutowireCandidate(originalAbd.isAutowireCandidate());
+			// 设值当前bean定义是否是主选的
 			setPrimary(originalAbd.isPrimary());
+			// 从原始抽象bean定义复制限定
 			copyQualifiersFrom(originalAbd);
+			// 设值当前bean定义的实例提供器
 			setInstanceSupplier(originalAbd.getInstanceSupplier());
+			// 设值当前bean定义是否不允许公共访问
 			setNonPublicAccessAllowed(originalAbd.isNonPublicAccessAllowed());
+			// 设值当前bean定义的宽容构造器解决
 			setLenientConstructorResolution(originalAbd.isLenientConstructorResolution());
+			// 设值当前bean定义的初始方法名
 			setInitMethodName(originalAbd.getInitMethodName());
+			// 设值当前bean定义是否强制执行初始方法
 			setEnforceInitMethod(originalAbd.isEnforceInitMethod());
+			// 设值当前bean定义的销毁方法名
 			setDestroyMethodName(originalAbd.getDestroyMethodName());
+			// 设值当前bean定义是否强制执行销毁方法
 			setEnforceDestroyMethod(originalAbd.isEnforceDestroyMethod());
+			// 设值当前bean定义是否是合成的
 			setSynthetic(originalAbd.isSynthetic());
+			// 设值当前bean定义的资源
 			setResource(originalAbd.getResource());
 		}
 		else {
+			/*
+				以下不细究
+			 */
 			setConstructorArgumentValues(new ConstructorArgumentValues(original.getConstructorArgumentValues()));
 			setPropertyValues(new MutablePropertyValues(original.getPropertyValues()));
 			setLazyInit(original.isLazyInit());
@@ -384,6 +426,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public void setBeanClassName(@Nullable String beanClassName) {
+		// 设值当前bean定义的bean类
 		this.beanClass = beanClassName;
 	}
 
@@ -499,6 +542,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public void setScope(@Nullable String scope) {
+		// 设值当前bean定义的范围
 		this.scope = scope;
 	}
 
@@ -508,6 +552,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Override
 	@Nullable
 	public String getScope() {
+		// 返回当前bean定义的范围
 		return this.scope;
 	}
 
@@ -538,6 +583,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * instantiate that particular bean in any case.
 	 */
 	public void setAbstract(boolean abstractFlag) {
+		// 设值当前bean定义是否是抽象的
 		this.abstractFlag = abstractFlag;
 	}
 
@@ -547,6 +593,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public boolean isAbstract() {
+		// 返回当前bean定义的抽象标记
 		return this.abstractFlag;
 	}
 
@@ -578,6 +625,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Nullable
 	public Boolean getLazyInit() {
+		// 返回当前bean定义是否是懒加载的
 		return this.lazyInit;
 	}
 
@@ -595,6 +643,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @see #AUTOWIRE_AUTODETECT
 	 */
 	public void setAutowireMode(int autowireMode) {
+		// 设值当前bean定义的自动装配模式
 		this.autowireMode = autowireMode;
 	}
 
@@ -602,6 +651,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * Return the autowire mode as specified in the bean definition.
 	 */
 	public int getAutowireMode() {
+		// 获得当前bean定义的自动装配模式
 		return this.autowireMode;
 	}
 
@@ -647,6 +697,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * Return the dependency check code.
 	 */
 	public int getDependencyCheck() {
+		// 返回当前bean定义的依赖检查标记
 		return this.dependencyCheck;
 	}
 
@@ -659,6 +710,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public void setDependsOn(@Nullable String... dependsOn) {
+		// 设值当前bean定义的依赖
 		this.dependsOn = dependsOn;
 	}
 
@@ -668,6 +720,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Override
 	@Nullable
 	public String[] getDependsOn() {
+		// 返回当前bean定义的依赖
 		return this.dependsOn;
 	}
 
@@ -690,6 +743,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public boolean isAutowireCandidate() {
+		// 设值当前bean定义的自动装配候选
 		return this.autowireCandidate;
 	}
 
@@ -708,6 +762,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public boolean isPrimary() {
+		// 返回当前bean定义是否是主选的
 		return this.primary;
 	}
 
@@ -748,7 +803,9 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @param source the AbstractBeanDefinition to copy from
 	 */
 	public void copyQualifiersFrom(AbstractBeanDefinition source) {
+		// 断言入参bean定义不为null
 		Assert.notNull(source, "Source must not be null");
+		// 将入参bean定义的限定符添加到当前bean定义的限定符内
 		this.qualifiers.putAll(source.qualifiers);
 	}
 
@@ -763,18 +820,18 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @see #setPropertyValues(MutablePropertyValues)
 	 */
 	public void setInstanceSupplier(@Nullable Supplier<?> instanceSupplier) {
+		// 设值当前bean定义的实例提供器
 		this.instanceSupplier = instanceSupplier;
 	}
 
 	/**
 	 * Return a callback for creating an instance of the bean, if any.
 	 *
-	 * 返回创建bean实例的回调，如果有的话。
-	 *
 	 * @since 5.0
 	 */
 	@Nullable
 	public Supplier<?> getInstanceSupplier() {
+		// 返回当前bean定义的实例提供器
 		return this.instanceSupplier;
 	}
 
@@ -790,6 +847,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * externalized metadata in this bean definition only.
 	 */
 	public void setNonPublicAccessAllowed(boolean nonPublicAccessAllowed) {
+		// 设值当前bean定义是否不允许公共访问
 		this.nonPublicAccessAllowed = nonPublicAccessAllowed;
 	}
 
@@ -797,6 +855,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * Return whether to allow access to non-public constructors and methods.
 	 */
 	public boolean isNonPublicAccessAllowed() {
+		// 返回当前bean定义是否不允许公共访问
 		return this.nonPublicAccessAllowed;
 	}
 
@@ -807,6 +866,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * whereas lenient mode would use the one with the 'closest' type matches).
 	 */
 	public void setLenientConstructorResolution(boolean lenientConstructorResolution) {
+		// 设值当前bean定义的构造器解析
 		this.lenientConstructorResolution = lenientConstructorResolution;
 	}
 
@@ -814,6 +874,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * Return whether to resolve constructors in lenient mode or in strict mode.
 	 */
 	public boolean isLenientConstructorResolution() {
+		// 设值当前bean定义的宽容构造器解决
 		return this.lenientConstructorResolution;
 	}
 
@@ -833,6 +894,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Override
 	@Nullable
 	public String getFactoryBeanName() {
+		// 返回当前bean定义的工厂bean名
 		return this.factoryBeanName;
 	}
 
@@ -882,6 +944,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public boolean hasConstructorArgumentValues() {
+		// 返回当前bean定义的构造器参数值是否存在
 		return (this.constructorArgumentValues != null && !this.constructorArgumentValues.isEmpty());
 	}
 
@@ -909,6 +972,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public boolean hasPropertyValues() {
+		// 返回当前bean定义的属性值集是否存在
 		return (this.propertyValues != null && !this.propertyValues.isEmpty());
 	}
 
@@ -944,6 +1008,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public void setInitMethodName(@Nullable String initMethodName) {
+		// 设值当前bean定义的初始方法名
 		this.initMethodName = initMethodName;
 	}
 
@@ -953,6 +1018,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Override
 	@Nullable
 	public String getInitMethodName() {
+		// 返回当前bean定义的初始方法名称
 		return this.initMethodName;
 	}
 
@@ -966,6 +1032,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @see #applyDefaults
 	 */
 	public void setEnforceInitMethod(boolean enforceInitMethod) {
+		// 设值当前bean定义是否强制初始方法
 		this.enforceInitMethod = enforceInitMethod;
 	}
 
@@ -974,6 +1041,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @see #getInitMethodName()
 	 */
 	public boolean isEnforceInitMethod() {
+		// 返回当前bean定义是否强制执行初始方法
 		return this.enforceInitMethod;
 	}
 
@@ -983,6 +1051,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public void setDestroyMethodName(@Nullable String destroyMethodName) {
+		// 设值当前bean定义的销毁方法名
 		this.destroyMethodName = destroyMethodName;
 	}
 
@@ -992,6 +1061,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	@Override
 	@Nullable
 	public String getDestroyMethodName() {
+		// 返回当前bean定义的销毁方法名
 		return this.destroyMethodName;
 	}
 
@@ -1005,6 +1075,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @see #applyDefaults
 	 */
 	public void setEnforceDestroyMethod(boolean enforceDestroyMethod) {
+		// 设值当前bean定义是否是强迫执行销毁方法
 		this.enforceDestroyMethod = enforceDestroyMethod;
 	}
 
@@ -1013,6 +1084,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @see #getDestroyMethodName()
 	 */
 	public boolean isEnforceDestroyMethod() {
+		// 返回当前bean定义是否强制执行销毁方法
 		return this.enforceDestroyMethod;
 	}
 
@@ -1022,6 +1094,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * as a helper for auto-proxying, created through {@code <aop:config>}).
 	 */
 	public void setSynthetic(boolean synthetic) {
+		// 设值当前bean定义是否是合成的
 		this.synthetic = synthetic;
 	}
 
@@ -1046,6 +1119,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public int getRole() {
+		// 返回当前bean定义的角色
 		return this.role;
 	}
 
