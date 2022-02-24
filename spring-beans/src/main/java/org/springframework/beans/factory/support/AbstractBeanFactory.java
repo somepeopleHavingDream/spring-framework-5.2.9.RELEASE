@@ -121,28 +121,20 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	/**
 	 * ClassLoader to resolve bean class names with, if necessary.
-	 *
-	 * 用于解析bean类名的类加载器，如果有必要的话。
 	 * */
 	@Nullable
 	private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
 	/** ClassLoader to temporarily resolve bean class names with, if necessary.
-	 *
-	 * 用于临时解析bean类名的类加载器，如果有必要的话。
 	 * */
 	@Nullable
 	private ClassLoader tempClassLoader;
 
 	/** Whether to cache bean metadata or rather reobtain it for every access.
-	 *
-	 * 是否为每次访问去缓存bean元数据或者重新获取。
 	 * */
 	private boolean cacheBeanMetadata = true;
 
 	/** Resolution strategy for expressions in bean definition values.
-	 *
-	 * 用于bean定义值的表达式的解析策略。
 	 * */
 	@Nullable
 	private BeanExpressionResolver beanExpressionResolver;
@@ -824,6 +816,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	public boolean containsLocalBean(String name) {
 		// 获得转换后的bean名称
 		String beanName = transformedBeanName(name);
+		// 返回是否包含本地bean
 		return ((containsSingleton(beanName) || containsBeanDefinition(beanName)) &&
 				(!BeanFactoryUtils.isFactoryDereference(name) || isFactoryBean(beanName)));
 	}
@@ -879,6 +872,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public boolean isCacheBeanMetadata() {
+		// 返回当前bean工厂是否缓存bean元数据
 		return this.cacheBeanMetadata;
 	}
 
@@ -1294,6 +1288,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @return the transformed bean name
 	 */
 	protected String transformedBeanName(String name) {
+		// 返回经典名
 		return canonicalName(BeanFactoryUtils.transformedBeanName(name));
 	}
 
@@ -1497,8 +1492,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// definition will not have inherited the merged outer bean's singleton status.
 
 				// 如果包含的bean定义不为null，并且包含的bean不是一个单例，并且合并bean定义是单例，
-				// 则设置合并bean定义的范围是包含bean的范围
 				if (containingBd != null && !containingBd.isSingleton() && mbd.isSingleton()) {
+					// 不细究
 					mbd.setScope(containingBd.getScope());
 				}
 
@@ -1507,7 +1502,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// 暂时缓存合并的bean定义
 				// （在为了获取元数据改变的情况下，它随后可能仍然会再合并）
 
-				// 如果包含的bean定义为null，并且
+				// 如果包含的bean定义为null，并且当前bean工厂是缓存bean原始数据的
 				if (containingBd == null && isCacheBeanMetadata()) {
 					// 将合并bean定义放入到已合并bean定义集中
 					this.mergedBeanDefinitions.put(beanName, mbd);
@@ -1516,7 +1511,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 			// 如果先前的bean定义不为null
 			if (previous != null) {
-				// 复制相关已合并bean定义缓冲（不细究）
+				// 复制相关的已合并bean定义缓存
 				copyRelevantMergedBeanDefinitionCaches(previous, mbd);
 			}
 
@@ -1526,12 +1521,18 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	}
 
 	private void copyRelevantMergedBeanDefinitionCaches(RootBeanDefinition previous, RootBeanDefinition mbd) {
+		// 如果同时满足以下条件
 		if (ObjectUtils.nullSafeEquals(mbd.getBeanClassName(), previous.getBeanClassName()) &&
 				ObjectUtils.nullSafeEquals(mbd.getFactoryBeanName(), previous.getFactoryBeanName()) &&
 				ObjectUtils.nullSafeEquals(mbd.getFactoryMethodName(), previous.getFactoryMethodName())) {
+			// 获得合并bean定义的目标类型
 			ResolvableType targetType = mbd.targetType;
+			// 获得之前bean定义的目标类型
 			ResolvableType previousTargetType = previous.targetType;
+
+			// 如果目标类型为null，或者目标类型与之前的目标类型相同
 			if (targetType == null || targetType.equals(previousTargetType)) {
+				// 设置合并bean定义的目标类型、是否是工厂bean、已解析的目标类型、工厂方法返回类型、用以侦测的工厂方法
 				mbd.targetType = previousTargetType;
 				mbd.isFactoryBean = previous.isFactoryBean;
 				mbd.resolvedTargetType = previous.resolvedTargetType;

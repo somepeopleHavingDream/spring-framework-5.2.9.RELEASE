@@ -386,9 +386,13 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public Map<String, Object> getSystemProperties() {
 		try {
+			// 调用jdk的接口，返回properties
 			return (Map) System.getProperties();
 		}
 		catch (AccessControlException ex) {
+			/*
+				以下不细究
+			 */
 			return (Map) new ReadOnlySystemAttributesMap() {
 				@Override
 				@Nullable
@@ -411,6 +415,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	@Override
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public Map<String, Object> getSystemEnvironment() {
+		// 如果废弃getenv权限
 		if (suppressGetenvAccess()) {
 			return Collections.emptyMap();
 		}
@@ -449,6 +454,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 	 * @see SpringProperties#getFlag
 	 */
 	protected boolean suppressGetenvAccess() {
+		// 获得spring.getenv.ignore的配置项值
 		return SpringProperties.getFlag(IGNORE_GETENV_PROPERTY_NAME);
 	}
 

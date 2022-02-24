@@ -106,17 +106,25 @@ public final class SpringProperties {
 	 */
 	@Nullable
 	public static String getProperty(String key) {
+		// 通过入参键获得对应值
 		String value = localProperties.getProperty(key);
+		// 如果值为null
 		if (value == null) {
 			try {
+				// 获得属性值
 				value = System.getProperty(key);
 			}
 			catch (Throwable ex) {
+				/*
+					以下不细究
+				 */
 				if (logger.isDebugEnabled()) {
 					logger.debug("Could not retrieve system property '" + key + "': " + ex);
 				}
 			}
 		}
+
+		// 返回键对应值
 		return value;
 	}
 
@@ -136,6 +144,7 @@ public final class SpringProperties {
 	 * {@code} false otherwise
 	 */
 	public static boolean getFlag(String key) {
+		// 获得标记值
 		return Boolean.parseBoolean(getProperty(key));
 	}
 

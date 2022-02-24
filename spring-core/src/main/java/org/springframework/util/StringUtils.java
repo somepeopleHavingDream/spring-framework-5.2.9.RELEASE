@@ -128,6 +128,7 @@ public abstract class StringUtils {
 	 * @see #hasText(String)
 	 */
 	public static boolean hasLength(@Nullable String str) {
+		// 返回入参字符串是否既不为null，也不空
 		return (str != null && !str.isEmpty());
 	}
 

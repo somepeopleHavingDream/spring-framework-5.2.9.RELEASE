@@ -137,14 +137,21 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 
 	@Override
 	public void registerSingleton(String beanName, Object singletonObject) throws IllegalStateException {
+		// 断言入参bean名和单例对象不为null
 		Assert.notNull(beanName, "Bean name must not be null");
 		Assert.notNull(singletonObject, "Singleton object must not be null");
+
+		// 锁住当前默认单例bean注册表的单例对象集
 		synchronized (this.singletonObjects) {
+			// 获取原来的单例bean对象
 			Object oldObject = this.singletonObjects.get(beanName);
+			// 如果该单例bean对象已存在
 			if (oldObject != null) {
 				throw new IllegalStateException("Could not register object [" + singletonObject +
 						"] under bean name '" + beanName + "': there is already object [" + oldObject + "] bound");
 			}
+
+			// 增加单例
 			addSingleton(beanName, singletonObject);
 		}
 	}
@@ -153,18 +160,19 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * Add the given singleton object to the singleton cache of this factory.
 	 * <p>To be called for eager registration of singletons.
 	 *
-	 * 将给定的单例对象添加到此工厂的单例缓冲中。
-	 * 将被调用以用于渴望单例的注册。
-	 *
 	 * @param beanName the name of the bean
 	 * @param singletonObject the singleton object
 	 */
 	protected void addSingleton(String beanName, Object singletonObject) {
-		// 锁住单例对象集
+		// 锁住当前默认单例bean注册表的单例对象集
 		synchronized (this.singletonObjects) {
+			// 将入参bean名与单例对象的映射添加到当前默认单例bean注册表的单例对象集中
 			this.singletonObjects.put(beanName, singletonObject);
+			// 当前默认单例bean注册表的单例工厂移除入参bean
 			this.singletonFactories.remove(beanName);
+			// 当前默认单例bean注册表的之前的单例对象集移除bean
 			this.earlySingletonObjects.remove(beanName);
+			// 将入参bean添加到当前默认单例bean注册表的已注册单例集中
 			this.registeredSingletons.add(beanName);
 		}
 	}
