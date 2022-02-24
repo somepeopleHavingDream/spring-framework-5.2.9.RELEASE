@@ -117,6 +117,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 
 	@Override
 	public boolean isAlias(String name) {
+		// 返回当前简单别名注册表的别名映射是否包含入参名称
 		return this.aliasMap.containsKey(name);
 	}
 

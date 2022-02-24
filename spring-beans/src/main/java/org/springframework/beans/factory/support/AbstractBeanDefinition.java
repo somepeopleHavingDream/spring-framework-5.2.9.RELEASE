@@ -593,7 +593,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public boolean isAbstract() {
-		// 返回当前bean定义的抽象标记
+		// 返回当前bean定义是不是抽象的
 		return this.abstractFlag;
 	}
 
