@@ -475,14 +475,21 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @see #resolveBeanClass(ClassLoader)
 	 */
 	public Class<?> getBeanClass() throws IllegalStateException {
+		// 获得当前bean定义的bean类对象
 		Object beanClassObject = this.beanClass;
+		// 如果当前bean定义的bean类对象为null
 		if (beanClassObject == null) {
+			// 抛出违规状态异常
 			throw new IllegalStateException("No bean class specified on bean definition");
 		}
+		// 如果bean类对象不是Class实例
 		if (!(beanClassObject instanceof Class)) {
+			// 不细究
 			throw new IllegalStateException(
 					"Bean class name [" + beanClassObject + "] has not been resolved into an actual Class");
 		}
+
+		// 返回当前bean定义的bean类对象
 		return (Class<?>) beanClassObject;
 	}
 
@@ -563,6 +570,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public boolean isSingleton() {
+		// 返回当前bean定义是否是单例范围
 		return SCOPE_SINGLETON.equals(this.scope) || SCOPE_DEFAULT.equals(this.scope);
 	}
 
@@ -614,6 +622,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public boolean isLazyInit() {
+		// 返回当前bean定义是否是懒加载的
 		return (this.lazyInit != null && this.lazyInit.booleanValue());
 	}
 

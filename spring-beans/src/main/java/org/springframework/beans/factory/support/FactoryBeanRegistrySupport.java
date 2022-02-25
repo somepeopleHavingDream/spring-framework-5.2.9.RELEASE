@@ -56,15 +56,20 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 	@Nullable
 	protected Class<?> getTypeForFactoryBean(FactoryBean<?> factoryBean) {
 		try {
+			// 如果安全管理器存在
 			if (System.getSecurityManager() != null) {
 				return AccessController.doPrivileged(
 						(PrivilegedAction<Class<?>>) factoryBean::getObjectType, getAccessControlContext());
 			}
 			else {
+				// 返回工厂bean的对象类型
 				return factoryBean.getObjectType();
 			}
 		}
 		catch (Throwable ex) {
+			/*
+				以下不细究
+			 */
 			// Thrown from the FactoryBean's getObjectType implementation.
 			logger.info("FactoryBean threw exception from getObjectType, despite the contract saying " +
 					"that it should return null if the type of its object cannot be determined yet", ex);

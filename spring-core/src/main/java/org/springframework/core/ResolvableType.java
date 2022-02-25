@@ -794,6 +794,7 @@ public class ResolvableType implements Serializable {
 	 */
 	@Nullable
 	public Class<?> resolve() {
+		// 返回当前可解析类型是否已被解析过
 		return this.resolved;
 	}
 

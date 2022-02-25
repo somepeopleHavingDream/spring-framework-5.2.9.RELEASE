@@ -93,6 +93,7 @@ public abstract class AbstractFactoryBean<T>
 
 	@Override
 	public boolean isSingleton() {
+		// 返回当前工厂bean是否是单例的
 		return this.singleton;
 	}
 

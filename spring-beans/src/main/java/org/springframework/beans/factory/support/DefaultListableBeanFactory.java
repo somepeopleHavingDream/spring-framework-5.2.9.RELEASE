@@ -557,8 +557,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 						boolean allowFactoryBeanInit = (allowEagerInit || containsSingleton(beanName));
 						boolean isNonLazyDecorated = (dbd != null && !mbd.isLazyInit());
 
+						// 如果入参bean不是工厂bean
 						if (!isFactoryBean) {
+							// 如果可以包括非单例的，或者入参bean是单例的
 							if (includeNonSingletons || isSingleton(beanName, mbd, dbd)) {
+								// 计算是否类型匹配
 								matchFound = isTypeMatch(beanName, type, allowFactoryBeanInit);
 							}
 						}
@@ -625,6 +628,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	}
 
 	private boolean isSingleton(String beanName, RootBeanDefinition mbd, @Nullable BeanDefinitionHolder dbd) {
+		// 返回入参bean是否是单例的
 		return (dbd != null ? mbd.isSingleton() : isSingleton(beanName));
 	}
 

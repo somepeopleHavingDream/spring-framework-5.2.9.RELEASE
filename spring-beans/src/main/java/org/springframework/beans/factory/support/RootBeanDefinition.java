@@ -299,6 +299,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	 */
 	@Nullable
 	public BeanDefinitionHolder getDecoratedDefinition() {
+		// 返回当前bean定义的已装饰bean定义
 		return this.decoratedDefinition;
 	}
 
@@ -346,10 +347,15 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	 */
 	@Nullable
 	public Class<?> getTargetType() {
+		// 如果当前bean定义的已解析目标类型不为null
 		if (this.resolvedTargetType != null) {
+			// 返回当前bean定义的已解析目标类型
 			return this.resolvedTargetType;
 		}
+
+		// 获得当前bean定义的目标类型
 		ResolvableType targetType = this.targetType;
+		// 如果目标类型不为null，则目标类型做解析操作，否则返回null
 		return (targetType != null ? targetType.resolve() : null);
 	}
 
