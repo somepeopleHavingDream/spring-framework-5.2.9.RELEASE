@@ -156,7 +156,7 @@ public class ResolvableType implements Serializable {
 	 */
 	private ResolvableType(Type type, @Nullable TypeProvider typeProvider,
 			@Nullable VariableResolver variableResolver, @Nullable Integer hash) {
-
+		// 设值当前可解析类型实例的类型、类型提供者、变量解析器、组件类型、哈希、已解析类对象
 		this.type = type;
 		this.typeProvider = typeProvider;
 		this.variableResolver = variableResolver;
@@ -815,16 +815,28 @@ public class ResolvableType implements Serializable {
 
 	@Nullable
 	private Class<?> resolveClass() {
+		// 如果当前可解析类型的类型的是空类型实例
 		if (this.type == EmptyType.INSTANCE) {
+			// 返回null
 			return null;
 		}
+
+		// 如果当前可解析类型的类型是Class实例
 		if (this.type instanceof Class) {
+			// 将当前可解析类型的类型变量强转为Class对象后，再返回
 			return (Class<?>) this.type;
 		}
+
+		// 如果当前可解析类型的类型是通用数组类型
 		if (this.type instanceof GenericArrayType) {
+			/*
+				以下不细究
+			 */
 			Class<?> resolvedComponent = getComponentType().resolve();
 			return (resolvedComponent != null ? Array.newInstance(resolvedComponent, 0).getClass() : null);
 		}
+
+		// 获得解析类型，做解析处理
 		return resolveType().resolve();
 	}
 
@@ -834,7 +846,9 @@ public class ResolvableType implements Serializable {
 	 * as it cannot be serialized.
 	 */
 	ResolvableType resolveType() {
+		// 如果当前可解析类型是参数化类型
 		if (this.type instanceof ParameterizedType) {
+			// 返回类型
 			return forType(((ParameterizedType) this.type).getRawType(), this.variableResolver);
 		}
 		if (this.type instanceof WildcardType) {
@@ -1406,6 +1420,7 @@ public class ResolvableType implements Serializable {
 	 * @return a {@link ResolvableType} for the specified {@link Type} and {@link VariableResolver}
 	 */
 	static ResolvableType forType(@Nullable Type type, @Nullable VariableResolver variableResolver) {
+		// 返回类型
 		return forType(type, null, variableResolver);
 	}
 
@@ -1419,8 +1434,9 @@ public class ResolvableType implements Serializable {
 	 */
 	static ResolvableType forType(
 			@Nullable Type type, @Nullable TypeProvider typeProvider, @Nullable VariableResolver variableResolver) {
-
+		// 如果入参类型为null，并且入参类型提供者不为null
 		if (type == null && typeProvider != null) {
+			// 通过可序列化类型包装器返回类型
 			type = SerializableTypeWrapper.forTypeProvider(typeProvider);
 		}
 		if (type == null) {

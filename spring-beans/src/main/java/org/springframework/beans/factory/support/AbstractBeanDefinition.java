@@ -581,6 +581,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public boolean isPrototype() {
+		// 返回当前bean定义的范围是否是原型的
 		return SCOPE_PROTOTYPE.equals(this.scope);
 	}
 
@@ -1112,6 +1113,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * not defined by the application itself.
 	 */
 	public boolean isSynthetic() {
+		// 返回当前bean定义是否是合成的
 		return this.synthetic;
 	}
 
@@ -1232,7 +1234,9 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	public void prepareMethodOverrides() throws BeanDefinitionValidationException {
 		// Check that lookup methods exist and determine their overloaded status.
+		// 返回当前bean定义是否有方法覆盖
 		if (hasMethodOverrides()) {
+			// 不细究
 			getMethodOverrides().getOverrides().forEach(this::prepareMethodOverride);
 		}
 	}

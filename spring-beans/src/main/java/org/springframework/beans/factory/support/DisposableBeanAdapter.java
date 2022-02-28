@@ -381,14 +381,22 @@ class DisposableBeanAdapter implements DisposableBean, Runnable, Serializable {
 	 * @param beanDefinition the corresponding bean definition
 	 */
 	public static boolean hasDestroyMethod(Object bean, RootBeanDefinition beanDefinition) {
+		// 如果入参bean是一次性bean实例，或者入参bean是可自动关闭实例
 		if (bean instanceof DisposableBean || bean instanceof AutoCloseable) {
+			// 不细究
 			return true;
 		}
+
+		// 获得入参bean定义的销毁方法名
 		String destroyMethodName = beanDefinition.getDestroyMethodName();
+		// 如果销毁方法名是“inferred”
 		if (AbstractBeanDefinition.INFER_METHOD.equals(destroyMethodName)) {
+			// 不细究
 			return (ClassUtils.hasMethod(bean.getClass(), CLOSE_METHOD_NAME) ||
 					ClassUtils.hasMethod(bean.getClass(), SHUTDOWN_METHOD_NAME));
 		}
+
+		// 返回是否存在销毁方法
 		return StringUtils.hasLength(destroyMethodName);
 	}
 
@@ -398,16 +406,24 @@ class DisposableBeanAdapter implements DisposableBean, Runnable, Serializable {
 	 * @param postProcessors the post-processor candidates
 	 */
 	public static boolean hasApplicableProcessors(Object bean, List<BeanPostProcessor> postProcessors) {
+		// 如果入参后置处理器不空
 		if (!CollectionUtils.isEmpty(postProcessors)) {
+			// 遍历后置入参处理器
 			for (BeanPostProcessor processor : postProcessors) {
+				// 如果当前遍历的bean后置处理器是销毁感知bean后置处理器
 				if (processor instanceof DestructionAwareBeanPostProcessor) {
+					// 将当前处理器强转为销毁感知bean后置处理器
 					DestructionAwareBeanPostProcessor dabpp = (DestructionAwareBeanPostProcessor) processor;
+					// 如果销毁感知bean后置处理器需要销毁入参bean
 					if (dabpp.requiresDestruction(bean)) {
+						// 不细究
 						return true;
 					}
 				}
 			}
 		}
+
+		// 返回假，代表当前一次性bean适配器没有可适用的处理器
 		return false;
 	}
 

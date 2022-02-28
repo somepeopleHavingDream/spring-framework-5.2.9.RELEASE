@@ -33,6 +33,7 @@ abstract class GraalDetector {
 	 * Return whether this runtime environment lives within a native image.
 	 */
 	public static boolean inImageCode() {
+		// 返回当前侦测器是否处于图像代码
 		return imageCode;
 	}
 
