@@ -566,17 +566,26 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 							}
 						}
 						else {
+							// 如果满足以下条件
 							if (includeNonSingletons || isNonLazyDecorated ||
 									(allowFactoryBeanInit && isSingleton(beanName, mbd, dbd))) {
+								// 计算是否类型匹配
 								matchFound = isTypeMatch(beanName, type, allowFactoryBeanInit);
 							}
+
+							// 如果类型匹配失败
 							if (!matchFound) {
 								// In case of FactoryBean, try to match FactoryBean instance itself next.
+								// 计算出新的bean名
 								beanName = FACTORY_BEAN_PREFIX + beanName;
+								// 计算是否类型匹配
 								matchFound = isTypeMatch(beanName, type, allowFactoryBeanInit);
 							}
 						}
+
+						// 如果类型匹配成功
 						if (matchFound) {
+							// 不细究
 							result.add(beanName);
 						}
 					}

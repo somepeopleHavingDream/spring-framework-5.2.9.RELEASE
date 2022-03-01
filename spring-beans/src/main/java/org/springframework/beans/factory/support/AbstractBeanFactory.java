@@ -751,11 +751,16 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				beanType = getTypeForFactoryBean(beanName, mbd, allowFactoryBeanInit);
 				predictedType = beanType.resolve();
 				if (predictedType == null) {
+					// 返回假，代表类型不匹配
 					return false;
 				}
 			}
 		}
+		// 如果是工厂简介引用
 		else if (isFactoryDereference) {
+			/*
+				以下不细究
+			 */
 			// Special case: A SmartInstantiationAwareBeanPostProcessor returned a non-FactoryBean
 			// type but we nevertheless are being asked to dereference a FactoryBean...
 			// Let's check the original bean class and proceed with it if it is a FactoryBean.
@@ -767,22 +772,31 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 		// We don't have an exact type but if bean definition target type or the factory
 		// method return type matches the predicted type then we can use that.
+		// 如果bean类型为null
 		if (beanType == null) {
+			// 获得已合并bean定义的目标类型
 			ResolvableType definedType = mbd.targetType;
+			// 如果已定义的类型为null
 			if (definedType == null) {
+				// 将合并bean定义的工厂方法返回类型赋值为已定义类型
 				definedType = mbd.factoryMethodReturnType;
 			}
+			// 如果已定义类型不为null，并且已定义类型解析后和预测类型相同
 			if (definedType != null && definedType.resolve() == predictedType) {
+				// 设值bean类型为已定义类型
 				beanType = definedType;
 			}
 		}
 
 		// If we have a bean type use it so that generics are considered
+		// 如果bean类型不为null
 		if (beanType != null) {
+			// 返回要匹配的类型是否是可从bean类型赋值的
 			return typeToMatch.isAssignableFrom(beanType);
 		}
 
 		// If we don't have a bean type, fallback to the predicted type
+		// 返回要匹配的类型是否是可从预测bean类型赋值的
 		return typeToMatch.isAssignableFrom(predictedType);
 	}
 

@@ -219,6 +219,9 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
 	 * @return the resulting hash code
 	 */
 	protected int getHash(@Nullable Object o) {
+		/*
+			以下不细究
+		 */
 		int hash = (o != null ? o.hashCode() : 0);
 		hash += (hash << 15) ^ 0xffffcd7d;
 		hash ^= (hash >>> 10);
@@ -232,8 +235,11 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
 	@Override
 	@Nullable
 	public V get(@Nullable Object key) {
+		// 获得引用
 		Reference<K, V> ref = getReference(key, Restructure.WHEN_NECESSARY);
+		// 如果引用不为null，则获得引用的条目，否则返回null
 		Entry<K, V> entry = (ref != null ? ref.get() : null);
+		// 如果条目不为null，则返回条目中的值，否则返回null
 		return (entry != null ? entry.getValue() : null);
 	}
 
@@ -261,13 +267,16 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
 	 */
 	@Nullable
 	protected final Reference<K, V> getReference(@Nullable Object key, Restructure restructure) {
+		// 获得键所对应的哈希值
 		int hash = getHash(key);
+		// 通过哈希值获得段，再获得引用
 		return getSegmentForHash(hash).getReference(key, hash, restructure);
 	}
 
 	@Override
 	@Nullable
 	public V put(@Nullable K key, @Nullable V value) {
+		// 做put操作
 		return put(key, value, true);
 	}
 
@@ -378,7 +387,9 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
 	 * and is useful when the Map is read frequently but updated less often.
 	 */
 	public void purgeUnreferencedEntries() {
+		// 获得当前并发引用哈希映射的段
 		for (Segment segment : this.segments) {
+			// 如果必要的话，重组当前段
 			segment.restructureIfNecessary(false);
 		}
 	}
@@ -415,11 +426,14 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
 
 	@Nullable
 	private <T> T doTask(@Nullable Object key, Task<T> task) {
+		// 获得入参键的哈希值
 		int hash = getHash(key);
+		// 获得哈希值对应的段，再做任务处理
 		return getSegmentForHash(hash).doTask(hash, key, task);
 	}
 
 	private Segment getSegmentForHash(int hash) {
+		// 通过哈希获得对应位置的段
 		return this.segments[(hash >>> (32 - this.shift)) & (this.segments.length - 1)];
 	}
 
@@ -491,16 +505,25 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
 
 		@Nullable
 		public Reference<K, V> getReference(@Nullable Object key, int hash, Restructure restructure) {
+			// 如果入参重组是必要重组
 			if (restructure == Restructure.WHEN_NECESSARY) {
 				restructureIfNecessary(false);
 			}
+
+			// 如果当前并发引用哈希映射的数量为0
 			if (this.count.get() == 0) {
+				// 返回null
 				return null;
 			}
+
 			// Use a local copy to protect against other threads writing
+			// 获得当前引用集
 			Reference<K, V>[] references = this.references;
+			// 获得哈希在对应引用集下的下标
 			int index = getIndex(hash, references);
+			// 获得对应位置的引用
 			Reference<K, V> head = references[index];
+			// 在链中找到，返回对应引用
 			return findInChain(head, key, hash);
 		}
 
@@ -514,6 +537,9 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
 		 */
 		@Nullable
 		public <T> T doTask(final int hash, @Nullable final Object key, final Task<T> task) {
+			/*
+				以下不细究
+			 */
 			boolean resize = task.hasOption(TaskOption.RESIZE);
 			if (task.hasOption(TaskOption.RESTRUCTURE_BEFORE)) {
 				restructureIfNecessary(resize);
@@ -569,10 +595,15 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
 		 * @param allowResize if resizing is permitted
 		 */
 		protected final void restructureIfNecessary(boolean allowResize) {
+			// 获得当前并发引用哈希映射的数量
 			int currCount = this.count.get();
+			// 计算出当前并发哈希映射是否需要重新调整大小
 			boolean needsResize = allowResize && (currCount > 0 && currCount >= this.resizeThreshold);
+			// 从引用管理器中出队一个元素用以清除
 			Reference<K, V> ref = this.referenceManager.pollForPurge();
+			// 如果引用不为null，或者需要重新调整大小
 			if (ref != null || (needsResize)) {
+				// 不细究
 				restructure(allowResize, ref);
 			}
 		}
@@ -640,18 +671,30 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
 		@Nullable
 		private Reference<K, V> findInChain(Reference<K, V> ref, @Nullable Object key, int hash) {
 			Reference<K, V> currRef = ref;
+
+			// 如果当前引用不为null
 			while (currRef != null) {
+				// 如果当前引用的哈希与入参哈希相同
 				if (currRef.getHash() == hash) {
+					// 获得当前引用的条目
 					Entry<K, V> entry = currRef.get();
+					// 如果条目不为null
 					if (entry != null) {
+						// 获得键
 						K entryKey = entry.getKey();
+						// 如果两个键相同
 						if (ObjectUtils.nullSafeEquals(entryKey, key)) {
+							// 返回当前引用
 							return currRef;
 						}
 					}
 				}
+
+				// 不细究
 				currRef = currRef.getNext();
 			}
+
+			// 返回null
 			return null;
 		}
 
@@ -1011,6 +1054,7 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
 		@SuppressWarnings("unchecked")
 		@Nullable
 		public Reference<K, V> pollForPurge() {
+			// 出队一个元素
 			return (Reference<K, V>) this.queue.poll();
 		}
 	}
