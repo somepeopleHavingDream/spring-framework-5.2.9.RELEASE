@@ -518,6 +518,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			// 做获取bean名操作
 			return doGetBeanNamesForType(ResolvableType.forRawClass(type), includeNonSingletons, allowEagerInit);
 		}
+
+		/*
+			以下不细究
+		 */
+
 		Map<Class<?>, String[]> cache =
 				(includeNonSingletons ? this.allBeanNamesByType : this.singletonBeanNamesByType);
 		String[] resolvedBeanNames = cache.get(type);
@@ -591,6 +596,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 					}
 				}
 				catch (CannotLoadBeanClassException | BeanDefinitionStoreException ex) {
+					/*
+						以下不细究
+					 */
 					if (allowEagerInit) {
 						throw ex;
 					}
@@ -603,16 +611,22 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 					onSuppressedException(ex);
 				}
 				catch (NoSuchBeanDefinitionException ex) {
+					// 不细究
 					// Bean definition got removed while we were iterating -> ignore.
 				}
 			}
 		}
 
 		// Check manually registered singletons too.
+		// 遍历当前默认可列出bean工厂的手工单例bean
 		for (String beanName : this.manualSingletonNames) {
 			try {
+				// 如果bean是工厂bean
 				// In case of FactoryBean, match object created by FactoryBean.
 				if (isFactoryBean(beanName)) {
+					/*
+						以下不细究
+					 */
 					if ((includeNonSingletons || isSingleton(beanName)) && isTypeMatch(beanName, type)) {
 						result.add(beanName);
 						// Match found for this bean: do not match FactoryBean itself anymore.
@@ -621,18 +635,25 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 					// In case of FactoryBean, try to match FactoryBean itself next.
 					beanName = FACTORY_BEAN_PREFIX + beanName;
 				}
+
 				// Match raw bean instance (might be raw FactoryBean).
+				// 如果当前bean的类型是匹配的
 				if (isTypeMatch(beanName, type)) {
+					// 添加当前bean名到返回结果集中
 					result.add(beanName);
 				}
 			}
 			catch (NoSuchBeanDefinitionException ex) {
+				/*
+					以下不细究
+				 */
 				// Shouldn't happen - probably a result of circular reference resolution...
 				logger.trace(LogMessage.format(
 						"Failed to check manually registered singleton with name '%s'", beanName), ex);
 			}
 		}
 
+		// 返回结果
 		return StringUtils.toStringArray(result);
 	}
 
@@ -893,8 +914,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Override
 	public void clearMetadataCache() {
+		// 调用父类的清理元数据缓存
 		super.clearMetadataCache();
+		// 清理当前默认可列出bean工厂的合并bean定义拥有器
 		this.mergedBeanDefinitionHolders.clear();
+		// 通过类型缓存，做清理工作
 		clearByTypeCache();
 	}
 

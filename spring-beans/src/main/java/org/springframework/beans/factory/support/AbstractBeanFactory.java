@@ -474,10 +474,14 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	public boolean containsBean(String name) {
 		// 将入参名转换为bean名
 		String beanName = transformedBeanName(name);
+		// 如果当前bean工厂包含该单例，或者包含该bean定义
 		if (containsSingleton(beanName) || containsBeanDefinition(beanName)) {
+			// 不细究
 			return (!BeanFactoryUtils.isFactoryDereference(name) || isFactoryBean(name));
 		}
+
 		// Not found -> check parent.
+		// 没找到，则从父bean工厂中找
 		BeanFactory parentBeanFactory = getParentBeanFactory();
 		return (parentBeanFactory != null && parentBeanFactory.containsBean(originalBeanName(name)));
 	}
@@ -1678,8 +1682,11 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @since 4.2
 	 */
 	public void clearMetadataCache() {
+		// 遍历当前bean工厂的合并bean定义集
 		this.mergedBeanDefinitions.forEach((beanName, bd) -> {
+			// 如果对于当前bean，没有元数据缓存资格
 			if (!isBeanEligibleForMetadataCaching(beanName)) {
+				// 修改当前bean定义的stale字段值
 				bd.stale = true;
 			}
 		});

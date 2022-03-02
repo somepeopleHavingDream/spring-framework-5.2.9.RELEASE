@@ -827,10 +827,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
 
 		// Detect a LoadTimeWeaver and prepare for weaving, if found in the meantime
-		// 侦测加载时间织入器，并且准备织入，如果同时发现。
 		// (e.g. through an @Bean method registered by ConfigurationClassPostProcessor)
-		// 比如，通过@Bean标签被配置类后置处理器所注册。
+
+		// 如果bean工厂的临时类加载器为null，并且bean工厂包含加载时织入器
 		if (beanFactory.getTempClassLoader() == null && beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
+			/*
+				以下不细究
+			 */
 			beanFactory.addBeanPostProcessor(new LoadTimeWeaverAwareProcessor(beanFactory));
 			beanFactory.setTempClassLoader(new ContextTypeMatchClassLoader(beanFactory.getBeanClassLoader()));
 		}
@@ -840,21 +843,15 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Instantiate and register all BeanPostProcessor beans,
 	 * respecting explicit order if given.
 	 * <p>Must be called before any instantiation of application beans.
-	 *
-	 * 实例化和注册所有Bean后置处理器bean，
-	 * 遵循其显式顺序，如果有的话。
-	 * 必须在任何应用bean实例化之前被调用。
 	 */
 	protected void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory) {
+		// 后置处理器注册代理做注册bean后置处理器工作
 		PostProcessorRegistrationDelegate.registerBeanPostProcessors(beanFactory, this);
 	}
 
 	/**
 	 * Initialize the MessageSource.
 	 * Use parent's if none defined in this context.
-	 *
-	 * 实例化消息源。
-	 * 如果在此上下文里没被定义，则使用父类的。
 	 */
 	protected void initMessageSource() {
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
