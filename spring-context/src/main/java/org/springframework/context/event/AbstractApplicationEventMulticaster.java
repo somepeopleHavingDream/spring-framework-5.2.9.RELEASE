@@ -83,13 +83,20 @@ public abstract class AbstractApplicationEventMulticaster
 
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
+		// 如果入参bean工厂不是可配置bean工厂实例
 		if (!(beanFactory instanceof ConfigurableBeanFactory)) {
+			// 不细究
 			throw new IllegalStateException("Not running in a ConfigurableBeanFactory: " + beanFactory);
 		}
+
+		// 设值当前应用事件多播器的bean工厂
 		this.beanFactory = (ConfigurableBeanFactory) beanFactory;
+		// 如果当前应用事件多播器的bean类加载器为null
 		if (this.beanClassLoader == null) {
+			// 从bean工厂中获得bean类加载器，并设值为当前应用事件多播器的bean类加载器
 			this.beanClassLoader = this.beanFactory.getBeanClassLoader();
 		}
+		// 设值当前应用事件多播器的检索互斥量
 		this.retrievalMutex = this.beanFactory.getSingletonMutex();
 	}
 

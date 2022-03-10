@@ -757,6 +757,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 */
 	@Override
 	public final Object getSingletonMutex() {
+		// 返回当前默认单例bean注册表的单例对象集
 		return this.singletonObjects;
 	}
 

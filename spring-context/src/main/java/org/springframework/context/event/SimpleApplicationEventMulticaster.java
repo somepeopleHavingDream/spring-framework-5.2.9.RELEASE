@@ -65,6 +65,7 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 	 * Create a new SimpleApplicationEventMulticaster for the given BeanFactory.
 	 */
 	public SimpleApplicationEventMulticaster(BeanFactory beanFactory) {
+		// 设值当前简单应用事件多播器的bean工厂
 		setBeanFactory(beanFactory);
 	}
 

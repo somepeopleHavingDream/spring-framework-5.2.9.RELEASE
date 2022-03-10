@@ -924,6 +924,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Override
 	public void freezeConfiguration() {
+		// 设值当前默认可列出bean工厂的是否配置冻结标记、冻结bean定义名称
 		this.configurationFrozen = true;
 		this.frozenBeanDefinitionNames = StringUtils.toStringArray(this.beanDefinitionNames);
 	}
@@ -946,7 +947,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Override
 	public void preInstantiateSingletons() throws BeansException {
+		// 如果日志器是可追踪级别的
 		if (logger.isTraceEnabled()) {
+			// 不细究
 			logger.trace("Pre-instantiating singletons in " + this);
 		}
 
@@ -959,18 +962,26 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		// Trigger initialization of all non-lazy singleton beans...
 		// 触发所有非懒加载单例bean的实例化……
 		for (String beanName : beanNames) {
-			// 获得合并的本地Bean定义
+			// 根据当前bean名，获得合并的本地Bean定义
 			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
 
 			// 如果根bean定义不是抽象的，是单例的，并且不是懒加载的
 			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
 				// 如果是工厂bean
 				if (isFactoryBean(beanName)) {
+					// 获得bean
 					Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
+
+					// 如果bean是工厂bean的实例
 					if (bean instanceof FactoryBean) {
 						FactoryBean<?> factory = (FactoryBean<?>) bean;
 						boolean isEagerInit;
+
+						// 如果当前系统的安全管理器不存在，并且工厂bean是灵活工厂bean实例
 						if (System.getSecurityManager() != null && factory instanceof SmartFactoryBean) {
+							/*
+								以下不细究
+							 */
 							isEagerInit = AccessController.doPrivileged(
 									(PrivilegedAction<Boolean>) ((SmartFactoryBean<?>) factory)::isEagerInit,
 									getAccessControlContext());

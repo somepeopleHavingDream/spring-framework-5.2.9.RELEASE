@@ -1062,7 +1062,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public void addEmbeddedValueResolver(StringValueResolver valueResolver) {
+		// 断言：入参值解析器不为null
 		Assert.notNull(valueResolver, "StringValueResolver must not be null");
+		// 将入参值解析器添加到当前bean工厂的内嵌值解析器中
 		this.embeddedValueResolvers.add(valueResolver);
 	}
 
