@@ -468,10 +468,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @throws IllegalStateException if the context has not been initialized yet
 	 */
 	LifecycleProcessor getLifecycleProcessor() throws IllegalStateException {
+		// 如果当前应用上下文的生命周期处理器不存在
 		if (this.lifecycleProcessor == null) {
+			// 不细究
 			throw new IllegalStateException("LifecycleProcessor not initialized - " +
 					"call 'refresh' before invoking lifecycle methods via the context: " + this);
 		}
+
+		// 返回当前应用上下文的生命周期处理器
 		return this.lifecycleProcessor;
 	}
 
@@ -931,8 +935,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see org.springframework.context.support.DefaultLifecycleProcessor
 	 */
 	protected void initLifecycleProcessor() {
+		// 获得当前应用上下文的bean工厂
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+		// 如果bean工厂包含生命周期处理器bean
 		if (beanFactory.containsLocalBean(LIFECYCLE_PROCESSOR_BEAN_NAME)) {
+			/*
+				以下不细究
+			 */
 			this.lifecycleProcessor =
 					beanFactory.getBean(LIFECYCLE_PROCESSOR_BEAN_NAME, LifecycleProcessor.class);
 			if (logger.isTraceEnabled()) {
@@ -940,10 +949,18 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 		}
 		else {
+			// 实例化出一个默认生命周期处理器
 			DefaultLifecycleProcessor defaultProcessor = new DefaultLifecycleProcessor();
+			// 将bean工厂设值为默认生命周期处理器的bean工厂
 			defaultProcessor.setBeanFactory(beanFactory);
+
+			// 将实例化出的默认生命周期处理器设值为当前应用上下文的生命周期处理器
 			this.lifecycleProcessor = defaultProcessor;
+
+			// 将当前应用上下文的生命周期处理器注册到bean工厂中
 			beanFactory.registerSingleton(LIFECYCLE_PROCESSOR_BEAN_NAME, this.lifecycleProcessor);
+
+			// 如果日志器是可追踪的
 			if (logger.isTraceEnabled()) {
 				logger.trace("No '" + LIFECYCLE_PROCESSOR_BEAN_NAME + "' bean, using " +
 						"[" + this.lifecycleProcessor.getClass().getSimpleName() + "]");
@@ -1049,9 +1066,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Finish the refresh of this context, invoking the LifecycleProcessor's
 	 * onRefresh() method and publishing the
 	 * {@link org.springframework.context.event.ContextRefreshedEvent}.
-	 *
-	 * 结束此上下文的刷新，
-	 * 调用生命周期处理器的onRefresh()方法，并且推送上下文可刷新事件。
 	 */
 	protected void finishRefresh() {
 		// Clear context-level resource caches (such as ASM metadata from scanning).

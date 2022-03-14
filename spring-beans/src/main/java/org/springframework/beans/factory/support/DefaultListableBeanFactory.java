@@ -987,10 +987,14 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 									getAccessControlContext());
 						}
 						else {
+							// 计算出是否立即初始化
 							isEagerInit = (factory instanceof SmartFactoryBean &&
 									((SmartFactoryBean<?>) factory).isEagerInit());
 						}
+
+						// 如果立即初始化
 						if (isEagerInit) {
+							// 不细究
 							getBean(beanName);
 						}
 					}
@@ -1008,8 +1012,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			// 获得单例
 			Object singletonInstance = getSingleton(beanName);
 
-			// 以下不细究
+			// 如果单例实例是敏捷初始单例
 			if (singletonInstance instanceof SmartInitializingSingleton) {
+				/*
+					以下不细究
+				 */
 				SmartInitializingSingleton smartSingleton = (SmartInitializingSingleton) singletonInstance;
 				if (System.getSecurityManager() != null) {
 					AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
