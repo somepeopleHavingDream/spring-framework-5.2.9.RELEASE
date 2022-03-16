@@ -801,7 +801,9 @@ public abstract class ReflectionUtils {
 	 * @since 4.2.4
 	 */
 	public static void clearCache() {
+		// 清除声明方法缓存
 		declaredMethodsCache.clear();
+		// 清除声明字段缓存
 		declaredFieldsCache.clear();
 	}
 

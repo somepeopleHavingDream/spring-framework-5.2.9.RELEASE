@@ -125,6 +125,7 @@ public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactor
 	public void onRefresh() {
 		// 调用开启bean方法
 		startBeans(true);
+		// 设值当前默认生命周期处理器的运行状态为真
 		this.running = true;
 	}
 
@@ -148,6 +149,7 @@ public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactor
 
 		// 遍历所有的生命周期bean
 		Map<Integer, LifecycleGroup> phases = new HashMap<>();
+		// 不细究
 		lifecycleBeans.forEach((beanName, bean) -> {
 			if (!autoStartupOnly || (bean instanceof SmartLifecycle && ((SmartLifecycle) bean).isAutoStartup())) {
 				int phase = getPhase(bean);
@@ -159,7 +161,12 @@ public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactor
 				group.add(beanName, bean);
 			}
 		});
+
+		// 如果存在阶段
 		if (!phases.isEmpty()) {
+			/*
+				以下不细究
+			 */
 			List<Integer> keys = new ArrayList<>(phases.keySet());
 			Collections.sort(keys);
 			for (Integer key : keys) {

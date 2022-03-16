@@ -1026,6 +1026,7 @@ public class ResolvableType implements Serializable {
 	 * @see #forClassWithGenerics(Class, Class...)
 	 */
 	public static ResolvableType forClass(@Nullable Class<?> clazz) {
+		// 实例化并返回可解析类型
 		return new ResolvableType(clazz);
 	}
 
@@ -1129,13 +1130,21 @@ public class ResolvableType implements Serializable {
 	 * @see ResolvableTypeProvider
 	 */
 	public static ResolvableType forInstance(Object instance) {
+		// 断言：入参实例不为null
 		Assert.notNull(instance, "Instance must not be null");
+
+		// 如果入参实例是可解析类型提供者实例
 		if (instance instanceof ResolvableTypeProvider) {
+			/*
+				不细究
+			 */
 			ResolvableType type = ((ResolvableTypeProvider) instance).getResolvableType();
 			if (type != null) {
 				return type;
 			}
 		}
+
+		// 实例化出一个可解析类型
 		return ResolvableType.forClass(instance.getClass());
 	}
 
@@ -1484,7 +1493,9 @@ public class ResolvableType implements Serializable {
 	 * @since 4.2
 	 */
 	public static void clearCache() {
+		// 清除当前可解析类型缓存
 		cache.clear();
+		// 清除可序列化类型包装器的缓存
 		SerializableTypeWrapper.cache.clear();
 	}
 

@@ -206,7 +206,9 @@ final class AnnotationTypeMappings {
 	}
 
 	static void clearCache() {
+		// 清除标准可重复缓存
 		standardRepeatablesCache.clear();
+		// 清除可重复缓存
 		noRepeatablesCache.clear();
 	}
 

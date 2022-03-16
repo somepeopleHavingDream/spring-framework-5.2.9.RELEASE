@@ -34,6 +34,7 @@ public abstract class ApplicationContextEvent extends ApplicationEvent {
 	 * (must not be {@code null})
 	 */
 	public ApplicationContextEvent(ApplicationContext source) {
+		// 调用父类的构造方法
 		super(source);
 	}
 

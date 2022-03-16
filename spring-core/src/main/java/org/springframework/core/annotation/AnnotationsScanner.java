@@ -530,7 +530,9 @@ abstract class AnnotationsScanner {
 	}
 
 	static void clearCache() {
+		// 清除声明的注解缓存
 		declaredAnnotationCache.clear();
+		// 清除基类方法缓存
 		baseTypeMethodsCache.clear();
 	}
 

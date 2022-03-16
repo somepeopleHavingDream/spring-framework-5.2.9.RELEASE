@@ -114,6 +114,7 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
 	 * @param initialCapacity the initial capacity of the map
 	 */
 	public ConcurrentReferenceHashMap(int initialCapacity) {
+		// 调用本类的其他构造方法
 		this(initialCapacity, DEFAULT_LOAD_FACTOR, DEFAULT_CONCURRENCY_LEVEL, DEFAULT_REFERENCE_TYPE);
 	}
 
@@ -170,11 +171,15 @@ public class ConcurrentReferenceHashMap<K, V> extends AbstractMap<K, V> implemen
 	@SuppressWarnings("unchecked")
 	public ConcurrentReferenceHashMap(
 			int initialCapacity, float loadFactor, int concurrencyLevel, ReferenceType referenceType) {
-
+		// 断言入参
 		Assert.isTrue(initialCapacity >= 0, "Initial capacity must not be negative");
 		Assert.isTrue(loadFactor > 0f, "Load factor must be positive");
 		Assert.isTrue(concurrencyLevel > 0, "Concurrency level must be positive");
 		Assert.notNull(referenceType, "Reference type must not be null");
+
+		/*
+			以下不细究
+		 */
 		this.loadFactor = loadFactor;
 		this.shift = calculateShift(concurrencyLevel, MAXIMUM_CONCURRENCY_LEVEL);
 		int size = 1 << this.shift;

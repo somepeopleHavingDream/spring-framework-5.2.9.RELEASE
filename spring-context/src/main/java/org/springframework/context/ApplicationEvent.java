@@ -42,7 +42,9 @@ public abstract class ApplicationEvent extends EventObject {
 	 * which the event is associated (never {@code null})
 	 */
 	public ApplicationEvent(Object source) {
+		// 调用父类的构造方法
 		super(source);
+		// 设值当前应用事件的时间戳
 		this.timestamp = System.currentTimeMillis();
 	}
 

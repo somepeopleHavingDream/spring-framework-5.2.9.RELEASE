@@ -392,6 +392,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	@Override
 	public void publishEvent(ApplicationEvent event) {
+		// 发布事件
 		publishEvent(event, null);
 	}
 
@@ -416,11 +417,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @since 4.2
 	 */
 	protected void publishEvent(Object event, @Nullable ResolvableType eventType) {
+		// 断言：入参事件不为null
 		Assert.notNull(event, "Event must not be null");
 
 		// Decorate event as an ApplicationEvent if necessary
 		ApplicationEvent applicationEvent;
+		// 如果入参事件是应用事件
 		if (event instanceof ApplicationEvent) {
+			// 将入参事件强转为应用事件
 			applicationEvent = (ApplicationEvent) event;
 		}
 		else {
@@ -431,15 +435,22 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 
 		// Multicast right now if possible - or lazily once the multicaster is initialized
+		// 如果当前应用上下文存在更早的应用事件
 		if (this.earlyApplicationEvents != null) {
+			// 不细究
 			this.earlyApplicationEvents.add(applicationEvent);
 		}
 		else {
+			// 获得应用事件多播器，广播事件
 			getApplicationEventMulticaster().multicastEvent(applicationEvent, eventType);
 		}
 
 		// Publish event via parent context as well...
+		// 如果当前应用上下文存在父应用上下文
 		if (this.parent != null) {
+			/*
+				以下不细究
+			 */
 			if (this.parent instanceof AbstractApplicationContext) {
 				((AbstractApplicationContext) this.parent).publishEvent(event, eventType);
 			}
@@ -455,10 +466,16 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @throws IllegalStateException if the context has not been initialized yet
 	 */
 	ApplicationEventMulticaster getApplicationEventMulticaster() throws IllegalStateException {
+		// 如果当前应用上下文的应用事件多播器不存在
 		if (this.applicationEventMulticaster == null) {
+			/*
+				以下不细究
+			 */
 			throw new IllegalStateException("ApplicationEventMulticaster not initialized - " +
 					"call 'refresh' before multicasting events via the context: " + this);
 		}
+
+		// 返回当前应用上下文的事件多播器
 		return this.applicationEventMulticaster;
 	}
 
@@ -621,17 +638,18 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 
 			catch (BeansException ex) {
+				/*
+					以下不细究
+				 */
 				if (logger.isWarnEnabled()) {
 					logger.warn("Exception encountered during context initialization - " +
 							"cancelling refresh attempt: " + ex);
 				}
 
 				// Destroy already created singletons to avoid dangling resources.
-				// 销毁已经创建的单例，以避免悬空资源。
 				destroyBeans();
 
 				// Reset 'active' flag.
-				// 重置‘活跃’标记。
 				cancelRefresh(ex);
 
 				// Propagate exception to caller.
@@ -1085,6 +1103,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		publishEvent(new ContextRefreshedEvent(this));
 
 		// Participate in LiveBeansView MBean, if active.
+		// 注册应用上下文
 		LiveBeansView.registerApplicationContext(this);
 	}
 
@@ -1112,9 +1131,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see CachedIntrospectionResults#clearClassLoader(ClassLoader)
 	 */
 	protected void resetCommonCaches() {
+		// 引用工具类清除缓存
 		ReflectionUtils.clearCache();
+		// 注解工具类清除缓存
 		AnnotationUtils.clearCache();
+		// 可解析类清除缓存
 		ResolvableType.clearCache();
+		// 缓存内省结果清除类加载器
 		CachedIntrospectionResults.clearClassLoader(getClassLoader());
 	}
 

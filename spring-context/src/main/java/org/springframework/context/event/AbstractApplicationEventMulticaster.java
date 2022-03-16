@@ -179,34 +179,55 @@ public abstract class AbstractApplicationEventMulticaster
 	 */
 	protected Collection<ApplicationListener<?>> getApplicationListeners(
 			ApplicationEvent event, ResolvableType eventType) {
-
+		// 获得事件源
 		Object source = event.getSource();
+		// 获得事件源的类型
 		Class<?> sourceType = (source != null ? source.getClass() : null);
+
+		// 实例化一个监听缓存键
 		ListenerCacheKey cacheKey = new ListenerCacheKey(eventType, sourceType);
 
 		// Quick check for existing entry on ConcurrentHashMap...
+		// 从检索器缓存中获得监听器检索器
 		ListenerRetriever retriever = this.retrieverCache.get(cacheKey);
+		// 如果检索器存在
 		if (retriever != null) {
+			// 不细究
 			return retriever.getApplicationListeners();
 		}
 
+		// 如果满足以下条件
 		if (this.beanClassLoader == null ||
 				(ClassUtils.isCacheSafe(event.getClass(), this.beanClassLoader) &&
 						(sourceType == null || ClassUtils.isCacheSafe(sourceType, this.beanClassLoader)))) {
 			// Fully synchronized building and caching of a ListenerRetriever
+			// 锁住检索器互斥量
 			synchronized (this.retrievalMutex) {
+				// 从检索器缓存中获得对应检索器
 				retriever = this.retrieverCache.get(cacheKey);
+				// 如果存在对应检索器
 				if (retriever != null) {
+					// 不细究
 					return retriever.getApplicationListeners();
 				}
+
+				// 实例化并设值检索器
 				retriever = new ListenerRetriever(true);
+				// 检索出所有监听器
 				Collection<ApplicationListener<?>> listeners =
 						retrieveApplicationListeners(eventType, sourceType, retriever);
+
+				// 将监听器缓存键和监听检索器全部放置到检索缓存中
 				this.retrieverCache.put(cacheKey, retriever);
+
+				// 返回所有检索到的监听器
 				return listeners;
 			}
 		}
 		else {
+			/*
+				以下不细究
+			 */
 			// No ListenerRetriever caching -> no synchronization necessary
 			return retrieveApplicationListeners(eventType, sourceType, null);
 		}
@@ -372,7 +393,10 @@ public abstract class AbstractApplicationEventMulticaster
 		private final Class<?> sourceType;
 
 		public ListenerCacheKey(ResolvableType eventType, @Nullable Class<?> sourceType) {
+			// 断言：入参事件类型不为null
 			Assert.notNull(eventType, "Event type must not be null");
+
+			// 设值当前监听器缓存键的事件类型和源类型
 			this.eventType = eventType;
 			this.sourceType = sourceType;
 		}
@@ -431,6 +455,7 @@ public abstract class AbstractApplicationEventMulticaster
 		private final boolean preFiltered;
 
 		public ListenerRetriever(boolean preFiltered) {
+			// 设值当前监听检索器是否预过滤
 			this.preFiltered = preFiltered;
 		}
 
