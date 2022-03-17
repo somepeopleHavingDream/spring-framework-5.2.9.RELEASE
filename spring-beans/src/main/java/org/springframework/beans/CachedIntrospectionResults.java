@@ -151,10 +151,13 @@ public final class CachedIntrospectionResults {
 	 * @param classLoader the ClassLoader to clear the cache for
 	 */
 	public static void clearClassLoader(@Nullable ClassLoader classLoader) {
+		// 移除相关的已接收类加载器
 		acceptedClassLoaders.removeIf(registeredLoader ->
 				isUnderneathClassLoader(registeredLoader, classLoader));
+		// 移除相关的强壮类缓存
 		strongClassCache.keySet().removeIf(beanClass ->
 				isUnderneathClassLoader(beanClass.getClassLoader(), classLoader));
+		// 移除相关的软类缓存
 		softClassCache.keySet().removeIf(beanClass ->
 				isUnderneathClassLoader(beanClass.getClassLoader(), classLoader));
 	}

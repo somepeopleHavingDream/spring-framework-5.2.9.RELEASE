@@ -25,8 +25,8 @@ public class Entrance {
 //		String xmlPath = "C:\\Users\\yangxin\\IdeaProjects\\spring-framework-5.2.9.RELEASE\\spring-demo\\src\\main\\resources\\spring\\spring-config.xml";
 //		String xmlPath = "//home/yangxin/IdeaProjects/spring-framework-5.2.9.RELEASE/spring-demo/src/main/resources/spring/spring-config.xml";
 		ApplicationContext applicationContext = new FileSystemXmlApplicationContext(xmlPath);
-//		WelcomeService welcomeService = (WelcomeService) applicationContext.getBean("welcomeService");
-//		welcomeService.sayHello("强大的spring框架。");
+		WelcomeService welcomeService = (WelcomeService) applicationContext.getBean("welcomeService");
+		welcomeService.sayHello("强大的spring框架。");
 //
 //		// 得到无参构造函数创建的对象
 //		User user1a = (User) applicationContext.getBean("user1");
