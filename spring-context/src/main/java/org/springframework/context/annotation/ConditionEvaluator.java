@@ -55,7 +55,7 @@ class ConditionEvaluator {
 	 */
 	public ConditionEvaluator(@Nullable BeanDefinitionRegistry registry,
 			@Nullable Environment environment, @Nullable ResourceLoader resourceLoader) {
-
+		// 实例化并设值当前条件评估器的上下文
 		this.context = new ConditionContextImpl(registry, environment, resourceLoader);
 	}
 
@@ -146,7 +146,7 @@ class ConditionEvaluator {
 
 		public ConditionContextImpl(@Nullable BeanDefinitionRegistry registry,
 				@Nullable Environment environment, @Nullable ResourceLoader resourceLoader) {
-
+			// 设值当前条件评估器的注册表、bean工厂、环境、资源加载器、类加载器
 			this.registry = registry;
 			this.beanFactory = deduceBeanFactory(registry);
 			this.environment = (environment != null ? environment : deduceEnvironment(registry));
@@ -156,42 +156,67 @@ class ConditionEvaluator {
 
 		@Nullable
 		private ConfigurableListableBeanFactory deduceBeanFactory(@Nullable BeanDefinitionRegistry source) {
+			// 如果入参bean定义注册表是可配置可列出bean工厂实例
 			if (source instanceof ConfigurableListableBeanFactory) {
+				// 强转入参bean定义注册表，然后返回
 				return (ConfigurableListableBeanFactory) source;
 			}
+			// 如果入参bean定义注册表是可配置应用上下文实例
 			if (source instanceof ConfigurableApplicationContext) {
+				// 将入参bean定义注册表强转为可配置应用上下文，然后获取bean工厂用于返回
 				return (((ConfigurableApplicationContext) source).getBeanFactory());
 			}
+
+			// 不细究
 			return null;
 		}
 
 		private Environment deduceEnvironment(@Nullable BeanDefinitionRegistry source) {
+			/*
+				以下不细究
+			 */
+
+			// 如果入参bean定义注册表是环境可捕捉的
 			if (source instanceof EnvironmentCapable) {
+				// 不细究
 				return ((EnvironmentCapable) source).getEnvironment();
 			}
+			// 实例化并返回标准环境
 			return new StandardEnvironment();
 		}
 
 		private ResourceLoader deduceResourceLoader(@Nullable BeanDefinitionRegistry source) {
+			// 如果入参bean定义注册表是资源加载器实例
 			if (source instanceof ResourceLoader) {
+				// 将入参bean定义注册表强转为资源加载器，然后返回
 				return (ResourceLoader) source;
 			}
+
+			// 不细究
 			return new DefaultResourceLoader();
 		}
 
 		@Nullable
 		private ClassLoader deduceClassLoader(@Nullable ResourceLoader resourceLoader,
 				@Nullable ConfigurableListableBeanFactory beanFactory) {
-
+			// 如果入参资源加载器不为null
 			if (resourceLoader != null) {
+				// 获得资源加载器的类加载器
 				ClassLoader classLoader = resourceLoader.getClassLoader();
+				// 如果资源加载器的类加载器不为null
 				if (classLoader != null) {
+					// 返回类加载器
 					return classLoader;
 				}
 			}
+
+			// 如果入参bean工厂不为null
 			if (beanFactory != null) {
+				// 从bean工厂里获得bean类加载器，并返回
 				return beanFactory.getBeanClassLoader();
 			}
+
+			// 不细究
 			return ClassUtils.getDefaultClassLoader();
 		}
 

@@ -68,6 +68,7 @@ public class AnnotatedBeanDefinitionReader {
 	 * @see #setEnvironment(Environment)
 	 */
 	public AnnotatedBeanDefinitionReader(BeanDefinitionRegistry registry) {
+		// 调用本类的构造方法
 		this(registry, getOrCreateEnvironment(registry));
 	}
 
@@ -81,10 +82,15 @@ public class AnnotatedBeanDefinitionReader {
 	 * @since 3.1
 	 */
 	public AnnotatedBeanDefinitionReader(BeanDefinitionRegistry registry, Environment environment) {
+		// 断言，入参bean定义注册表和环境不为null
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
 		Assert.notNull(environment, "Environment must not be null");
+
+		// 设值当前注解bean定义阅读器的注册表和条件评估器
 		this.registry = registry;
 		this.conditionEvaluator = new ConditionEvaluator(registry, environment, null);
+
+		// 通过注解配置工具类注册注解配置处理器
 		AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry);
 	}
 
@@ -291,10 +297,16 @@ public class AnnotatedBeanDefinitionReader {
 	 * StandardEnvironment.
 	 */
 	private static Environment getOrCreateEnvironment(BeanDefinitionRegistry registry) {
+		// 断言，入参bean定义注册表不为null
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
+
+		// 如果入参bean定义注册表是可捕捉环境的实例
 		if (registry instanceof EnvironmentCapable) {
+			// 强转入参bean定义注册表，然后获得环境
 			return ((EnvironmentCapable) registry).getEnvironment();
 		}
+
+		// 不细究
 		return new StandardEnvironment();
 	}
 
