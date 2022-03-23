@@ -202,6 +202,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	 * Create a new DefaultListableBeanFactory.
 	 */
 	public DefaultListableBeanFactory() {
+		// 调用父类的构造方法
 		super();
 	}
 
@@ -1097,18 +1098,19 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 			// 如果bean创建已经开始
 			if (hasBeanCreationStarted()) {
-				/*
-					以下不细究
-				 */
 				// Cannot modify startup-time collection elements anymore (for stable iteration)
+				// 不再能修改启动时元素
 				synchronized (this.beanDefinitionMap) {
+					// 将入参bean加入到bean定义集中
 					this.beanDefinitionMap.put(beanName, beanDefinition);
 
+					// 替换当前默认可列出bean工厂的bean定义名称集
 					List<String> updatedDefinitions = new ArrayList<>(this.beanDefinitionNames.size() + 1);
 					updatedDefinitions.addAll(this.beanDefinitionNames);
 					updatedDefinitions.add(beanName);
 					this.beanDefinitionNames = updatedDefinitions;
 
+					// 移除手工单例
 					removeManualSingletonName(beanName);
 				}
 			}

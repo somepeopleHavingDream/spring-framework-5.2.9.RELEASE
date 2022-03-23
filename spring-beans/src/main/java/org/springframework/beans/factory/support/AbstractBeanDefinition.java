@@ -450,6 +450,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * @see #setBeanClassName(String)
 	 */
 	public void setBeanClass(@Nullable Class<?> beanClass) {
+		// 设值当前bean定义的bean类对象
 		this.beanClass = beanClass;
 	}
 

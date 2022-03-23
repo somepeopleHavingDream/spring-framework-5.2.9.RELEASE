@@ -284,25 +284,30 @@ public abstract class ClassUtils {
 			return clazz;
 		}
 
-		/*
-			以下不细究
-		 */
-
 		// "java.lang.String[]" style arrays
+		// 如果入参名称以数组后缀结尾
 		if (name.endsWith(ARRAY_SUFFIX)) {
+			/*
+				以下不细究
+			 */
 			String elementClassName = name.substring(0, name.length() - ARRAY_SUFFIX.length());
 			Class<?> elementClass = forName(elementClassName, classLoader);
 			return Array.newInstance(elementClass, 0).getClass();
 		}
 
 		// "[Ljava.lang.String;" style arrays
+		// 如果入参名称是以[L开始，并且以分号结尾
 		if (name.startsWith(NON_PRIMITIVE_ARRAY_PREFIX) && name.endsWith(";")) {
+			/*
+				以下不细究
+			 */
 			String elementName = name.substring(NON_PRIMITIVE_ARRAY_PREFIX.length(), name.length() - 1);
 			Class<?> elementClass = forName(elementName, classLoader);
 			return Array.newInstance(elementClass, 0).getClass();
 		}
 
 		// "[[I" or "[[Ljava.lang.String;" style arrays
+		// 如果入参名称是以[开头的
 		if (name.startsWith(INTERNAL_ARRAY_PREFIX)) {
 			String elementName = name.substring(INTERNAL_ARRAY_PREFIX.length());
 			Class<?> elementClass = forName(elementName, classLoader);
@@ -320,8 +325,11 @@ public abstract class ClassUtils {
 			return Class.forName(name, false, clToUse);
 		}
 		catch (ClassNotFoundException ex) {
+			// 计算出最后一个点号的下标位置
 			int lastDotIndex = name.lastIndexOf(PACKAGE_SEPARATOR);
+			// 如果最后点号的下标位置不等于-1
 			if (lastDotIndex != -1) {
+				// 获得内部类名
 				String innerClassName =
 						name.substring(0, lastDotIndex) + INNER_CLASS_SEPARATOR + name.substring(lastDotIndex + 1);
 				try {
@@ -329,8 +337,11 @@ public abstract class ClassUtils {
 				}
 				catch (ClassNotFoundException ex2) {
 					// Swallow - let original exception get through
+					// 吞掉异常，让原异常通过
 				}
 			}
+
+			// 抛出异常
 			throw ex;
 		}
 	}
@@ -387,15 +398,21 @@ public abstract class ClassUtils {
 	 */
 	public static boolean isPresent(String className, @Nullable ClassLoader classLoader) {
 		try {
+			// 做实例化操作
 			forName(className, classLoader);
+			// 返回真，代表存在入参类
 			return true;
 		}
 		catch (IllegalAccessError err) {
+			/*
+				以下不细究
+			 */
 			throw new IllegalStateException("Readability mismatch in inheritance hierarchy of class [" +
 					className + "]: " + err.getMessage(), err);
 		}
 		catch (Throwable ex) {
 			// Typically ClassNotFoundException or NoClassDefFoundError...
+			// 返回假，代表入参类不存在
 			return false;
 		}
 	}

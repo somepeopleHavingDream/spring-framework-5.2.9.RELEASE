@@ -109,6 +109,7 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	 * @see #refresh
 	 */
 	public GenericApplicationContext() {
+		// 实例化并设值bean工厂
 		this.beanFactory = new DefaultListableBeanFactory();
 	}
 
@@ -302,6 +303,7 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	 * @return the internal bean factory (as DefaultListableBeanFactory)
 	 */
 	public final DefaultListableBeanFactory getDefaultListableBeanFactory() {
+		// 返回当前通用应用上下文的bean工厂
 		return this.beanFactory;
 	}
 
@@ -319,7 +321,7 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	@Override
 	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition)
 			throws BeanDefinitionStoreException {
-
+		// 通过当前通用应用上下文的bean工厂注册bean定义
 		this.beanFactory.registerBeanDefinition(beanName, beanDefinition);
 	}
 

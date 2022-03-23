@@ -151,7 +151,9 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	 * @see #setBeanClass
 	 */
 	public RootBeanDefinition(@Nullable Class<?> beanClass) {
+		// 调用父类的构造方法
 		super();
+		// 给当前根bean定义设值bean类对象
 		setBeanClass(beanClass);
 	}
 
