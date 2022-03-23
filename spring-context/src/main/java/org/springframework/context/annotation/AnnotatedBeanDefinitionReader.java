@@ -139,7 +139,9 @@ public class AnnotatedBeanDefinitionReader {
 	 * e.g. {@link Configuration @Configuration} classes
 	 */
 	public void register(Class<?>... componentClasses) {
+		// 遍历所有组件类对象
 		for (Class<?> componentClass : componentClasses) {
+			// 注册bean
 			registerBean(componentClass);
 		}
 	}
@@ -150,6 +152,7 @@ public class AnnotatedBeanDefinitionReader {
 	 * @param beanClass the class of the bean
 	 */
 	public void registerBean(Class<?> beanClass) {
+		// 做注册bean操作
 		doRegisterBean(beanClass, null, null, null, null);
 	}
 
@@ -255,7 +258,7 @@ public class AnnotatedBeanDefinitionReader {
 	private <T> void doRegisterBean(Class<T> beanClass, @Nullable String name,
 			@Nullable Class<? extends Annotation>[] qualifiers, @Nullable Supplier<T> supplier,
 			@Nullable BeanDefinitionCustomizer[] customizers) {
-
+		// 实例化出一个注解通用bean定义
 		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(beanClass);
 		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) {
 			return;

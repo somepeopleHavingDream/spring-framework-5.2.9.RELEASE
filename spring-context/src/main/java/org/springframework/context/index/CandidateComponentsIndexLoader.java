@@ -83,23 +83,36 @@ public final class CandidateComponentsIndexLoader {
 	@Nullable
 	public static CandidateComponentsIndex loadIndex(@Nullable ClassLoader classLoader) {
 		ClassLoader classLoaderToUse = classLoader;
+
+		// 如果将要使用的类加载器为null
 		if (classLoaderToUse == null) {
+			// 不细究
 			classLoaderToUse = CandidateComponentsIndexLoader.class.getClassLoader();
 		}
+
+		// 从缓存中获得候选组件索引
 		return cache.computeIfAbsent(classLoaderToUse, CandidateComponentsIndexLoader::doLoadIndex);
 	}
 
 	@Nullable
 	private static CandidateComponentsIndex doLoadIndex(ClassLoader classLoader) {
+		// 如果应该忽略索引
 		if (shouldIgnoreIndex) {
+			// 不细究
 			return null;
 		}
 
 		try {
+			// 获得组件资源的统一资源定位符集
 			Enumeration<URL> urls = classLoader.getResources(COMPONENTS_RESOURCE_LOCATION);
+			// 如果统一资源定位符集没有更多的元素
 			if (!urls.hasMoreElements()) {
+				// 返回null
 				return null;
 			}
+			/*
+				以下不细究
+			 */
 			List<Properties> result = new ArrayList<>();
 			while (urls.hasMoreElements()) {
 				URL url = urls.nextElement();
@@ -113,6 +126,9 @@ public final class CandidateComponentsIndexLoader {
 			return (totalCount > 0 ? new CandidateComponentsIndex(result) : null);
 		}
 		catch (IOException ex) {
+			/*
+				不细究
+			 */
 			throw new IllegalStateException("Unable to load indexes from location [" +
 					COMPONENTS_RESOURCE_LOCATION + "]", ex);
 		}

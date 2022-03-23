@@ -82,6 +82,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 	 * of a {@code BeanDefinitionRegistry}
 	 */
 	public ClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry) {
+		// 调用本类的其他构造方法
 		this(registry, true);
 	}
 
@@ -110,6 +111,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 	 * @see #setEnvironment
 	 */
 	public ClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry, boolean useDefaultFilters) {
+		// 调用本类的其他构造方法
 		this(registry, useDefaultFilters, getOrCreateEnvironment(registry));
 	}
 
@@ -136,7 +138,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 	 */
 	public ClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry, boolean useDefaultFilters,
 			Environment environment) {
-
+		// 调用本类中的其他构造方法
 		this(registry, useDefaultFilters, environment,
 				(registry instanceof ResourceLoader ? (ResourceLoader) registry : null));
 	}
@@ -158,14 +160,21 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 	 */
 	public ClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry, boolean useDefaultFilters,
 			Environment environment, @Nullable ResourceLoader resourceLoader) {
-
+		// 断言，入参bean定义注册表不为null
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
+
+		// 设值入参bean定义注册表为当前类路径bean定义扫描器的注册表
 		this.registry = registry;
 
+		// 如果使用默认过滤器
 		if (useDefaultFilters) {
+			// 注册默认过滤器
 			registerDefaultFilters();
 		}
+
+		// 设置环境
 		setEnvironment(environment);
+		// 设置资源加载器
 		setResourceLoader(resourceLoader);
 	}
 

@@ -124,6 +124,7 @@ public interface AnnotationMetadata extends ClassMetadata, AnnotatedTypeMetadata
 	 * @since 5.2
 	 */
 	static AnnotationMetadata introspect(Class<?> type) {
+		// 通类型中，返回标准注解元数据
 		return StandardAnnotationMetadata.from(type);
 	}
 

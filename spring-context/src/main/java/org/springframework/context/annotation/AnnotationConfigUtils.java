@@ -222,18 +222,29 @@ public abstract class AnnotationConfigUtils {
 			beanDefs.add(registerPostProcessor(registry, def, PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 
+		// 如果入参注册表包含bean定义org.springframework.context.event.internalEventListenerProcessor
 		if (!registry.containsBeanDefinition(EVENT_LISTENER_PROCESSOR_BEAN_NAME)) {
+			// 实例化一个根bean定义
 			RootBeanDefinition def = new RootBeanDefinition(EventListenerMethodProcessor.class);
+			// 给实例出来的根bean定义设置源
 			def.setSource(source);
+
+			// 注册后置处理器，添加进bean定义集合中
 			beanDefs.add(registerPostProcessor(registry, def, EVENT_LISTENER_PROCESSOR_BEAN_NAME));
 		}
 
+		// 如果入参注册表包含bean定义org.springframework.context.event.internalEventListenerProcessor
 		if (!registry.containsBeanDefinition(EVENT_LISTENER_FACTORY_BEAN_NAME)) {
+			// 实例化一个根bean定义
 			RootBeanDefinition def = new RootBeanDefinition(DefaultEventListenerFactory.class);
+			// 给实例出来的根bean定义设置源
 			def.setSource(source);
+
+			// 注册后置处理器，添加进bean定义集合中
 			beanDefs.add(registerPostProcessor(registry, def, EVENT_LISTENER_FACTORY_BEAN_NAME));
 		}
 
+		// 返回bean定义集
 		return beanDefs;
 	}
 

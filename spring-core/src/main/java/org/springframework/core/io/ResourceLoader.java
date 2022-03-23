@@ -89,9 +89,6 @@ public interface ResourceLoader {
 	 * in a uniform manner with the ResourceLoader, rather than relying
 	 * on the thread context ClassLoader.
 	 *
-	 * 暴露被此资源加载器使用的类加载器。
-	 * 需要访问类加载器的客户端也能以资源加载器的统一方式访问，而不是依赖线程上下文类加载器。
-	 *
 	 * @return the ClassLoader
 	 * (only {@code null} if even the system ClassLoader isn't accessible)
 	 * @see org.springframework.util.ClassUtils#getDefaultClassLoader()

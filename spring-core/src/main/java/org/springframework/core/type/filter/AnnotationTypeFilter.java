@@ -58,6 +58,7 @@ public class AnnotationTypeFilter extends AbstractTypeHierarchyTraversingFilter 
 	 * @param annotationType the annotation type to match
 	 */
 	public AnnotationTypeFilter(Class<? extends Annotation> annotationType) {
+		// 调用本类的构造方法
 		this(annotationType, true, false);
 	}
 
@@ -79,8 +80,10 @@ public class AnnotationTypeFilter extends AbstractTypeHierarchyTraversingFilter 
 	 */
 	public AnnotationTypeFilter(
 			Class<? extends Annotation> annotationType, boolean considerMetaAnnotations, boolean considerInterfaces) {
-
+		// 调用父类的构造方法
 		super(annotationType.isAnnotationPresent(Inherited.class), considerInterfaces);
+
+		// 设值当前注解类型过滤器的注解类型和是否考虑元注解
 		this.annotationType = annotationType;
 		this.considerMetaAnnotations = considerMetaAnnotations;
 	}

@@ -203,23 +203,31 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	 */
 	@SuppressWarnings("unchecked")
 	protected void registerDefaultFilters() {
+		// 将注解类型过滤器添加进当前类路径扫描候选组件提供者的过滤器集中
 		this.includeFilters.add(new AnnotationTypeFilter(Component.class));
+
+		// 获得类路径扫描候选组件提供者的类加载器
 		ClassLoader cl = ClassPathScanningCandidateComponentProvider.class.getClassLoader();
 		try {
+			// 添加一个处理ManagedBean注解的注解类型过滤器
 			this.includeFilters.add(new AnnotationTypeFilter(
 					((Class<? extends Annotation>) ClassUtils.forName("javax.annotation.ManagedBean", cl)), false));
 			logger.trace("JSR-250 'javax.annotation.ManagedBean' found and supported for component scanning");
 		}
 		catch (ClassNotFoundException ex) {
 			// JSR-250 1.1 API (as included in Java EE 6) not available - simply skip.
+			// 简单跳过
 		}
+
 		try {
+			// 添加一个处理Named注解的注解类型过滤器
 			this.includeFilters.add(new AnnotationTypeFilter(
 					((Class<? extends Annotation>) ClassUtils.forName("javax.inject.Named", cl)), false));
 			logger.trace("JSR-330 'javax.inject.Named' annotation found and supported for component scanning");
 		}
 		catch (ClassNotFoundException ex) {
 			// JSR-330 API not available - simply skip.
+			// 简单跳过
 		}
 	}
 
@@ -230,7 +238,10 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	 * @param environment the Environment to use
 	 */
 	public void setEnvironment(Environment environment) {
+		// 断言，入参环境不为null
 		Assert.notNull(environment, "Environment must not be null");
+
+		// 设值当前类路径扫描候选组件提供者的环境和条件评估器
 		this.environment = environment;
 		this.conditionEvaluator = null;
 	}
@@ -261,8 +272,11 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	 */
 	@Override
 	public void setResourceLoader(@Nullable ResourceLoader resourceLoader) {
+		// 设值当前类路径扫描候选组件提供者的资源模式解析器
 		this.resourcePatternResolver = ResourcePatternUtils.getResourcePatternResolver(resourceLoader);
+		// 设值当前类路径扫描候选组件提供者的元数据阅读器工厂
 		this.metadataReaderFactory = new CachingMetadataReaderFactory(resourceLoader);
+		// 设值当前类路径扫描候选组件提供者的组件索引
 		this.componentsIndex = CandidateComponentsIndexLoader.loadIndex(this.resourcePatternResolver.getClassLoader());
 	}
 

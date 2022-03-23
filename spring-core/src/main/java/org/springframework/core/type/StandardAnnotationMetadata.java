@@ -82,6 +82,7 @@ public class StandardAnnotationMetadata extends StandardClassMetadata implements
 	 */
 	@Deprecated
 	public StandardAnnotationMetadata(Class<?> introspectedClass, boolean nestedAnnotationsAsMap) {
+		// 调用父类的构造方法
 		super(introspectedClass);
 		this.mergedAnnotations = MergedAnnotations.from(introspectedClass,
 				SearchStrategy.INHERITED_ANNOTATIONS, RepeatableContainers.none());
@@ -172,6 +173,7 @@ public class StandardAnnotationMetadata extends StandardClassMetadata implements
 
 
 	static AnnotationMetadata from(Class<?> introspectedClass) {
+		// 实例化并返回标准注解元数据
 		return new StandardAnnotationMetadata(introspectedClass, true);
 	}
 

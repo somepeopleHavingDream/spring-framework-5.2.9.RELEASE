@@ -72,12 +72,17 @@ public class CachingMetadataReaderFactory extends SimpleMetadataReaderFactory {
 	 * @see DefaultResourceLoader#getResourceCache
 	 */
 	public CachingMetadataReaderFactory(@Nullable ResourceLoader resourceLoader) {
+		// 调用父类的构造方法
 		super(resourceLoader);
+
+		// 如果资源加载器是默认资源加载器实例
 		if (resourceLoader instanceof DefaultResourceLoader) {
+			// 设值当前缓存元数据阅读器工厂的元数据阅读器缓存
 			this.metadataReaderCache =
 					((DefaultResourceLoader) resourceLoader).getResourceCache(MetadataReader.class);
 		}
 		else {
+			// 不细究
 			setCacheLimit(DEFAULT_CACHE_LIMIT);
 		}
 	}
