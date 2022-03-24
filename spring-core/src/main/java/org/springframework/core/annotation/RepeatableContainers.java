@@ -48,7 +48,7 @@ public abstract class RepeatableContainers {
 
 
 	private RepeatableContainers(@Nullable RepeatableContainers parent) {
-		// 设值当前可重复容器的父可重复容器
+		// 设置当前可重复容器的父可重复容器
 		this.parent = parent;
 	}
 

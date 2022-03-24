@@ -630,11 +630,16 @@ public interface MergedAnnotation<A extends Annotation> {
 		ANNOTATION_TO_MAP;
 
 		protected final boolean isIn(Adapt... adaptations) {
+			// 遍历所有适配器
 			for (Adapt candidate : adaptations) {
+				// 如果当前遍历的候选是当前实例
 				if (candidate == this) {
+					// 返回真，代表当前实例在入参适配器之中
 					return true;
 				}
 			}
+
+			// 返回假，代表当前实例不在入参适配器中
 			return false;
 		}
 
@@ -645,9 +650,14 @@ public interface MergedAnnotation<A extends Annotation> {
 		 * @return a new {@link Adapt} array
 		 */
 		public static Adapt[] values(boolean classToString, boolean annotationsToMap) {
+			// 实例化出一个枚举集
 			EnumSet<Adapt> result = EnumSet.noneOf(Adapt.class);
+
+			// 如果条件成立则添加
 			addIfTrue(result, Adapt.CLASS_TO_STRING, classToString);
 			addIfTrue(result, Adapt.ANNOTATION_TO_MAP, annotationsToMap);
+
+			// 返回枚举数组
 			return result.toArray(new Adapt[0]);
 		}
 

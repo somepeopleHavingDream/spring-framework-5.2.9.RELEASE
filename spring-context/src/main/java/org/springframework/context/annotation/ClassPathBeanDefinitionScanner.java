@@ -163,7 +163,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 		// 断言，入参bean定义注册表不为null
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
 
-		// 设值入参bean定义注册表为当前类路径bean定义扫描器的注册表
+		// 设置入参bean定义注册表为当前类路径bean定义扫描器的注册表
 		this.registry = registry;
 
 		// 如果使用默认过滤器

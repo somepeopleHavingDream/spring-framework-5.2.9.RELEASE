@@ -108,7 +108,10 @@ public class AnnotationAttributes extends LinkedHashMap<String, Object> {
 	 * @since 4.2
 	 */
 	public AnnotationAttributes(Class<? extends Annotation> annotationType) {
+		// 断言，入参注解类型不为null
 		Assert.notNull(annotationType, "'annotationType' must not be null");
+
+		// 赋值当前注解属性的注解类型和展示名称
 		this.annotationType = annotationType;
 		this.displayName = annotationType.getName();
 	}

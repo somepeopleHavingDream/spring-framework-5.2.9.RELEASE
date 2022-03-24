@@ -86,7 +86,7 @@ public class AnnotatedBeanDefinitionReader {
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
 		Assert.notNull(environment, "Environment must not be null");
 
-		// 设值当前注解bean定义阅读器的注册表和条件评估器
+		// 设置当前注解bean定义阅读器的注册表和条件评估器
 		this.registry = registry;
 		this.conditionEvaluator = new ConditionEvaluator(registry, environment, null);
 
@@ -260,11 +260,16 @@ public class AnnotatedBeanDefinitionReader {
 			@Nullable BeanDefinitionCustomizer[] customizers) {
 		// 实例化出一个注解通用bean定义
 		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(beanClass);
+		// 如果条件评估器判断应该跳过
 		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) {
+			// 不细究
 			return;
 		}
 
+		// 设置注解通用bean定义的实例提供器
 		abd.setInstanceSupplier(supplier);
+		
+		// 解析出注解通用bean定义的范围元数据
 		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(abd);
 		abd.setScope(scopeMetadata.getScopeName());
 		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));

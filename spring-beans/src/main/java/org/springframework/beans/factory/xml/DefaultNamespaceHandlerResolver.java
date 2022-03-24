@@ -104,7 +104,7 @@ public class DefaultNamespaceHandlerResolver implements NamespaceHandlerResolver
 		// 断言：入参处理器映射地址必定不为null
 		Assert.notNull(handlerMappingsLocation, "Handler mappings location must not be null");
 
-		// 设值当前默认命名空间处理者解析器的类加载器和处理器映射地址
+		// 设置当前默认命名空间处理者解析器的类加载器和处理器映射地址
 		this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
 		this.handlerMappingsLocation = handlerMappingsLocation;
 	}

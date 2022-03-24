@@ -273,6 +273,7 @@ public abstract class ReflectionUtils {
 	 */
 	@Nullable
 	public static Object invokeMethod(Method method, @Nullable Object target) {
+		// 调用方法
 		return invokeMethod(method, target, EMPTY_OBJECT_ARRAY);
 	}
 
@@ -289,6 +290,7 @@ public abstract class ReflectionUtils {
 	@Nullable
 	public static Object invokeMethod(Method method, @Nullable Object target, @Nullable Object... args) {
 		try {
+			// 调用方法，返回结果
 			return method.invoke(target, args);
 		}
 		catch (Exception ex) {

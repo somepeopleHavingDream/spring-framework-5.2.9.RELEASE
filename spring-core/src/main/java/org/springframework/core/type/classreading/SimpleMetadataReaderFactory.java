@@ -50,7 +50,7 @@ public class SimpleMetadataReaderFactory implements MetadataReaderFactory {
 	 * (also determines the ClassLoader to use)
 	 */
 	public SimpleMetadataReaderFactory(@Nullable ResourceLoader resourceLoader) {
-		// 设值当前简单元数据阅读器工厂的资源加载器
+		// 设置当前简单元数据阅读器工厂的资源加载器
 		this.resourceLoader = (resourceLoader != null ? resourceLoader : new DefaultResourceLoader());
 	}
 

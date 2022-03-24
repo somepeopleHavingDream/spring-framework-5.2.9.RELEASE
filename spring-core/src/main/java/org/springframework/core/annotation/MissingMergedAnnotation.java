@@ -52,6 +52,7 @@ final class MissingMergedAnnotation<A extends Annotation> extends AbstractMerged
 
 	@Override
 	public boolean isPresent() {
+		// 返回假，代表不存在
 		return false;
 	}
 

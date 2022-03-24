@@ -40,7 +40,7 @@ public class PropertySourcesPropertyResolver extends AbstractPropertyResolver {
 	 * @param propertySources the set of {@link PropertySource} objects to use
 	 */
 	public PropertySourcesPropertyResolver(@Nullable PropertySources propertySources) {
-		// 设值当前属性源属性解析器的属性源
+		// 设置当前属性源属性解析器的属性源
 		this.propertySources = propertySources;
 	}
 

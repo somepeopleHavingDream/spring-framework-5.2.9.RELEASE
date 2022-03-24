@@ -40,7 +40,7 @@ public class NamedThreadLocal<T> extends ThreadLocal<T> {
 	public NamedThreadLocal(String name) {
 		// 断言：入参名称必定不能为null
 		Assert.hasText(name, "Name must not be empty");
-		// 设值当前命名线程本地的名称
+		// 设置当前命名线程本地的名称
 		this.name = name;
 	}
 

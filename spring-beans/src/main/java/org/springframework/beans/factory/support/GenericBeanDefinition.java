@@ -70,7 +70,7 @@ public class GenericBeanDefinition extends AbstractBeanDefinition {
 
 	@Override
 	public void setParentName(@Nullable String parentName) {
-		// 设值当前通用bean定义的父bean名
+		// 设置当前通用bean定义的父bean名
 		this.parentName = parentName;
 	}
 

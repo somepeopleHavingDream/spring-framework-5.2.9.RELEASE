@@ -248,7 +248,7 @@ public class BeanDefinitionParserDelegate {
 		// 断言：入参阅读器上下文必不为null
 		Assert.notNull(readerContext, "XmlReaderContext must not be null");
 
-		// 设值当前bean定义解析器代理的阅读器上下文
+		// 设置当前bean定义解析器代理的阅读器上下文
 		this.readerContext = readerContext;
 	}
 
@@ -598,9 +598,9 @@ public class BeanDefinitionParserDelegate {
 			// 解析限定符元素
 			parseQualifierElements(ele, bd);
 
-			// 设值bean定义的资源
+			// 设置bean定义的资源
 			bd.setResource(this.readerContext.getResource());
-			// 设值bean定义的源
+			// 设置bean定义的源
 			bd.setSource(extractSource(ele));
 
 			// 返回该已经设置了一些属性的抽象Bean定义对象

@@ -140,7 +140,7 @@ public class ResolvableType implements Serializable {
 	 */
 	private ResolvableType(
 			Type type, @Nullable TypeProvider typeProvider, @Nullable VariableResolver variableResolver) {
-		// 设值当前可解析类型的类型、类型提供者、变脸解析器、组件类型、哈希、解析类对象
+		// 设置当前可解析类型的类型、类型提供者、变脸解析器、组件类型、哈希、解析类对象
 		this.type = type;
 		this.typeProvider = typeProvider;
 		this.variableResolver = variableResolver;
@@ -156,7 +156,7 @@ public class ResolvableType implements Serializable {
 	 */
 	private ResolvableType(Type type, @Nullable TypeProvider typeProvider,
 			@Nullable VariableResolver variableResolver, @Nullable Integer hash) {
-		// 设值当前可解析类型实例的类型、类型提供者、变量解析器、组件类型、哈希、已解析类对象
+		// 设置当前可解析类型实例的类型、类型提供者、变量解析器、组件类型、哈希、已解析类对象
 		this.type = type;
 		this.typeProvider = typeProvider;
 		this.variableResolver = variableResolver;
@@ -171,7 +171,7 @@ public class ResolvableType implements Serializable {
 	 */
 	private ResolvableType(Type type, @Nullable TypeProvider typeProvider,
 			@Nullable VariableResolver variableResolver, @Nullable ResolvableType componentType) {
-		// 设值当前可选类型的类型、类型提供者、变量解析器、组件类型、哈希、解析类对象
+		// 设置当前可选类型的类型、类型提供者、变量解析器、组件类型、哈希、解析类对象
 		this.type = type;
 		this.typeProvider = typeProvider;
 		this.variableResolver = variableResolver;
@@ -186,7 +186,7 @@ public class ResolvableType implements Serializable {
 	 * @since 4.2
 	 */
 	private ResolvableType(@Nullable Class<?> clazz) {
-		// 设值当前可解析类型的解析字节码、类型、类型提供者、变量解析器、成员类型、哈希
+		// 设置当前可解析类型的解析字节码、类型、类型提供者、变量解析器、成员类型、哈希
 		this.resolved = (clazz != null ? clazz : Object.class);
 		this.type = this.resolved;
 		this.typeProvider = null;

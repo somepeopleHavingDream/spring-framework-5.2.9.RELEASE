@@ -50,7 +50,7 @@ final class PackagesAnnotationFilter implements AnnotationFilter {
 		// 排序包前缀
 		Arrays.sort(this.prefixes);
 
-		// 设值当前包注解过滤器的哈希码
+		// 设置当前包注解过滤器的哈希码
 		this.hashCode = Arrays.hashCode(this.prefixes);
 	}
 

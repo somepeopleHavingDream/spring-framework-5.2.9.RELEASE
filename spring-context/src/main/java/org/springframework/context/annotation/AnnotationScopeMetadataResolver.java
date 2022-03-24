@@ -49,6 +49,7 @@ public class AnnotationScopeMetadataResolver implements ScopeMetadataResolver {
 	 * @see ScopedProxyMode#NO
 	 */
 	public AnnotationScopeMetadataResolver() {
+		// 设置当前注解范围元数据解析器的默认代理模式
 		this.defaultProxyMode = ScopedProxyMode.NO;
 	}
 
@@ -76,8 +77,12 @@ public class AnnotationScopeMetadataResolver implements ScopeMetadataResolver {
 
 	@Override
 	public ScopeMetadata resolveScopeMetadata(BeanDefinition definition) {
+		// 实例化出一个范围元数据
 		ScopeMetadata metadata = new ScopeMetadata();
+
+		// 如果入参定义是注解bean定义实例
 		if (definition instanceof AnnotatedBeanDefinition) {
+			// 将入参bean定义强转为注解bean定义
 			AnnotatedBeanDefinition annDef = (AnnotatedBeanDefinition) definition;
 			AnnotationAttributes attributes = AnnotationConfigUtils.attributesFor(
 					annDef.getMetadata(), this.scopeAnnotationType);

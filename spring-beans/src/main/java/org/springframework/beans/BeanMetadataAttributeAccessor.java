@@ -39,7 +39,7 @@ public class BeanMetadataAttributeAccessor extends AttributeAccessorSupport impl
 	 * <p>The exact type of the object will depend on the configuration mechanism used.
 	 */
 	public void setSource(@Nullable Object source) {
-		// 设值当前bean元数据属性访问器的源
+		// 设置当前bean元数据属性访问器的源
 		this.source = source;
 	}
 

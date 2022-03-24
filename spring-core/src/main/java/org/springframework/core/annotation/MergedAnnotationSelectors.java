@@ -55,6 +55,7 @@ public abstract class MergedAnnotationSelectors {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <A extends Annotation> MergedAnnotationSelector<A> firstDirectlyDeclared() {
+		// 返回首次直接申报合并注解选择器
 		return (MergedAnnotationSelector<A>) FIRST_DIRECTLY_DECLARED;
 	}
 

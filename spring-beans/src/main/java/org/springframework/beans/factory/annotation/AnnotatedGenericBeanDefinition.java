@@ -56,7 +56,7 @@ public class AnnotatedGenericBeanDefinition extends GenericBeanDefinition implem
 	public AnnotatedGenericBeanDefinition(Class<?> beanClass) {
 		// 设置bean类对象
 		setBeanClass(beanClass);
-		// 设值当前注解通用bean定义的元数据
+		// 设置当前注解通用bean定义的元数据
 		this.metadata = AnnotationMetadata.introspect(beanClass);
 	}
 
@@ -98,6 +98,7 @@ public class AnnotatedGenericBeanDefinition extends GenericBeanDefinition implem
 
 	@Override
 	public final AnnotationMetadata getMetadata() {
+		// 返回当前注解通用bean定义的元数据
 		return this.metadata;
 	}
 

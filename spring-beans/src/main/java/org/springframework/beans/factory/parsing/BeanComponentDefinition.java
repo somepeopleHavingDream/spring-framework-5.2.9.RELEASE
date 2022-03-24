@@ -92,7 +92,7 @@ public class BeanComponentDefinition extends BeanDefinitionHolder implements Com
 			}
 		}
 
-		// 设值当前bean组件定义的内部bean定义、bean引用
+		// 设置当前bean组件定义的内部bean定义、bean引用
 		this.innerBeanDefinitions = innerBeans.toArray(new BeanDefinition[0]);
 		this.beanReferences = references.toArray(new BeanReference[0]);
 	}

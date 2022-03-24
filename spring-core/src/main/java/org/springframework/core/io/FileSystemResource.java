@@ -81,7 +81,7 @@ public class FileSystemResource extends AbstractResource implements WritableReso
 		// 断言：入参路径不为null
 		Assert.notNull(path, "Path must not be null");
 
-		// 设值当前文件系统资源的路径、文件、文件路径
+		// 设置当前文件系统资源的路径、文件、文件路径
 		this.path = StringUtils.cleanPath(path);
 		this.file = new File(path);
 		this.filePath = this.file.toPath();

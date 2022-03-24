@@ -925,7 +925,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Override
 	public void freezeConfiguration() {
-		// 设值当前默认可列出bean工厂的是否配置冻结标记、冻结bean定义名称
+		// 设置当前默认可列出bean工厂的是否配置冻结标记、冻结bean定义名称
 		this.configurationFrozen = true;
 		this.frozenBeanDefinitionNames = StringUtils.toStringArray(this.beanDefinitionNames);
 	}
@@ -1127,7 +1127,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				removeManualSingletonName(beanName);
 			}
 
-			// 设值当前默认可列出bean工厂的冻结bean定义
+			// 设置当前默认可列出bean工厂的冻结bean定义
 			this.frozenBeanDefinitionNames = null;
 		}
 
@@ -1268,7 +1268,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			synchronized (this.beanDefinitionMap) {
 				// 如果条件通过
 				if (condition.test(this.manualSingletonNames)) {
-					// 重新设值当前默认可列出bean工厂的手工单例名称
+					// 重新设置当前默认可列出bean工厂的手工单例名称
 					Set<String> updatedSingletons = new LinkedHashSet<>(this.manualSingletonNames);
 					action.accept(updatedSingletons);
 					this.manualSingletonNames = updatedSingletons;

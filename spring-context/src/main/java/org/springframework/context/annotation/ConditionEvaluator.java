@@ -55,7 +55,7 @@ class ConditionEvaluator {
 	 */
 	public ConditionEvaluator(@Nullable BeanDefinitionRegistry registry,
 			@Nullable Environment environment, @Nullable ResourceLoader resourceLoader) {
-		// 实例化并设值当前条件评估器的上下文
+		// 实例化并设置当前条件评估器的上下文
 		this.context = new ConditionContextImpl(registry, environment, resourceLoader);
 	}
 
@@ -68,6 +68,7 @@ class ConditionEvaluator {
 	 * @return if the item should be skipped
 	 */
 	public boolean shouldSkip(AnnotatedTypeMetadata metadata) {
+		// 返回是否应该跳过
 		return shouldSkip(metadata, null);
 	}
 
@@ -78,9 +79,15 @@ class ConditionEvaluator {
 	 * @return if the item should be skipped
 	 */
 	public boolean shouldSkip(@Nullable AnnotatedTypeMetadata metadata, @Nullable ConfigurationPhase phase) {
+		// 如果入参元数据为null，或者入参元数据没有被Conditional所注解
 		if (metadata == null || !metadata.isAnnotated(Conditional.class.getName())) {
+			// 返回假，代表不需要跳过
 			return false;
 		}
+
+		/*
+			以下不细究
+		 */
 
 		if (phase == null) {
 			if (metadata instanceof AnnotationMetadata &&
@@ -146,7 +153,7 @@ class ConditionEvaluator {
 
 		public ConditionContextImpl(@Nullable BeanDefinitionRegistry registry,
 				@Nullable Environment environment, @Nullable ResourceLoader resourceLoader) {
-			// 设值当前条件评估器的注册表、bean工厂、环境、资源加载器、类加载器
+			// 设置当前条件评估器的注册表、bean工厂、环境、资源加载器、类加载器
 			this.registry = registry;
 			this.beanFactory = deduceBeanFactory(registry);
 			this.environment = (environment != null ? environment : deduceEnvironment(registry));

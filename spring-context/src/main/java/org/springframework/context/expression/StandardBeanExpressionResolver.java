@@ -100,7 +100,7 @@ public class StandardBeanExpressionResolver implements BeanExpressionResolver {
 	 * @param beanClassLoader the factory's bean class loader
 	 */
 	public StandardBeanExpressionResolver(@Nullable ClassLoader beanClassLoader) {
-		// 设值当前标准bean表达式解析器
+		// 设置当前标准bean表达式解析器
 		this.expressionParser = new SpelExpressionParser(new SpelParserConfiguration(null, beanClassLoader));
 	}
 

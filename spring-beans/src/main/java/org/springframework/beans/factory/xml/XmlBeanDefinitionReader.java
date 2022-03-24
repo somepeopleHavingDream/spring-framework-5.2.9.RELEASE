@@ -156,7 +156,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see #setNamespaceAware
 	 */
 	public void setValidating(boolean validating) {
-		// 设值当前可扩展标记语言bean定义阅读器的校验模式和命名空间感知
+		// 设置当前可扩展标记语言bean定义阅读器的校验模式和命名空间感知
 		this.validationMode = (validating ? VALIDATION_AUTO : VALIDATION_NONE);
 		this.namespaceAware = !validating;
 	}
@@ -260,7 +260,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * for custom entity resolution, for example relative to some specific base path.
 	 */
 	public void setEntityResolver(@Nullable EntityResolver entityResolver) {
-		// 设值当前可扩展标记语言bean定义阅读器的实体解析器
+		// 设置当前可扩展标记语言bean定义阅读器的实体解析器
 		this.entityResolver = entityResolver;
 	}
 
@@ -611,7 +611,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	public NamespaceHandlerResolver getNamespaceHandlerResolver() {
 		// 如果当前可扩展标记语言的bean定义阅读器的命名空间处理者解析器为null
 		if (this.namespaceHandlerResolver == null) {
-			// 创建并设值当前可扩展标记语言bean定义阅读器的命名空间处理者解析器
+			// 创建并设置当前可扩展标记语言bean定义阅读器的命名空间处理者解析器
 			this.namespaceHandlerResolver = createDefaultNamespaceHandlerResolver();
 		}
 

@@ -787,7 +787,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 			// 如果已定义类型不为null，并且已定义类型解析后和预测类型相同
 			if (definedType != null && definedType.resolve() == predictedType) {
-				// 设值bean类型为已定义类型
+				// 设置bean类型为已定义类型
 				beanType = definedType;
 			}
 		}
@@ -935,7 +935,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			throw new IllegalStateException("Cannot set parent bean factory to self");
 		}
 
-		// 设值当前bean工厂的父bean工厂
+		// 设置当前bean工厂的父bean工厂
 		this.parentBeanFactory = parentBeanFactory;
 	}
 
@@ -975,7 +975,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public void setBeanExpressionResolver(@Nullable BeanExpressionResolver resolver) {
-		// 设值当前bean工厂的bean表达式解析器
+		// 设置当前bean工厂的bean表达式解析器
 		this.beanExpressionResolver = resolver;
 	}
 
@@ -1107,7 +1107,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		}
 		// 如果入参bean后置处理器是销毁感知bean后置处理器实例
 		if (beanPostProcessor instanceof DestructionAwareBeanPostProcessor) {
-			// 设值当前bean工厂为有销毁感知bean后置处理器
+			// 设置当前bean工厂为有销毁感知bean后置处理器
 			this.hasDestructionAwareBeanPostProcessors = true;
 		}
 
@@ -1586,7 +1586,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// Set default singleton scope, if not configured before.
 				// 设置默认的单例范围，如果之前没有被配置。
 				if (!StringUtils.hasLength(mbd.getScope())) {
-					// 设值为单例范围
+					// 设置为单例范围
 					mbd.setScope(SCOPE_SINGLETON);
 				}
 

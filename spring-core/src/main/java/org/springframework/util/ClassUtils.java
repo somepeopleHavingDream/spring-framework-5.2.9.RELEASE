@@ -585,6 +585,7 @@ public abstract class ClassUtils {
 	 * @return the original class, or a primitive wrapper for the original primitive type
 	 */
 	public static Class<?> resolvePrimitiveIfNecessary(Class<?> clazz) {
+		// 断言，入参类对象不为null
 		Assert.notNull(clazz, "Class must not be null");
 		return (clazz.isPrimitive() && clazz != void.class ? primitiveTypeToWrapperMap.get(clazz) : clazz);
 	}

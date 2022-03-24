@@ -432,7 +432,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				return result;
 			}
 
-			// 设值返回结果
+			// 设置返回结果
 			result = current;
 		}
 
@@ -455,7 +455,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				return result;
 			}
 
-			// 设值返回结果
+			// 设置返回结果
 			result = current;
 		}
 
@@ -641,7 +641,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 							"Post-processing of merged bean definition failed", ex);
 				}
 
-				// 设值合并bean定义的后置处理为真
+				// 设置合并bean定义的后置处理为真
 				mbd.postProcessed = true;
 			}
 		}

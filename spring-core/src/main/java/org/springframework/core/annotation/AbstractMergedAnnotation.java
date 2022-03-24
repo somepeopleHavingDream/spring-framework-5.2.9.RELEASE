@@ -190,6 +190,7 @@ abstract class AbstractMergedAnnotation<A extends Annotation> implements MergedA
 
 	@Override
 	public AnnotationAttributes asAnnotationAttributes(Adapt... adaptations) {
+		// 返回注解属性
 		return asMap(mergedAnnotation -> new AnnotationAttributes(mergedAnnotation.getType()), adaptations);
 	}
 

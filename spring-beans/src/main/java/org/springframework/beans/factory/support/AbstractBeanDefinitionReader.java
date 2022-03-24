@@ -98,7 +98,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 			this.resourceLoader = (ResourceLoader) this.registry;
 		}
 		else {
-			// 否则，将当前bean定义阅读器的资源加载器设值为路劲匹配资源模式解析器
+			// 否则，将当前bean定义阅读器的资源加载器设置为路劲匹配资源模式解析器
 			this.resourceLoader = new PathMatchingResourcePatternResolver();
 		}
 
@@ -109,7 +109,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 			this.environment = ((EnvironmentCapable) this.registry).getEnvironment();
 		}
 		else {
-			// 设值当前bean定义阅读器的环境
+			// 设置当前bean定义阅读器的环境
 			this.environment = new StandardEnvironment();
 		}
 	}

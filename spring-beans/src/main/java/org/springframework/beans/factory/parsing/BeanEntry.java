@@ -32,7 +32,7 @@ public class BeanEntry implements ParseState.Entry {
 	 * @param beanDefinitionName the name of the associated bean definition
 	 */
 	public BeanEntry(String beanDefinitionName) {
-		// 设值当前bean条目的bean定义名称
+		// 设置当前bean条目的bean定义名称
 		this.beanDefinitionName = beanDefinitionName;
 	}
 

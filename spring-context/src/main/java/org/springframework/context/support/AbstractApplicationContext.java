@@ -346,7 +346,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	public ConfigurableEnvironment getEnvironment() {
 		// 如果此应用上下文的环境为空，则创建环境
 		if (this.environment == null) {
-			// 创建并设值当前应用上下文的环境
+			// 创建并设置当前应用上下文的环境
 			this.environment = createEnvironment();
 		}
 
@@ -673,7 +673,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void prepareRefresh() {
 		// Switch to active.
 		// 切换到活跃状态
-		// 设值当前应用上下文的开启时间
+		// 设置当前应用上下文的开启时间
 		this.startupDate = System.currentTimeMillis();
 		// 修改当前应用上下文的关闭状态为假
 		this.closed.set(false);
@@ -709,7 +709,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// 存储预刷新的应用监听器
 		// 如果之前的应用监听器集为空
 		if (this.earlyApplicationListeners == null) {
-			// 设值之前的应用监听器集
+			// 设置之前的应用监听器集
 			this.earlyApplicationListeners = new LinkedHashSet<>(this.applicationListeners);
 		}
 		else {
@@ -725,7 +725,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// to be published once the multicaster is available...
 		// 允许收集之前的应用事件，一旦多播器可用则事件将被推送……
 
-		// 设值当前应用上下文的之前应用事件
+		// 设置当前应用上下文的之前应用事件
 		this.earlyApplicationEvents = new LinkedHashSet<>();
 	}
 
@@ -901,10 +901,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			// Use empty MessageSource to be able to accept getMessage calls.
 			// 实例化一个代理消息源
 			DelegatingMessageSource dms = new DelegatingMessageSource();
-			// 获得内部父消息源，将其设值为代理消息源的父消息源
+			// 获得内部父消息源，将其设置为代理消息源的父消息源
 			dms.setParentMessageSource(getInternalParentMessageSource());
 
-			// 将实例出来的代理消息源设值为当前应用上下文的消息源
+			// 将实例出来的代理消息源设置为当前应用上下文的消息源
 			this.messageSource = dms;
 			// 将当前应用上下文的消息源注册到bean工厂中
 			beanFactory.registerSingleton(MESSAGE_SOURCE_BEAN_NAME, this.messageSource);
@@ -969,10 +969,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		else {
 			// 实例化出一个默认生命周期处理器
 			DefaultLifecycleProcessor defaultProcessor = new DefaultLifecycleProcessor();
-			// 将bean工厂设值为默认生命周期处理器的bean工厂
+			// 将bean工厂设置为默认生命周期处理器的bean工厂
 			defaultProcessor.setBeanFactory(beanFactory);
 
-			// 将实例化出的默认生命周期处理器设值为当前应用上下文的生命周期处理器
+			// 将实例化出的默认生命周期处理器设置为当前应用上下文的生命周期处理器
 			this.lifecycleProcessor = defaultProcessor;
 
 			// 将当前应用上下文的生命周期处理器注册到bean工厂中

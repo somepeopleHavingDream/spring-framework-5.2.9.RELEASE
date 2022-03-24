@@ -89,14 +89,14 @@ public abstract class AbstractApplicationEventMulticaster
 			throw new IllegalStateException("Not running in a ConfigurableBeanFactory: " + beanFactory);
 		}
 
-		// 设值当前应用事件多播器的bean工厂
+		// 设置当前应用事件多播器的bean工厂
 		this.beanFactory = (ConfigurableBeanFactory) beanFactory;
 		// 如果当前应用事件多播器的bean类加载器为null
 		if (this.beanClassLoader == null) {
-			// 从bean工厂中获得bean类加载器，并设值为当前应用事件多播器的bean类加载器
+			// 从bean工厂中获得bean类加载器，并设置为当前应用事件多播器的bean类加载器
 			this.beanClassLoader = this.beanFactory.getBeanClassLoader();
 		}
-		// 设值当前应用事件多播器的检索互斥量
+		// 设置当前应用事件多播器的检索互斥量
 		this.retrievalMutex = this.beanFactory.getSingletonMutex();
 	}
 
@@ -211,7 +211,7 @@ public abstract class AbstractApplicationEventMulticaster
 					return retriever.getApplicationListeners();
 				}
 
-				// 实例化并设值检索器
+				// 实例化并设置检索器
 				retriever = new ListenerRetriever(true);
 				// 检索出所有监听器
 				Collection<ApplicationListener<?>> listeners =
@@ -396,7 +396,7 @@ public abstract class AbstractApplicationEventMulticaster
 			// 断言：入参事件类型不为null
 			Assert.notNull(eventType, "Event type must not be null");
 
-			// 设值当前监听器缓存键的事件类型和源类型
+			// 设置当前监听器缓存键的事件类型和源类型
 			this.eventType = eventType;
 			this.sourceType = sourceType;
 		}
@@ -455,7 +455,7 @@ public abstract class AbstractApplicationEventMulticaster
 		private final boolean preFiltered;
 
 		public ListenerRetriever(boolean preFiltered) {
-			// 设值当前监听检索器是否预过滤
+			// 设置当前监听检索器是否预过滤
 			this.preFiltered = preFiltered;
 		}
 

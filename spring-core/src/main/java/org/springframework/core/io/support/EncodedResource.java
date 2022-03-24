@@ -92,7 +92,7 @@ public class EncodedResource implements InputStreamSource {
 		// 断言入参资源必不为null
 		Assert.notNull(resource, "Resource must not be null");
 
-		// 设值当前已编码资源的资源、编码、字符集
+		// 设置当前已编码资源的资源、编码、字符集
 		this.resource = resource;
 		this.encoding = encoding;
 		this.charset = charset;

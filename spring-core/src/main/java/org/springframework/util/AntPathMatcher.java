@@ -106,7 +106,7 @@ public class AntPathMatcher implements PathMatcher {
 	 * Create a new instance with the {@link #DEFAULT_PATH_SEPARATOR}.
 	 */
 	public AntPathMatcher() {
-		// 设值当前蚂蚁路径匹配器的路径分隔符、路径分隔符模式缓存
+		// 设置当前蚂蚁路径匹配器的路径分隔符、路径分隔符模式缓存
 		this.pathSeparator = DEFAULT_PATH_SEPARATOR;
 		this.pathSeparatorPatternCache = new PathSeparatorPatternCache(DEFAULT_PATH_SEPARATOR);
 	}
@@ -933,7 +933,7 @@ public class AntPathMatcher implements PathMatcher {
 		private final String endsOnDoubleWildCard;
 
 		public PathSeparatorPatternCache(String pathSeparator) {
-			// 设值当前路径分隔符模式缓存的单通配符结尾和双通配符结尾
+			// 设置当前路径分隔符模式缓存的单通配符结尾和双通配符结尾
 			this.endsOnWildCard = pathSeparator + "*";
 			this.endsOnDoubleWildCard = pathSeparator + "**";
 		}

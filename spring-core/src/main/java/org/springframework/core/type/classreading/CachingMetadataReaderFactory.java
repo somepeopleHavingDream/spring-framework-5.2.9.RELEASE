@@ -77,7 +77,7 @@ public class CachingMetadataReaderFactory extends SimpleMetadataReaderFactory {
 
 		// 如果资源加载器是默认资源加载器实例
 		if (resourceLoader instanceof DefaultResourceLoader) {
-			// 设值当前缓存元数据阅读器工厂的元数据阅读器缓存
+			// 设置当前缓存元数据阅读器工厂的元数据阅读器缓存
 			this.metadataReaderCache =
 					((DefaultResourceLoader) resourceLoader).getResourceCache(MetadataReader.class);
 		}

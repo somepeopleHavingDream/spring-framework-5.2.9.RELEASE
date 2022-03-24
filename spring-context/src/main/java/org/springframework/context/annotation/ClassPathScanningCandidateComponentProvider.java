@@ -241,7 +241,7 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 		// 断言，入参环境不为null
 		Assert.notNull(environment, "Environment must not be null");
 
-		// 设值当前类路径扫描候选组件提供者的环境和条件评估器
+		// 设置当前类路径扫描候选组件提供者的环境和条件评估器
 		this.environment = environment;
 		this.conditionEvaluator = null;
 	}
@@ -272,11 +272,11 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	 */
 	@Override
 	public void setResourceLoader(@Nullable ResourceLoader resourceLoader) {
-		// 设值当前类路径扫描候选组件提供者的资源模式解析器
+		// 设置当前类路径扫描候选组件提供者的资源模式解析器
 		this.resourcePatternResolver = ResourcePatternUtils.getResourcePatternResolver(resourceLoader);
-		// 设值当前类路径扫描候选组件提供者的元数据阅读器工厂
+		// 设置当前类路径扫描候选组件提供者的元数据阅读器工厂
 		this.metadataReaderFactory = new CachingMetadataReaderFactory(resourceLoader);
-		// 设值当前类路径扫描候选组件提供者的组件索引
+		// 设置当前类路径扫描候选组件提供者的组件索引
 		this.componentsIndex = CandidateComponentsIndexLoader.loadIndex(this.resourcePatternResolver.getClassLoader());
 	}
 

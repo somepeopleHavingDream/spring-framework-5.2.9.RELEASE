@@ -157,13 +157,13 @@ public abstract class AnnotationConfigUtils {
 		if (beanFactory != null) {
 			// 如果bean工厂的依赖比较器不是注解感知顺序比较器
 			if (!(beanFactory.getDependencyComparator() instanceof AnnotationAwareOrderComparator)) {
-				// 给bean工厂设值依赖比较器
+				// 给bean工厂设置依赖比较器
 				beanFactory.setDependencyComparator(AnnotationAwareOrderComparator.INSTANCE);
 			}
 
 			// 如果bean工厂的自动装配候选解析器不是上下文注解自动装配候选解析器实例
 			if (!(beanFactory.getAutowireCandidateResolver() instanceof ContextAnnotationAutowireCandidateResolver)) {
-				// 给bean工厂设值自动装配候选解析器
+				// 给bean工厂设置自动装配候选解析器
 				beanFactory.setAutowireCandidateResolver(new ContextAnnotationAutowireCandidateResolver());
 			}
 		}
@@ -250,7 +250,7 @@ public abstract class AnnotationConfigUtils {
 
 	private static BeanDefinitionHolder registerPostProcessor(
 			BeanDefinitionRegistry registry, RootBeanDefinition definition, String beanName) {
-		// 给bean定义设值角色
+		// 给bean定义设置角色
 		definition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		// 注册表注册bean定义
 		registry.registerBeanDefinition(beanName, definition);
@@ -324,6 +324,7 @@ public abstract class AnnotationConfigUtils {
 
 	@Nullable
 	static AnnotationAttributes attributesFor(AnnotatedTypeMetadata metadata, Class<?> annotationClass) {
+		// 返回注解属性
 		return attributesFor(metadata, annotationClass.getName());
 	}
 

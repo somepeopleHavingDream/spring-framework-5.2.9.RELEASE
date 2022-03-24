@@ -125,7 +125,7 @@ public class DefaultLifecycleProcessor implements LifecycleProcessor, BeanFactor
 	public void onRefresh() {
 		// 调用开启bean方法
 		startBeans(true);
-		// 设值当前默认生命周期处理器的运行状态为真
+		// 设置当前默认生命周期处理器的运行状态为真
 		this.running = true;
 	}
 

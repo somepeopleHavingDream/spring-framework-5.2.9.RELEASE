@@ -49,7 +49,7 @@ public class SpelExpressionParser extends TemplateAwareExpressionParser {
 	public SpelExpressionParser(SpelParserConfiguration configuration) {
 		// 断言，入参配置不能为null
 		Assert.notNull(configuration, "SpelParserConfiguration must not be null");
-		// 设值当前spel表达式解析器的配置
+		// 设置当前spel表达式解析器的配置
 		this.configuration = configuration;
 	}
 

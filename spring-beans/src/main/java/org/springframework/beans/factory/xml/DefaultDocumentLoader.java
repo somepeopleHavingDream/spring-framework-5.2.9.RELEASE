@@ -106,7 +106,7 @@ public class DefaultDocumentLoader implements DocumentLoader {
 
 		// 如果入参校验模式不是无校验模式
 		if (validationMode != XmlValidationModeDetector.VALIDATION_NONE) {
-			// 将文档建造者工厂设值为校验模式
+			// 将文档建造者工厂设置为校验模式
 			factory.setValidating(true);
 
 			// 如果入参校验模式是xsd校验

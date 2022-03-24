@@ -160,7 +160,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 			// 加载当前可刷新应用上下文的bean定义至bean工厂中
 			loadBeanDefinitions(beanFactory);
 
-			// 设值当前可刷新应用上下文的bean工厂
+			// 设置当前可刷新应用上下文的bean工厂
 			this.beanFactory = beanFactory;
 		}
 		catch (IOException ex) {

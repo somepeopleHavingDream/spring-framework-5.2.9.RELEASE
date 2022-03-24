@@ -80,7 +80,7 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 	private TypeMappedAnnotations(@Nullable Object source, Annotation[] annotations,
 			RepeatableContainers repeatableContainers, AnnotationFilter annotationFilter) {
-		// 设值当前类型映射注解的源、元素、搜索策略、注解、可重复容器、注解过滤器
+		// 设置当前类型映射注解的源、元素、搜索策略、注解、可重复容器、注解过滤器
 		this.source = source;
 		this.element = null;
 		this.searchStrategy = null;

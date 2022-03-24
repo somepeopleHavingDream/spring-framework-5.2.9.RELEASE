@@ -92,7 +92,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 */
 	@Override
 	public void registerBeanDefinitions(Document doc, XmlReaderContext readerContext) {
-		// 设值当前默认bean定义文档阅读器的阅读器上下文
+		// 设置当前默认bean定义文档阅读器的阅读器上下文
 		this.readerContext = readerContext;
 
 		// 处理注册Bean定义，传入文档的根元素
@@ -165,7 +165,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		// 后置处理可扩展标记语言，默认为空实现，可由子类重载
 		postProcessXml(root);
 
-		// 设值当前默认bean定义文档阅读器的代理
+		// 设置当前默认bean定义文档阅读器的代理
 		this.delegate = parent;
 	}
 
