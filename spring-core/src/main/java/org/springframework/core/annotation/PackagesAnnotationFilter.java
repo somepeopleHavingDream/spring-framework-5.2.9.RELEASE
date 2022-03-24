@@ -37,14 +37,20 @@ final class PackagesAnnotationFilter implements AnnotationFilter {
 
 
 	PackagesAnnotationFilter(String... packages) {
+		// 断言，入参包不为null
 		Assert.notNull(packages, "Packages array must not be null");
+
+		// 构建包前缀
 		this.prefixes = new String[packages.length];
 		for (int i = 0; i < packages.length; i++) {
 			String pkg = packages[i];
 			Assert.hasText(pkg, "Packages array must not have empty elements");
 			this.prefixes[i] = pkg + ".";
 		}
+		// 排序包前缀
 		Arrays.sort(this.prefixes);
+
+		// 设值当前包注解过滤器的哈希码
 		this.hashCode = Arrays.hashCode(this.prefixes);
 	}
 

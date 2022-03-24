@@ -48,6 +48,7 @@ public abstract class RepeatableContainers {
 
 
 	private RepeatableContainers(@Nullable RepeatableContainers parent) {
+		// 设值当前可重复容器的父可重复容器
 		this.parent = parent;
 	}
 
@@ -123,6 +124,7 @@ public abstract class RepeatableContainers {
 	 * @return a {@link RepeatableContainers} instance
 	 */
 	public static RepeatableContainers none() {
+		// 返回不重复容器实例
 		return NoRepeatableContainers.INSTANCE;
 	}
 
@@ -267,6 +269,7 @@ public abstract class RepeatableContainers {
 		private static NoRepeatableContainers INSTANCE = new NoRepeatableContainers();
 
 		NoRepeatableContainers() {
+			// 调用父类的构造方法
 			super(null);
 		}
 	}

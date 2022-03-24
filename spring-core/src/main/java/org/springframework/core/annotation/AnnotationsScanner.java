@@ -482,6 +482,7 @@ abstract class AnnotationsScanner {
 	}
 
 	static boolean isKnownEmpty(AnnotatedElement source, SearchStrategy searchStrategy) {
+		// 如果被注解的元素只有简单Java注解
 		if (hasPlainJavaAnnotationsOnly(source)) {
 			return true;
 		}
@@ -495,18 +496,24 @@ abstract class AnnotationsScanner {
 	}
 
 	static boolean hasPlainJavaAnnotationsOnly(@Nullable Object annotatedElement) {
+		// 如果被注解元素是类对象实例
 		if (annotatedElement instanceof Class) {
+			// 返回被注解元素是否只有简单Java注解
 			return hasPlainJavaAnnotationsOnly((Class<?>) annotatedElement);
 		}
+		// 如果被注解元素是Member实例
 		else if (annotatedElement instanceof Member) {
+			// 将被注解的元素强转为Member实例，获取它声明的类对象，再看它是否只有简单Java注解
 			return hasPlainJavaAnnotationsOnly(((Member) annotatedElement).getDeclaringClass());
 		}
 		else {
+			// 返回假，代表不只是只有简单java注解
 			return false;
 		}
 	}
 
 	static boolean hasPlainJavaAnnotationsOnly(Class<?> type) {
+		// 如果入参类型名是以“java.”开头的，或者入参类型是Ordered类对象实例
 		return (type.getName().startsWith("java.") || type == Ordered.class);
 	}
 

@@ -80,7 +80,7 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 	private TypeMappedAnnotations(@Nullable Object source, Annotation[] annotations,
 			RepeatableContainers repeatableContainers, AnnotationFilter annotationFilter) {
-
+		// 设值当前类型映射注解的源、元素、搜索策略、注解、可重复容器、注解过滤器
 		this.source = source;
 		this.element = null;
 		this.searchStrategy = null;
@@ -247,10 +247,13 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 	static MergedAnnotations from(AnnotatedElement element, SearchStrategy searchStrategy,
 			RepeatableContainers repeatableContainers, AnnotationFilter annotationFilter) {
-
+		// 如果已知为空
 		if (AnnotationsScanner.isKnownEmpty(element, searchStrategy)) {
+			// 返回
 			return NONE;
 		}
+
+		// 实例化并返回类型匹配注解实例
 		return new TypeMappedAnnotations(element, searchStrategy, repeatableContainers, annotationFilter);
 	}
 

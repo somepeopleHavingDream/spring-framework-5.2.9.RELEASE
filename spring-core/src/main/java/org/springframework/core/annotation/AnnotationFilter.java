@@ -133,6 +133,7 @@ public interface AnnotationFilter {
 	 * @return a new {@link AnnotationFilter} instance
 	 */
 	static AnnotationFilter packages(String... packages) {
+		// 实例化并返回包注解过滤器
 		return new PackagesAnnotationFilter(packages);
 	}
 

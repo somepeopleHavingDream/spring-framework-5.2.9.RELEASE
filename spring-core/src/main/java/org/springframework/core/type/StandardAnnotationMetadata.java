@@ -84,8 +84,10 @@ public class StandardAnnotationMetadata extends StandardClassMetadata implements
 	public StandardAnnotationMetadata(Class<?> introspectedClass, boolean nestedAnnotationsAsMap) {
 		// 调用父类的构造方法
 		super(introspectedClass);
+		// 设值当前标准注解元数据的合并注解
 		this.mergedAnnotations = MergedAnnotations.from(introspectedClass,
 				SearchStrategy.INHERITED_ANNOTATIONS, RepeatableContainers.none());
+		// 设值是否将嵌套注解作为映射
 		this.nestedAnnotationsAsMap = nestedAnnotationsAsMap;
 	}
 
