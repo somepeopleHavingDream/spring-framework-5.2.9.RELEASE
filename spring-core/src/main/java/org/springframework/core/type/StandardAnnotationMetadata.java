@@ -100,11 +100,16 @@ public class StandardAnnotationMetadata extends StandardClassMetadata implements
 
 	@Override
 	public Set<String> getAnnotationTypes() {
+		// 获得当前标准注解元数据的注解类型
 		Set<String> annotationTypes = this.annotationTypes;
+		// 如果注解类型为null
 		if (annotationTypes == null) {
+			// 获得并设置当前标准注解元数据的注解类型
 			annotationTypes = Collections.unmodifiableSet(AnnotationMetadata.super.getAnnotationTypes());
 			this.annotationTypes = annotationTypes;
 		}
+
+		// 返回注解类型
 		return annotationTypes;
 	}
 

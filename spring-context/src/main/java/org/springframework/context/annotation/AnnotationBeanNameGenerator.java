@@ -77,7 +77,9 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 
 	@Override
 	public String generateBeanName(BeanDefinition definition, BeanDefinitionRegistry registry) {
+		// 如果入参bean定义是注解bean定义
 		if (definition instanceof AnnotatedBeanDefinition) {
+			// 从注解中确定bean名称
 			String beanName = determineBeanNameFromAnnotation((AnnotatedBeanDefinition) definition);
 			if (StringUtils.hasText(beanName)) {
 				// Explicit bean name found.
@@ -95,20 +97,36 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 	 */
 	@Nullable
 	protected String determineBeanNameFromAnnotation(AnnotatedBeanDefinition annotatedDef) {
+		// 从注解bean定义中获得注解元数据
 		AnnotationMetadata amd = annotatedDef.getMetadata();
+		// 从注解元数据中获得注解类型
 		Set<String> types = amd.getAnnotationTypes();
 		String beanName = null;
+
+		// 遍历所有类型
 		for (String type : types) {
+			// 获得注解属性
 			AnnotationAttributes attributes = AnnotationConfigUtils.attributesFor(amd, type);
+			// 如果注解属性不为null
 			if (attributes != null) {
+				// 获得元数据注解类型
 				Set<String> metaTypes = this.metaAnnotationTypesCache.computeIfAbsent(type, key -> {
+					// 注解元数据获得元数据注解类型
 					Set<String> result = amd.getMetaAnnotationTypes(key);
+					// 返回元数据注解类型
 					return (result.isEmpty() ? Collections.emptySet() : result);
 				});
+
+				// 如果是带有名称和值的原型
 				if (isStereotypeWithNameValue(type, metaTypes, attributes)) {
+					// 获得值
 					Object value = attributes.get("value");
+
+					// 如果值是字符串实例
 					if (value instanceof String) {
+						// 将值强转为字符串
 						String strVal = (String) value;
+						// 判断该字符串是否有长度
 						if (StringUtils.hasLength(strVal)) {
 							if (beanName != null && !strVal.equals(beanName)) {
 								throw new IllegalStateException("Stereotype annotations suggest inconsistent " +
@@ -133,12 +151,13 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 	 */
 	protected boolean isStereotypeWithNameValue(String annotationType,
 			Set<String> metaAnnotationTypes, @Nullable Map<String, Object> attributes) {
-
+		// 如果满足以下任意一种条件，则说明是一个原型
 		boolean isStereotype = annotationType.equals(COMPONENT_ANNOTATION_CLASSNAME) ||
 				metaAnnotationTypes.contains(COMPONENT_ANNOTATION_CLASSNAME) ||
 				annotationType.equals("javax.annotation.ManagedBean") ||
 				annotationType.equals("javax.inject.Named");
 
+		// 返回是否是带有名称和值的原型
 		return (isStereotype && attributes != null && attributes.containsKey("value"));
 	}
 

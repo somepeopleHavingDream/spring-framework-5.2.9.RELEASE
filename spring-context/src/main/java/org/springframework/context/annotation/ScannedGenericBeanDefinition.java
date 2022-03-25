@@ -66,6 +66,7 @@ public class ScannedGenericBeanDefinition extends GenericBeanDefinition implemen
 
 	@Override
 	public final AnnotationMetadata getMetadata() {
+		// 返回当前已扫描通用bean定义的元数据
 		return this.metadata;
 	}
 

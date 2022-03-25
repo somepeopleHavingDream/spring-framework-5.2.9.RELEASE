@@ -271,6 +271,7 @@ public class AnnotatedBeanDefinitionReader {
 		
 		// 解析出注解通用bean定义的范围元数据
 		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(abd);
+		// 给注解通用bean定义设置范围
 		abd.setScope(scopeMetadata.getScopeName());
 		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));
 
