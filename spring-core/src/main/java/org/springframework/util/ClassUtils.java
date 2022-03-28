@@ -1008,6 +1008,9 @@ public abstract class ClassUtils {
 	 * @throws IllegalArgumentException if the className is empty
 	 */
 	public static String getShortName(String className) {
+		/*
+			以下不细究
+		 */
 		Assert.hasLength(className, "Class name must not be empty");
 		int lastDotIndex = className.lastIndexOf(PACKAGE_SEPARATOR);
 		int nameEndIndex = className.indexOf(CGLIB_CLASS_SEPARATOR);

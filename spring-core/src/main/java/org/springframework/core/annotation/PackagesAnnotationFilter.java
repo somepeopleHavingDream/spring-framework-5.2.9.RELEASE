@@ -57,11 +57,16 @@ final class PackagesAnnotationFilter implements AnnotationFilter {
 
 	@Override
 	public boolean matches(String annotationType) {
+		// 遍历当前包注解过滤器的所有前缀
 		for (String prefix : this.prefixes) {
+			// 如果入参注解类型与当前前缀匹配上了
 			if (annotationType.startsWith(prefix)) {
+				// 返回真，代表匹配上了
 				return true;
 			}
 		}
+
+		// 返回假，代表没匹配上
 		return false;
 	}
 

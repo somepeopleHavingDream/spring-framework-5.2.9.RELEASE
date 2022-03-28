@@ -81,12 +81,18 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 		if (definition instanceof AnnotatedBeanDefinition) {
 			// 从注解中确定bean名称
 			String beanName = determineBeanNameFromAnnotation((AnnotatedBeanDefinition) definition);
+			// 如果bean名存在文本
 			if (StringUtils.hasText(beanName)) {
+				/*
+					以下不细究
+				 */
 				// Explicit bean name found.
 				return beanName;
 			}
 		}
+
 		// Fallback: generate a unique default bean name.
+		// 构建默认bean名并返回
 		return buildDefaultBeanName(definition, registry);
 	}
 
@@ -128,6 +134,9 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 						String strVal = (String) value;
 						// 判断该字符串是否有长度
 						if (StringUtils.hasLength(strVal)) {
+							/*
+								以下不细究
+							 */
 							if (beanName != null && !strVal.equals(beanName)) {
 								throw new IllegalStateException("Stereotype annotations suggest inconsistent " +
 										"component names: '" + beanName + "' versus '" + strVal + "'");
@@ -138,6 +147,8 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 				}
 			}
 		}
+
+		// 返回bean名
 		return beanName;
 	}
 
@@ -169,6 +180,7 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 	 * @return the default bean name (never {@code null})
 	 */
 	protected String buildDefaultBeanName(BeanDefinition definition, BeanDefinitionRegistry registry) {
+		// 构建并返回默认bean名
 		return buildDefaultBeanName(definition);
 	}
 
@@ -183,9 +195,14 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator {
 	 * @return the default bean name (never {@code null})
 	 */
 	protected String buildDefaultBeanName(BeanDefinition definition) {
+		// 从入参bean定义中获得bean类名称
 		String beanClassName = definition.getBeanClassName();
+		// 断言，bean类名不为null
 		Assert.state(beanClassName != null, "No bean class name set");
+		// 获得bean类名的短名称
 		String shortClassName = ClassUtils.getShortName(beanClassName);
+
+		// 将首字符转换成小写后返回
 		return Introspector.decapitalize(shortClassName);
 	}
 

@@ -101,9 +101,12 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 	@Override
 	public boolean isPresent(String annotationType) {
+		// 如果注解过滤器匹配了入参注解类型
 		if (this.annotationFilter.matches(annotationType)) {
+			// 不细究
 			return false;
 		}
+
 		return Boolean.TRUE.equals(scan(annotationType,
 				IsPresent.get(this.repeatableContainers, this.annotationFilter, false)));
 	}
@@ -348,7 +351,9 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 				AnnotationFilter annotationFilter, boolean directOnly) {
 
 			// Use a single shared instance for common combinations
+			// 如果入参注解过滤器为plain
 			if (annotationFilter == AnnotationFilter.PLAIN) {
+				// 如果入参可重复容器为none
 				if (repeatableContainers == RepeatableContainers.none()) {
 					return SHARED[directOnly ? 0 : 1];
 				}
