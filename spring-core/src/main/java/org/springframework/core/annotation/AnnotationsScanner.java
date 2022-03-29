@@ -73,7 +73,7 @@ abstract class AnnotationsScanner {
 	@Nullable
 	static <C, R> R scan(C context, AnnotatedElement source, SearchStrategy searchStrategy,
 			AnnotationsProcessor<C, R> processor) {
-
+		// 做处理，返回结果
 		R result = process(context, source, searchStrategy, processor);
 		return processor.finish(result);
 	}
