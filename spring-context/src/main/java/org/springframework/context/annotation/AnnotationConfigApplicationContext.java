@@ -164,7 +164,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	public void register(Class<?>... componentClasses) {
 		// 断言入参组件类对象不为空
 		Assert.notEmpty(componentClasses, "At least one component class must be specified");
-		// 使用当前注解配置应用上下文的阅读器做注册操作
+		// 使用阅读器做注册操作
 		this.reader.register(componentClasses);
 	}
 

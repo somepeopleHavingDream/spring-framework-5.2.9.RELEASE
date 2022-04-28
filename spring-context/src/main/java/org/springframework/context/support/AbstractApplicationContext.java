@@ -845,18 +845,17 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * <p>Must be called before singleton instantiation.
 	 */
 	protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
-		// 调用Bean工厂后置处理器
+		// 后置处理器注册代理调用Bean工厂后置处理器
 		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
 
 		// Detect a LoadTimeWeaver and prepare for weaving, if found in the meantime
 		// (e.g. through an @Bean method registered by ConfigurationClassPostProcessor)
 
-		// 如果bean工厂的临时类加载器为null，并且bean工厂包含加载时织入器
+		// 如果入参bean工厂的临时类加载器为null，并且bean工厂包含加载时织入器
 		if (beanFactory.getTempClassLoader() == null && beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
-			/*
-				以下不细究
-			 */
+			// 则往入参bean工厂加入加载时织入感知处理器
 			beanFactory.addBeanPostProcessor(new LoadTimeWeaverAwareProcessor(beanFactory));
+			// 设置入参bean工厂的临时类加载器为上下文类型匹配类加载器
 			beanFactory.setTempClassLoader(new ContextTypeMatchClassLoader(beanFactory.getBeanClassLoader()));
 		}
 	}

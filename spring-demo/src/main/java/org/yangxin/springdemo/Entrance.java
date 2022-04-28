@@ -21,7 +21,7 @@ public class Entrance {
 //	public static void main(String[] args) {
 //		System.out.println("Hello Spring!");
 
-		String xmlPath = "D:\\IdeaProjects\\spring-framework-5.2.9.RELEASE\\spring-demo\\src\\main\\resources\\spring\\spring-config.xml";
+//		String xmlPath = "D:\\IdeaProjects\\spring-framework-5.2.9.RELEASE\\spring-demo\\src\\main\\resources\\spring\\spring-config.xml";
 //		String xmlPath = "C:\\Users\\yangxin\\IdeaProjects\\spring-framework-5.2.9.RELEASE\\spring-demo\\src\\main\\resources\\spring\\spring-config.xml";
 //		String xmlPath = "//home/yangxin/IdeaProjects/spring-framework-5.2.9.RELEASE/spring-demo/src/main/resources/spring/spring-config.xml";
 //		ApplicationContext applicationContext = new FileSystemXmlApplicationContext(xmlPath);
@@ -56,14 +56,14 @@ public class Entrance {
 
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Entrance.class);
-//		String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
-//		for (String beanDefinitionName : beanDefinitionNames) {
-//			System.out.println(beanDefinitionName);
-//		}
-//		WelcomeService welcomeService = (WelcomeService) applicationContext.getBean("welcomeServiceImpl");
-//		welcomeService.sayHello("强大的spring框架。");
+		String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
+		for (String beanDefinitionName : beanDefinitionNames) {
+			System.out.println(beanDefinitionName);
+		}
+		WelcomeService welcomeService = (WelcomeService) applicationContext.getBean("welcomeServiceImpl");
+		welcomeService.sayHello("强大的spring框架。");
 
-//		WelcomeController welcomeController = (WelcomeController) applicationContext.getBean("welcomeController");
-//		welcomeController.handleRequest();
+		WelcomeController welcomeController = (WelcomeController) applicationContext.getBean("welcomeController");
+		welcomeController.handleRequest();
 	}
 }

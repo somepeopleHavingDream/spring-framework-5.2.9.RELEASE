@@ -1062,13 +1062,16 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		// 如果已存在该名称的bean定义
 		if (existingDefinition != null) {
-			/*
-				以下不细究
-			 */
+			// 如果不允许bean定义覆盖
 			if (!isAllowBeanDefinitionOverriding()) {
+				// 抛出bean定义覆盖异常
 				throw new BeanDefinitionOverrideException(beanName, beanDefinition, existingDefinition);
 			}
+			// 如果允许bean定义覆盖，并且已存在的bean定义的角色低于入参bean定义的角色
 			else if (existingDefinition.getRole() < beanDefinition.getRole()) {
+				/*
+					打印一些日志
+				 */
 				// e.g. was ROLE_APPLICATION, now overriding with ROLE_SUPPORT or ROLE_INFRASTRUCTURE
 				if (logger.isInfoEnabled()) {
 					logger.info("Overriding user-defined bean definition for bean '" + beanName +
@@ -1076,7 +1079,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 							existingDefinition + "] with [" + beanDefinition + "]");
 				}
 			}
+			// 如果存在bean定义，并且存在bean定义的角色高于或等于入参bean定义的角色，且已存在bean定义并不与入参bean定义相同
 			else if (!beanDefinition.equals(existingDefinition)) {
+				/*
+					打印一些日志
+				 */
 				if (logger.isDebugEnabled()) {
 					logger.debug("Overriding bean definition for bean '" + beanName +
 							"' with a different definition: replacing [" + existingDefinition +
@@ -1084,6 +1091,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				}
 			}
 			else {
+				/*
+					除此之外的情况也是打印一些日志
+				 */
 				if (logger.isTraceEnabled()) {
 					logger.trace("Overriding bean definition for bean '" + beanName +
 							"' with an equivalent definition: replacing [" + existingDefinition +
@@ -1091,18 +1101,25 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				}
 			}
 
+			// 如果允许bean定义覆盖，则最终会走到这里，即，将入参bean定义放置到当前默认可列出bean工厂的bean定义映射中
 			this.beanDefinitionMap.put(beanName, beanDefinition);
 		}
 		else {
-			// 映射中已有该bean定义
+			// 代码执行到此处，说明当前默认可列出bean工厂的映射中已有该bean定义
 
-			// 如果bean创建已经开始
+			// 如果当前默认可列出bean工厂已经开始创建bean
 			if (hasBeanCreationStarted()) {
 				// Cannot modify startup-time collection elements anymore (for stable iteration)
 				// 不再能修改启动时元素
+
+				// 上锁
 				synchronized (this.beanDefinitionMap) {
 					// 将入参bean加入到bean定义集中
 					this.beanDefinitionMap.put(beanName, beanDefinition);
+
+					/*
+						beanDefinitionNames是线程不安全的ArrayList实例
+					 */
 
 					// 替换当前默认可列出bean工厂的bean定义名称集
 					List<String> updatedDefinitions = new ArrayList<>(this.beanDefinitionNames.size() + 1);
@@ -1127,17 +1144,18 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				removeManualSingletonName(beanName);
 			}
 
-			// 设置当前默认可列出bean工厂的冻结bean定义
+			// 无论当前默认可列出bean工厂当前是否处于创建bean状态，最终都会设置当前默认可列出bean工厂的冻结bean定义为null
 			this.frozenBeanDefinitionNames = null;
 		}
 
 		// 如果已经存在该名称的bean定义，或者bean名集合中已包含该单例
 		if (existingDefinition != null || containsSingleton(beanName)) {
-			// 不细究
+			// 重置bean定义
 			resetBeanDefinition(beanName);
 		}
+		// 如果配置了冻结
 		else if (isConfigurationFrozen()) {
-			// 不细究
+			// 通过类型缓存做清除操作
 			clearByTypeCache();
 		}
 	}

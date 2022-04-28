@@ -182,9 +182,7 @@ public abstract class BeanDefinitionReaderUtils {
 		String[] aliases = definitionHolder.getAliases();
 		if (aliases != null) {
 			for (String alias : aliases) {
-				/*
-					不细究
-				 */
+				// 想注册表注册当前别名
 				registry.registerAlias(beanName, alias);
 			}
 		}

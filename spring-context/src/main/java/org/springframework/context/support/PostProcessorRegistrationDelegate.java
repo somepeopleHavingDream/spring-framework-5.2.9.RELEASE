@@ -55,7 +55,6 @@ final class PostProcessorRegistrationDelegate {
 
 	public static void invokeBeanFactoryPostProcessors(
 			ConfigurableListableBeanFactory beanFactory, List<BeanFactoryPostProcessor> beanFactoryPostProcessors) {
-
 		// Invoke BeanDefinitionRegistryPostProcessors first, if any.
 		Set<String> processedBeans = new HashSet<>();
 
@@ -67,16 +66,19 @@ final class PostProcessorRegistrationDelegate {
 
 			// 遍历入参bean工厂后置处理器
 			for (BeanFactoryPostProcessor postProcessor : beanFactoryPostProcessors) {
-				/*
-					以下不细究
-				 */
+				// 如果当前后置处理器是bean定义注册后置处理器实例
 				if (postProcessor instanceof BeanDefinitionRegistryPostProcessor) {
+					// 将当前后置处理器强转为bean定义注册后置处理器
 					BeanDefinitionRegistryPostProcessor registryProcessor =
 							(BeanDefinitionRegistryPostProcessor) postProcessor;
+					// 给注册处理器设置注册表
 					registryProcessor.postProcessBeanDefinitionRegistry(registry);
+
+					// 将当前注册处理器添加到bean定义注册后置处理器集中
 					registryProcessors.add(registryProcessor);
 				}
 				else {
+					// 如果当前后置处理器不是bean定义注册后置处理器，则将当前后置处理器添加到常规后置处理器集中
 					regularPostProcessors.add(postProcessor);
 				}
 			}
