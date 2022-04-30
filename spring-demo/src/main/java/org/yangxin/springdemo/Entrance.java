@@ -65,5 +65,8 @@ public class Entrance {
 
 		WelcomeController welcomeController = (WelcomeController) applicationContext.getBean("welcomeController");
 		welcomeController.handleRequest();
+
+		User user5 = (User) applicationContext.getBean("user5");
+		System.out.println("CustomizedBeanDefinitionRegistryPostProcessor创建的对象：" + user5);
 	}
 }
