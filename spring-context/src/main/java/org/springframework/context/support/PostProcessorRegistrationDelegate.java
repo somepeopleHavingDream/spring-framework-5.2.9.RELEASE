@@ -90,22 +90,23 @@ final class PostProcessorRegistrationDelegate {
 			List<BeanDefinitionRegistryPostProcessor> currentRegistryProcessors = new ArrayList<>();
 
 			// First, invoke the BeanDefinitionRegistryPostProcessors that implement PriorityOrdered.
-			// 获得后置处理器名
+			// 获得入参bean工厂的所有bean定义注册后置处理器名
 			String[] postProcessorNames =
 					beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.class, true, false);
 			for (String ppName : postProcessorNames) {
-				/*
-					以下不细究
-				 */
+				// 如果当前后置处理器，匹配上了优先顺序类型
 				if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
+					// 获得当前后置处理器，将其添加到当前注册处理器中
 					currentRegistryProcessors.add(beanFactory.getBean(ppName, BeanDefinitionRegistryPostProcessor.class));
+
+					// 增加被处理的后置处理器名
 					processedBeans.add(ppName);
 				}
 			}
 
-			// 排序后置处理器
+			// 排序当前注册的后置处理器
 			sortPostProcessors(currentRegistryProcessors, beanFactory);
-			// 将当前注册处理器注册到注册处理器中
+			// 将当前注册处理器注册到注册处理器集中
 			registryProcessors.addAll(currentRegistryProcessors);
 			// 调用bean定义注册后置处理器
 			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
