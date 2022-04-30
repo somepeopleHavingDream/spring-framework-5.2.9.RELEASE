@@ -222,7 +222,12 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 	 */
 	@Override
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) {
+		// 获得入参bean定义注册表的注册Id
 		int registryId = System.identityHashCode(registry);
+
+		/*
+			如果该注册Id已经被处理，则抛出违规状态异常
+		 */
 		if (this.registriesPostProcessed.contains(registryId)) {
 			throw new IllegalStateException(
 					"postProcessBeanDefinitionRegistry already called on this post-processor against " + registry);
@@ -231,8 +236,11 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 			throw new IllegalStateException(
 					"postProcessBeanFactory already called on this post-processor against " + registry);
 		}
+
+		// 将该注册Id标记为已处理
 		this.registriesPostProcessed.add(registryId);
 
+		// 处理配置bean定义
 		processConfigBeanDefinitions(registry);
 	}
 
@@ -263,6 +271,10 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 	 * {@link Configuration} classes.
 	 */
 	public void processConfigBeanDefinitions(BeanDefinitionRegistry registry) {
+		/*
+			以下暂不细究
+		 */
+
 		List<BeanDefinitionHolder> configCandidates = new ArrayList<>();
 		String[] candidateNames = registry.getBeanDefinitionNames();
 
