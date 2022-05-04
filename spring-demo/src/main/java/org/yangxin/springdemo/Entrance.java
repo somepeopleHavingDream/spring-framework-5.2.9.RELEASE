@@ -60,8 +60,8 @@ public class Entrance {
 		for (String beanDefinitionName : beanDefinitionNames) {
 			System.out.println(beanDefinitionName);
 		}
-		WelcomeService welcomeService = (WelcomeService) applicationContext.getBean("welcomeServiceImpl");
-		welcomeService.sayHello("强大的spring框架。");
+//		WelcomeService welcomeService = (WelcomeService) applicationContext.getBean("welcomeServiceImpl");
+//		welcomeService.sayHello("强大的spring框架。");
 
 		WelcomeController welcomeController = (WelcomeController) applicationContext.getBean("welcomeController");
 		welcomeController.handleRequest();
