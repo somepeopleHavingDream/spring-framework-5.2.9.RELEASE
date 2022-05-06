@@ -137,7 +137,6 @@ public abstract class AnnotationConfigUtils {
 	 * @param registry the registry to operate on
 	 */
 	public static void registerAnnotationConfigProcessors(BeanDefinitionRegistry registry) {
-		// 注册注解配置处理器
 		registerAnnotationConfigProcessors(registry, null);
 	}
 
@@ -151,60 +150,41 @@ public abstract class AnnotationConfigUtils {
 	 */
 	public static Set<BeanDefinitionHolder> registerAnnotationConfigProcessors(
 			BeanDefinitionRegistry registry, @Nullable Object source) {
-		// 展开默认可列出bean工厂
 		DefaultListableBeanFactory beanFactory = unwrapDefaultListableBeanFactory(registry);
-		// 如果bean工厂不为null
 		if (beanFactory != null) {
-			// 如果bean工厂的依赖比较器不是注解感知顺序比较器
 			if (!(beanFactory.getDependencyComparator() instanceof AnnotationAwareOrderComparator)) {
-				// 给bean工厂设置依赖比较器
 				beanFactory.setDependencyComparator(AnnotationAwareOrderComparator.INSTANCE);
 			}
 
-			// 如果bean工厂的自动装配候选解析器不是上下文注解自动装配候选解析器实例
 			if (!(beanFactory.getAutowireCandidateResolver() instanceof ContextAnnotationAutowireCandidateResolver)) {
-				// 给bean工厂设置自动装配候选解析器
 				beanFactory.setAutowireCandidateResolver(new ContextAnnotationAutowireCandidateResolver());
 			}
 		}
 
 		Set<BeanDefinitionHolder> beanDefs = new LinkedHashSet<>(8);
-		// 如果入参注册表不包含bean定义org.springframework.context.annotation.internalConfigurationAnnotationProcessor
 		if (!registry.containsBeanDefinition(CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME)) {
-			// 实例化一个根bean定义
 			RootBeanDefinition def = new RootBeanDefinition(ConfigurationClassPostProcessor.class);
-			// 给实例出来的根bean定义设置源
 			def.setSource(source);
 
-			// 注册后置处理器，添加进bean定义集合中
 			beanDefs.add(registerPostProcessor(registry, def, CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 
-		// 如果入参注册表不包含bean定义org.springframework.context.annotation.internalAutowiredAnnotationProcessor
 		if (!registry.containsBeanDefinition(AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME)) {
-			// 实例化一个根bean定义
 			RootBeanDefinition def = new RootBeanDefinition(AutowiredAnnotationBeanPostProcessor.class);
-			// 给实例出来的根bean定义设置源
 			def.setSource(source);
 
-			// 注册后置处理器，添加进bean定义集合中
 			beanDefs.add(registerPostProcessor(registry, def, AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 
 		// Check for JSR-250 support, and if present add the CommonAnnotationBeanPostProcessor.
-		// 如果jsr250存在，并且注册表中不包含bean定义org.springframework.context.annotation.internalCommonAnnotationProcessor
 		if (jsr250Present && !registry.containsBeanDefinition(COMMON_ANNOTATION_PROCESSOR_BEAN_NAME)) {
-			// 实例化一个根bean定义
 			RootBeanDefinition def = new RootBeanDefinition(CommonAnnotationBeanPostProcessor.class);
-			// 给实例出来的根bean定义设置源
 			def.setSource(source);
 
-			// 注册后置处理器，添加进bean定义集合中
 			beanDefs.add(registerPostProcessor(registry, def, COMMON_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 
 		// Check for JPA support, and if present add the PersistenceAnnotationBeanPostProcessor.
-		// 如果jpa存在，并且注册表中不包含bean定义org.springframework.context.annotation.internalPersistenceAnnotationProcessor
 		if (jpaPresent && !registry.containsBeanDefinition(PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			/*
 				以下不细究
@@ -222,40 +202,28 @@ public abstract class AnnotationConfigUtils {
 			beanDefs.add(registerPostProcessor(registry, def, PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 
-		// 如果入参注册表包含bean定义org.springframework.context.event.internalEventListenerProcessor
 		if (!registry.containsBeanDefinition(EVENT_LISTENER_PROCESSOR_BEAN_NAME)) {
-			// 实例化一个根bean定义
 			RootBeanDefinition def = new RootBeanDefinition(EventListenerMethodProcessor.class);
-			// 给实例出来的根bean定义设置源
 			def.setSource(source);
 
-			// 注册后置处理器，添加进bean定义集合中
 			beanDefs.add(registerPostProcessor(registry, def, EVENT_LISTENER_PROCESSOR_BEAN_NAME));
 		}
 
-		// 如果入参注册表包含bean定义org.springframework.context.event.internalEventListenerProcessor
 		if (!registry.containsBeanDefinition(EVENT_LISTENER_FACTORY_BEAN_NAME)) {
-			// 实例化一个根bean定义
 			RootBeanDefinition def = new RootBeanDefinition(DefaultEventListenerFactory.class);
-			// 给实例出来的根bean定义设置源
 			def.setSource(source);
 
-			// 注册后置处理器，添加进bean定义集合中
 			beanDefs.add(registerPostProcessor(registry, def, EVENT_LISTENER_FACTORY_BEAN_NAME));
 		}
 
-		// 返回bean定义集
 		return beanDefs;
 	}
 
 	private static BeanDefinitionHolder registerPostProcessor(
 			BeanDefinitionRegistry registry, RootBeanDefinition definition, String beanName) {
-		// 给bean定义设置角色
 		definition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-		// 注册表注册bean定义
 		registry.registerBeanDefinition(beanName, definition);
 
-		// 实例化并返回bean定义拥有器
 		return new BeanDefinitionHolder(definition, beanName);
 	}
 

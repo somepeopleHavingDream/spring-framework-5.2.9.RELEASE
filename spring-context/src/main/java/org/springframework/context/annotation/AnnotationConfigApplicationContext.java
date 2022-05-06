@@ -63,7 +63,6 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * through {@link #register} calls and then manually {@linkplain #refresh refreshed}.
 	 */
 	public AnnotationConfigApplicationContext() {
-		// 实例化并赋值当前注解配置应用上下文的阅读器和扫描器
 		this.reader = new AnnotatedBeanDefinitionReader(this);
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}
@@ -85,11 +84,8 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * {@link Configuration @Configuration} classes
 	 */
 	public AnnotationConfigApplicationContext(Class<?>... componentClasses) {
-		// 调用本类的无参构造方法
 		this();
-		// 做注册操作
 		register(componentClasses);
-		// 做刷新操作
 		refresh();
 	}
 
@@ -162,9 +158,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 */
 	@Override
 	public void register(Class<?>... componentClasses) {
-		// 断言入参组件类对象不为空
 		Assert.notEmpty(componentClasses, "At least one component class must be specified");
-		// 使用阅读器做注册操作
 		this.reader.register(componentClasses);
 	}
 

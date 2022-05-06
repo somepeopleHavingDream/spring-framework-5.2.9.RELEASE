@@ -68,7 +68,6 @@ public class AnnotatedBeanDefinitionReader {
 	 * @see #setEnvironment(Environment)
 	 */
 	public AnnotatedBeanDefinitionReader(BeanDefinitionRegistry registry) {
-		// 调用本类的构造方法
 		this(registry, getOrCreateEnvironment(registry));
 	}
 
@@ -82,15 +81,12 @@ public class AnnotatedBeanDefinitionReader {
 	 * @since 3.1
 	 */
 	public AnnotatedBeanDefinitionReader(BeanDefinitionRegistry registry, Environment environment) {
-		// 断言，入参bean定义注册表和环境不为null
 		Assert.notNull(registry, "BeanDefinitionRegistry must not be null");
 		Assert.notNull(environment, "Environment must not be null");
 
-		// 设置当前注解bean定义阅读器的注册表和条件评估器
 		this.registry = registry;
 		this.conditionEvaluator = new ConditionEvaluator(registry, environment, null);
 
-		// 通过注解配置工具类注册注解配置处理器
 		AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry);
 	}
 
@@ -139,9 +135,7 @@ public class AnnotatedBeanDefinitionReader {
 	 * e.g. {@link Configuration @Configuration} classes
 	 */
 	public void register(Class<?>... componentClasses) {
-		// 遍历所有组件类对象
 		for (Class<?> componentClass : componentClasses) {
-			// 注册bean
 			registerBean(componentClass);
 		}
 	}
@@ -152,7 +146,6 @@ public class AnnotatedBeanDefinitionReader {
 	 * @param beanClass the class of the bean
 	 */
 	public void registerBean(Class<?> beanClass) {
-		// 做注册bean操作
 		doRegisterBean(beanClass, null, null, null, null);
 	}
 
@@ -260,66 +253,50 @@ public class AnnotatedBeanDefinitionReader {
 			@Nullable Class<? extends Annotation>[] qualifiers,
 									@Nullable Supplier<T> supplier,
 			@Nullable BeanDefinitionCustomizer[] customizers) {
-		// 实例化出一个注解通用bean定义
 		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(beanClass);
-		// 如果条件评估器判断应该跳过
 		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) {
-			// 直接返回，不再执行接下来的逻辑
+			// 以下不细究
 			return;
 		}
 
-		// 设置注解通用bean定义的实例提供器
 		abd.setInstanceSupplier(supplier);
 
-		/*
-			给注解通用bean定义设置范围
-		 */
-		// 解析出注解通用bean定义的范围元数据
 		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(abd);
-		// 给注解通用bean定义设置范围
 		abd.setScope(scopeMetadata.getScopeName());
 
-		// 获得bean名
 		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));
 
-		// 处理公共定义注解
 		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
 
-		// 如果存在限定符
 		if (qualifiers != null) {
-			// 依次遍历限定符
+			/*
+				以下不细究
+			 */
 			for (Class<? extends Annotation> qualifier : qualifiers) {
-				// 如果当前限定符是Primary类对象
 				if (Primary.class == qualifier) {
-					// 给注解通用bean定义设置主实例标记为真
 					abd.setPrimary(true);
 				}
-				// 如果当前限定符是Lazy类对象
 				else if (Lazy.class == qualifier) {
-					// 给注解通用bean定义设置懒加载标记为真
 					abd.setLazyInit(true);
 				}
 				else {
-					// 否则，给注解bean定义添加自动候选限定符
 					abd.addQualifier(new AutowireCandidateQualifier(qualifier));
 				}
 			}
 		}
 
-		// 如果存在定制器
 		if (customizers != null) {
-			// 给所有定制器设置注解通用bean定义
+			/*
+				以下不细究
+			 */
 			for (BeanDefinitionCustomizer customizer : customizers) {
 				customizer.customize(abd);
 			}
 		}
 
-		// 实例化出一个bean定义拥有器
 		BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(abd, beanName);
-		// 通过注解配置工具类，给bean定义拥有器应用范围代理模式
 		definitionHolder = AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, this.registry);
 
-		// 通过bean定义阅读器工具类，注册bean定义
 		BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, this.registry);
 	}
 

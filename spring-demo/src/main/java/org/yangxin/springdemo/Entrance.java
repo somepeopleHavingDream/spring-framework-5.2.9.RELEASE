@@ -56,17 +56,17 @@ public class Entrance {
 
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Entrance.class);
-		String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
-		for (String beanDefinitionName : beanDefinitionNames) {
-			System.out.println(beanDefinitionName);
-		}
+//		String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
+//		for (String beanDefinitionName : beanDefinitionNames) {
+//			System.out.println(beanDefinitionName);
+//		}
 //		WelcomeService welcomeService = (WelcomeService) applicationContext.getBean("welcomeServiceImpl");
 //		welcomeService.sayHello("强大的spring框架。");
 
-		WelcomeController welcomeController = (WelcomeController) applicationContext.getBean("welcomeController");
-		welcomeController.handleRequest();
-
-		User user5 = (User) applicationContext.getBean("user5");
-		System.out.println("CustomizedBeanDefinitionRegistryPostProcessor创建的对象：" + user5);
+//		WelcomeController welcomeController = (WelcomeController) applicationContext.getBean("welcomeController");
+//		welcomeController.handleRequest();
+//
+//		User user5 = (User) applicationContext.getBean("user5");
+//		System.out.println("CustomizedBeanDefinitionRegistryPostProcessor创建的对象：" + user5);
 	}
 }

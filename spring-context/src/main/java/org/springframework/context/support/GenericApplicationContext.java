@@ -109,7 +109,6 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	 * @see #refresh
 	 */
 	public GenericApplicationContext() {
-		// 实例化并设置bean工厂
 		this.beanFactory = new DefaultListableBeanFactory();
 	}
 
@@ -264,6 +263,9 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	@Override
 	protected final void refreshBeanFactory() throws IllegalStateException {
 		if (!this.refreshed.compareAndSet(false, true)) {
+			/*
+				以下不细究
+			 */
 			throw new IllegalStateException(
 					"GenericApplicationContext does not support multiple refresh attempts: just call 'refresh' once");
 		}
@@ -321,7 +323,6 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	@Override
 	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition)
 			throws BeanDefinitionStoreException {
-		// 通过当前通用应用上下文的bean工厂注册bean定义
 		this.beanFactory.registerBeanDefinition(beanName, beanDefinition);
 	}
 

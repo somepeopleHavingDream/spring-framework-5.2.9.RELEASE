@@ -1040,14 +1040,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	@Override
 	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition)
 			throws BeanDefinitionStoreException {
-		// 断言入参bean名称和bean定义必不为null
 		Assert.hasText(beanName, "Bean name must not be empty");
 		Assert.notNull(beanDefinition, "BeanDefinition must not be null");
 
-		// 如果入参bean定义是抽象Bean定义的实例
 		if (beanDefinition instanceof AbstractBeanDefinition) {
 			try {
-				// 将bean定义强转为抽象bean定义，再进行bean定义校验
 				((AbstractBeanDefinition) beanDefinition).validate();
 			}
 			catch (BeanDefinitionValidationException ex) {
@@ -1057,21 +1054,13 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 		}
 
-		// 根据bean名从当前默认可列出bean工厂的bean定义映射中获得Bean定义
 		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
 
-		// 如果已存在该名称的bean定义
 		if (existingDefinition != null) {
-			// 如果不允许bean定义覆盖
 			if (!isAllowBeanDefinitionOverriding()) {
-				// 抛出bean定义覆盖异常
 				throw new BeanDefinitionOverrideException(beanName, beanDefinition, existingDefinition);
 			}
-			// 如果允许bean定义覆盖，并且已存在的bean定义的角色低于入参bean定义的角色
 			else if (existingDefinition.getRole() < beanDefinition.getRole()) {
-				/*
-					打印一些日志
-				 */
 				// e.g. was ROLE_APPLICATION, now overriding with ROLE_SUPPORT or ROLE_INFRASTRUCTURE
 				if (logger.isInfoEnabled()) {
 					logger.info("Overriding user-defined bean definition for bean '" + beanName +
@@ -1079,11 +1068,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 							existingDefinition + "] with [" + beanDefinition + "]");
 				}
 			}
-			// 如果存在bean定义，并且存在bean定义的角色高于或等于入参bean定义的角色，且已存在bean定义并不与入参bean定义相同
 			else if (!beanDefinition.equals(existingDefinition)) {
-				/*
-					打印一些日志
-				 */
 				if (logger.isDebugEnabled()) {
 					logger.debug("Overriding bean definition for bean '" + beanName +
 							"' with a different definition: replacing [" + existingDefinition +
@@ -1091,9 +1076,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				}
 			}
 			else {
-				/*
-					除此之外的情况也是打印一些日志
-				 */
 				if (logger.isTraceEnabled()) {
 					logger.trace("Overriding bean definition for bean '" + beanName +
 							"' with an equivalent definition: replacing [" + existingDefinition +
@@ -1101,61 +1083,38 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				}
 			}
 
-			// 如果允许bean定义覆盖，则最终会走到这里，即，将入参bean定义放置到当前默认可列出bean工厂的bean定义映射中
 			this.beanDefinitionMap.put(beanName, beanDefinition);
 		}
 		else {
-			// 代码执行到此处，说明当前默认可列出bean工厂的映射中已有该bean定义
-
-			// 如果当前默认可列出bean工厂已经开始创建bean
 			if (hasBeanCreationStarted()) {
 				// Cannot modify startup-time collection elements anymore (for stable iteration)
-				// 不再能修改启动时元素
-
-				// 上锁
 				synchronized (this.beanDefinitionMap) {
-					// 将入参bean加入到bean定义集中
 					this.beanDefinitionMap.put(beanName, beanDefinition);
 
-					/*
-						beanDefinitionNames是线程不安全的ArrayList实例
-					 */
-
-					// 替换当前默认可列出bean工厂的bean定义名称集
 					List<String> updatedDefinitions = new ArrayList<>(this.beanDefinitionNames.size() + 1);
 					updatedDefinitions.addAll(this.beanDefinitionNames);
 					updatedDefinitions.add(beanName);
 					this.beanDefinitionNames = updatedDefinitions;
 
-					// 移除手工单例
 					removeManualSingletonName(beanName);
 				}
 			}
 			else {
-				// 说明bean创建未开始，则可以直接将入参bean置入bean定义集合中
 				// Still in startup registration phase
-				// 仍然处理起始注册阶段
-
-				// 添加bean定义映射
 				this.beanDefinitionMap.put(beanName, beanDefinition);
-				// 添加bean定义名称
 				this.beanDefinitionNames.add(beanName);
-				// 移除手工单例名称
 				removeManualSingletonName(beanName);
 			}
 
-			// 无论当前默认可列出bean工厂当前是否处于创建bean状态，最终都会设置当前默认可列出bean工厂的冻结bean定义为null
 			this.frozenBeanDefinitionNames = null;
 		}
 
-		// 如果已经存在该名称的bean定义，或者bean名集合中已包含该单例
 		if (existingDefinition != null || containsSingleton(beanName)) {
-			// 重置bean定义
+			// 不细究
 			resetBeanDefinition(beanName);
 		}
-		// 如果配置了冻结
 		else if (isConfigurationFrozen()) {
-			// 通过类型缓存做清除操作
+			// 不细究
 			clearByTypeCache();
 		}
 	}
