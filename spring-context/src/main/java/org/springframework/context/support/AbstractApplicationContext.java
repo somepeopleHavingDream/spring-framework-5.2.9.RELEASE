@@ -560,7 +560,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * to the internal BeanFactory.
 	 */
 	public List<BeanFactoryPostProcessor> getBeanFactoryPostProcessors() {
-		// 获得当前应用上下文的bean工厂后置处理器
 		return this.beanFactoryPostProcessors;
 	}
 
@@ -597,36 +596,27 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				postProcessBeanFactory(beanFactory);
 
 				// Invoke factory processors registered as beans in the context.
-				// 调用在上下文中被注册为bean的工厂处理器。
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
-				// 注册拦截bean创建的bean处理器。
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
-				// 从此上下文中初始化消息源。
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
-				// 为此上下文初始化事件多播器。
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
-				// 在指定上下文子类里实例化其他特别bean。
-				// 此方法由子类覆写实现，默认为空实现。
 				onRefresh();
 
 				// Check for listener beans and register them.
-				// 检查监听器并且注册它们。
 				registerListeners();
 
 				// Instantiate all remaining (non-lazy-init) singletons.
-				// 实例化所有存在（非懒加载）的单例。
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
-				// 最后步骤：推送相应的事件。
 				finishRefresh();
 			}
 
@@ -652,8 +642,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			finally {
 				// Reset common introspection caches in Spring's core, since we
 				// might not ever need metadata for singleton beans anymore...
-
-				// 重置公共缓存。
 				resetCommonCaches();
 			}
 		}
@@ -801,17 +789,16 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * <p>Must be called before singleton instantiation.
 	 */
 	protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
-		// 后置处理器注册代理调用Bean工厂后置处理器
 		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
 
 		// Detect a LoadTimeWeaver and prepare for weaving, if found in the meantime
 		// (e.g. through an @Bean method registered by ConfigurationClassPostProcessor)
 
-		// 如果入参bean工厂的临时类加载器为null，并且bean工厂包含加载时织入器
 		if (beanFactory.getTempClassLoader() == null && beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
-			// 则往入参bean工厂加入加载时织入感知处理器
+			/*
+				以下不细究
+			 */
 			beanFactory.addBeanPostProcessor(new LoadTimeWeaverAwareProcessor(beanFactory));
-			// 设置入参bean工厂的临时类加载器为上下文类型匹配类加载器
 			beanFactory.setTempClassLoader(new ContextTypeMatchClassLoader(beanFactory.getBeanClassLoader()));
 		}
 	}

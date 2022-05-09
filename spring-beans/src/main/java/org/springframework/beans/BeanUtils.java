@@ -132,28 +132,21 @@ public abstract class BeanUtils {
 	 * @see Constructor#newInstance
 	 */
 	public static <T> T instantiateClass(Class<T> clazz) throws BeanInstantiationException {
-		// 断言，入参类对象不为null
 		Assert.notNull(clazz, "Class must not be null");
 
-		// 如果入参类对象是一个接口类对象，则抛出Bean实例化异常，因为接口不能被实例化
 		if (clazz.isInterface()) {
-			// 以下不细究
 			throw new BeanInstantiationException(clazz, "Specified class is an interface");
 		}
 
 		try {
-			// 返回实例化后的实例，入参为无参构造方法
 			return instantiateClass(clazz.getDeclaredConstructor());
 		}
 		catch (NoSuchMethodException ex) {
-			// 如果抛出没有这种方法异常，则尝试调用获取原始构造器方法
 			Constructor<T> ctor = findPrimaryConstructor(clazz);
-			// 如果构造器不为null，则用该构造器实例化出一个实例
 			if (ctor != null) {
 				return instantiateClass(ctor);
 			}
 
-			// 否则，抛出Bean实例化异常
 			throw new BeanInstantiationException(clazz, "No default constructor found", ex);
 		}
 		catch (LinkageError err) {
@@ -186,9 +179,6 @@ public abstract class BeanUtils {
 	 * non-accessible (that is, non-public) constructor, and supports Kotlin classes
 	 * with optional parameters and default values.
 	 *
-	 * 使用给定构造器去实例化类的便捷方法。
-	 * 注意：此方法尝试去设置构造器的可访问性，如果给定一个不可访问（非共有）的构造器，并且支持带可选参数和默认值的kotlin类。
-	 *
 	 * @param ctor the constructor to instantiate
 	 * @param args the constructor arguments to apply (use {@code null} for an unspecified
 	 * parameter, Kotlin optional parameters and Java primitive types are supported)
@@ -197,44 +187,33 @@ public abstract class BeanUtils {
 	 * @see Constructor#newInstance
 	 */
 	public static <T> T instantiateClass(Constructor<T> ctor, Object... args) throws BeanInstantiationException {
-		// 断言，入参构造器不为null
 		Assert.notNull(ctor, "Constructor must not be null");
 
 		try {
-			// 使入参构造器是可访问的
 			ReflectionUtils.makeAccessible(ctor);
 
-			// 如果当前使用Kotlin反射，并且构造器所在类的类型是kotlin类型，则使用Kotlin委托实例化类
 			if (KotlinDetector.isKotlinReflectPresent() && KotlinDetector.isKotlinType(ctor.getDeclaringClass())) {
-				// 以下不细究
 				return KotlinDelegate.instantiateClass(ctor, args);
 			}
 			else {
-				// 拿到构造器的参数类型
 				Class<?>[] parameterTypes = ctor.getParameterTypes();
 
-				// 断言，入参参数的长度不超过参数类型的长度
 				Assert.isTrue(args.length <= parameterTypes.length, "Can't specify more arguments than constructor parameters");
 
-				// 设置带默认值的参数
 				Object[] argsWithDefaultValues = new Object[args.length];
 				for (int i = 0 ; i < args.length; i++) {
 					/*
 						以下不细究
 					 */
-					// 如果入参参数值为null
 					if (args[i] == null) {
 						Class<?> parameterType = parameterTypes[i];
-						// 如果入参的类型是原始类型，则根据原始类型的不同，设置不同的默认值，如果是入参是引用类型，则默认值直接为null
 						argsWithDefaultValues[i] = (parameterType.isPrimitive() ? DEFAULT_TYPE_VALUES.get(parameterType) : null);
 					}
 					else {
-						// 如果入参不为null，则设置为入参值
 						argsWithDefaultValues[i] = args[i];
 					}
 				}
 
-				// 构造器用入参实例化一个对象
 				return ctor.newInstance(argsWithDefaultValues);
 			}
 		}
