@@ -1983,20 +1983,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @param beanName the name of the bean
 	 */
 	protected void markBeanAsCreated(String beanName) {
-		// 如果入参bean还未被创建
 		if (!this.alreadyCreated.contains(beanName)) {
-			// 上锁（双重检查模式）
 			synchronized (this.mergedBeanDefinitions) {
 				if (!this.alreadyCreated.contains(beanName)) {
 					// Let the bean definition get re-merged now that we're actually creating
 					// the bean... just in case some of its metadata changed in the meantime.
-
-					// 现在我们实际上正在创建bean，以让bean定义获得重新合并……
-					// 以防在此期间它的一些元数据的改变。
-
-					// 通过入参bean名，清理已合并的bean定义（不细究）
 					clearMergedBeanDefinition(beanName);
-					// 加入到已创建bean名集合中
 					this.alreadyCreated.add(beanName);
 				}
 			}
