@@ -948,7 +948,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Override
 	public void preInstantiateSingletons() throws BeansException {
-		// 如果日志器是可追踪级别的
 		if (logger.isTraceEnabled()) {
 			// 不细究
 			logger.trace("Pre-instantiating singletons in " + this);
@@ -956,29 +955,23 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		// Iterate over a copy to allow for init methods which in turn register new bean definitions.
 		// While this may not be part of the regular factory bootstrap, it does otherwise work fine.
-		// 在一个复制上迭代，以允许初始化方法轮流注册新的bean定义。
-		// 虽然这可能不是正规工厂引导的一部分，但是确实可以工作得很好。
 		List<String> beanNames = new ArrayList<>(this.beanDefinitionNames);
 
 		// Trigger initialization of all non-lazy singleton beans...
-		// 触发所有非懒加载单例bean的实例化……
 		for (String beanName : beanNames) {
-			// 根据当前bean名，获得合并的本地Bean定义
 			RootBeanDefinition bd = getMergedLocalBeanDefinition(beanName);
 
-			// 如果根bean定义不是抽象的，是单例的，并且不是懒加载的
 			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
-				// 如果是工厂bean
 				if (isFactoryBean(beanName)) {
-					// 获得bean
+					/*
+						以下不细究
+					 */
 					Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
 
-					// 如果bean是工厂bean的实例
 					if (bean instanceof FactoryBean) {
 						FactoryBean<?> factory = (FactoryBean<?>) bean;
 						boolean isEagerInit;
 
-						// 如果当前系统的安全管理器不存在，并且工厂bean是灵活工厂bean实例
 						if (System.getSecurityManager() != null && factory instanceof SmartFactoryBean) {
 							/*
 								以下不细究
@@ -988,12 +981,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 									getAccessControlContext());
 						}
 						else {
-							// 计算出是否立即初始化
 							isEagerInit = (factory instanceof SmartFactoryBean &&
 									((SmartFactoryBean<?>) factory).isEagerInit());
 						}
 
-						// 如果立即初始化
 						if (isEagerInit) {
 							// 不细究
 							getBean(beanName);
@@ -1001,25 +992,21 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 					}
 				}
 				else {
-					// 通过bean名获得bean
 					getBean(beanName);
 				}
 			}
 		}
 
 		// Trigger post-initialization callback for all applicable beans...
-		// 对于所有的可适用bean，触发后置初始化回调
 		for (String beanName : beanNames) {
-			// 获得单例
 			Object singletonInstance = getSingleton(beanName);
 
-			// 如果单例实例是敏捷初始单例
 			if (singletonInstance instanceof SmartInitializingSingleton) {
-				/*
-					以下不细究
-				 */
 				SmartInitializingSingleton smartSingleton = (SmartInitializingSingleton) singletonInstance;
 				if (System.getSecurityManager() != null) {
+					/*
+						以下不细究
+					 */
 					AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
 						smartSingleton.afterSingletonsInstantiated();
 						return null;
@@ -1057,6 +1044,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
 
 		if (existingDefinition != null) {
+			/*
+				以下不细究
+			 */
 			if (!isAllowBeanDefinitionOverriding()) {
 				throw new BeanDefinitionOverrideException(beanName, beanDefinition, existingDefinition);
 			}

@@ -323,6 +323,7 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	 */
 	public Set<BeanDefinition> findCandidateComponents(String basePackage) {
 		if (this.componentsIndex != null && indexSupportsIncludeFilters()) {
+			// 不细究
 			return addCandidateComponentsFromIndex(this.componentsIndex, basePackage);
 		}
 		else {
@@ -436,6 +437,7 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 			boolean debugEnabled = logger.isDebugEnabled();
 			for (Resource resource : resources) {
 				if (traceEnabled) {
+					// 不细究
 					logger.trace("Scanning " + resource);
 				}
 				if (resource.isReadable()) {
@@ -446,11 +448,15 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 							sbd.setSource(resource);
 							if (isCandidateComponent(sbd)) {
 								if (debugEnabled) {
+									// 不细究
 									logger.debug("Identified candidate component class: " + resource);
 								}
 								candidates.add(sbd);
 							}
 							else {
+								/*
+									以下不细究
+								 */
 								if (debugEnabled) {
 									logger.debug("Ignored because not a concrete top-level class: " + resource);
 								}
@@ -458,16 +464,21 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 						}
 						else {
 							if (traceEnabled) {
+								// 不细究
 								logger.trace("Ignored because not matching any filter: " + resource);
 							}
 						}
 					}
 					catch (Throwable ex) {
+						// 不细究
 						throw new BeanDefinitionStoreException(
 								"Failed to read candidate component class: " + resource, ex);
 					}
 				}
 				else {
+					/*
+						以下不细究
+					 */
 					if (traceEnabled) {
 						logger.trace("Ignored because not readable: " + resource);
 					}
@@ -475,6 +486,7 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 			}
 		}
 		catch (IOException ex) {
+			// 不细究
 			throw new BeanDefinitionStoreException("I/O failure during classpath scanning", ex);
 		}
 		return candidates;

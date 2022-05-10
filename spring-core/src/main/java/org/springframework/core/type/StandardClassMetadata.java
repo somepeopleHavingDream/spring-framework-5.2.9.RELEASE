@@ -42,9 +42,7 @@ public class StandardClassMetadata implements ClassMetadata {
 	 */
 	@Deprecated
 	public StandardClassMetadata(Class<?> introspectedClass) {
-		// 断言，入参内省类对象不为null
 		Assert.notNull(introspectedClass, "Class must not be null");
-		// 设置当前标准类元数据的内省类对象
 		this.introspectedClass = introspectedClass;
 	}
 

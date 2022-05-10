@@ -246,20 +246,16 @@ public abstract class AnnotationConfigUtils {
 	}
 
 	public static void processCommonDefinitionAnnotations(AnnotatedBeanDefinition abd) {
-		// 处理公共定义注解
 		processCommonDefinitionAnnotations(abd, abd.getMetadata());
 	}
 
 	static void processCommonDefinitionAnnotations(AnnotatedBeanDefinition abd, AnnotatedTypeMetadata metadata) {
-		// 获得Lazy的注解属性值
 		AnnotationAttributes lazy = attributesFor(metadata, Lazy.class);
 
-		// 如果lazy注解属性值不为null
 		if (lazy != null) {
 			// 不细究
 			abd.setLazyInit(lazy.getBoolean("value"));
 		}
-		// 如果入参注解bean定义的元数据与入参元数据不同
 		else if (abd.getMetadata() != metadata) {
 			/*
 				以下不细究
@@ -270,7 +266,6 @@ public abstract class AnnotationConfigUtils {
 			}
 		}
 
-		// 如果入参元数据被Primary注解
 		if (metadata.isAnnotated(Primary.class.getName())) {
 			abd.setPrimary(true);
 		}

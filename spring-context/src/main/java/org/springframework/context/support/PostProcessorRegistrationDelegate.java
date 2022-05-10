@@ -222,9 +222,6 @@ final class PostProcessorRegistrationDelegate {
 		List<String> nonOrderedPostProcessorNames = new ArrayList<>();
 
 		for (String ppName : postProcessorNames) {
-			/*
-				以下不细究
-			 */
 			if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
 				BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
 				priorityOrderedPostProcessors.add(pp);
@@ -233,6 +230,7 @@ final class PostProcessorRegistrationDelegate {
 				}
 			}
 			else if (beanFactory.isTypeMatch(ppName, Ordered.class)) {
+				// 不细究
 				orderedPostProcessorNames.add(ppName);
 			}
 			else {
@@ -262,12 +260,10 @@ final class PostProcessorRegistrationDelegate {
 		// Now, register all regular BeanPostProcessors.
 		List<BeanPostProcessor> nonOrderedPostProcessors = new ArrayList<>(nonOrderedPostProcessorNames.size());
 		for (String ppName : nonOrderedPostProcessorNames) {
-			/*
-				以下不细究
-			 */
 			BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
 			nonOrderedPostProcessors.add(pp);
 			if (pp instanceof MergedBeanDefinitionPostProcessor) {
+				// 不细究
 				internalPostProcessors.add(pp);
 			}
 		}

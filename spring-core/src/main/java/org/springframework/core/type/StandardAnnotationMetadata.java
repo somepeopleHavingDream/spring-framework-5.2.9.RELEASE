@@ -82,34 +82,26 @@ public class StandardAnnotationMetadata extends StandardClassMetadata implements
 	 */
 	@Deprecated
 	public StandardAnnotationMetadata(Class<?> introspectedClass, boolean nestedAnnotationsAsMap) {
-		// 调用父类的构造方法
 		super(introspectedClass);
-		// 设置当前标准注解元数据的合并注解
 		this.mergedAnnotations = MergedAnnotations.from(introspectedClass,
 				SearchStrategy.INHERITED_ANNOTATIONS, RepeatableContainers.none());
-		// 设置是否将嵌套注解作为映射
 		this.nestedAnnotationsAsMap = nestedAnnotationsAsMap;
 	}
 
 
 	@Override
 	public MergedAnnotations getAnnotations() {
-		// 返回当前标准注解元数据的合并注解
 		return this.mergedAnnotations;
 	}
 
 	@Override
 	public Set<String> getAnnotationTypes() {
-		// 获得当前标准注解元数据的注解类型
 		Set<String> annotationTypes = this.annotationTypes;
-		// 如果注解类型为null
 		if (annotationTypes == null) {
-			// 获得并设置当前标准注解元数据的注解类型
 			annotationTypes = Collections.unmodifiableSet(AnnotationMetadata.super.getAnnotationTypes());
 			this.annotationTypes = annotationTypes;
 		}
 
-		// 返回注解类型
 		return annotationTypes;
 	}
 
@@ -181,7 +173,6 @@ public class StandardAnnotationMetadata extends StandardClassMetadata implements
 
 
 	static AnnotationMetadata from(Class<?> introspectedClass) {
-		// 实例化并返回标准注解元数据
 		return new StandardAnnotationMetadata(introspectedClass, true);
 	}
 

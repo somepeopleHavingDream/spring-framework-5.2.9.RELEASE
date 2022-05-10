@@ -286,6 +286,9 @@ class ConfigurationClassParser {
 		for (AnnotationAttributes propertySource : AnnotationConfigUtils.attributesForRepeatable(
 				sourceClass.getMetadata(), PropertySources.class,
 				org.springframework.context.annotation.PropertySource.class)) {
+			/*
+				以下不细究
+			 */
 			if (this.environment instanceof ConfigurableEnvironment) {
 				processPropertySource(propertySource);
 			}

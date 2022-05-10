@@ -198,7 +198,6 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	@Override
 	@Nullable
 	public Object getSingleton(String beanName) {
-		// 获得单例对象，允许更早的引用
 		return getSingleton(beanName, true);
 	}
 
@@ -214,15 +213,11 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	@Nullable
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 		// Quick check for existing instance without full singleton lock
-		// 快速检查不带全局单例锁的存在实例
 		Object singletonObject = this.singletonObjects.get(beanName);
 
-		// 如果单例对象为null，并且是当前正在创建的单例
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
-			// 获得之前的单例对象
 			singletonObject = this.earlySingletonObjects.get(beanName);
 
-			// 如果之前的单例对象仍为null，并且允许更早的引用
 			if (singletonObject == null && allowEarlyReference) {
 				/*
 					以下不细究
@@ -245,7 +240,6 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 			}
 		}
 
-		// 返回单例对象
 		return singletonObject;
 	}
 

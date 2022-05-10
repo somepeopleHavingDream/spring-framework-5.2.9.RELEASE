@@ -210,7 +210,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public Object getBean(String name) throws BeansException {
-		// 调用处理获得bean方法
 		return doGetBean(name, null, null, false);
 	}
 
@@ -257,17 +256,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	protected <T> T doGetBean(
 			String name, @Nullable Class<T> requiredType, @Nullable Object[] args, boolean typeCheckOnly)
 			throws BeansException {
-		// 转换bean名
 		String beanName = transformedBeanName(name);
 		Object bean;
 
 		// Eagerly check singleton cache for manually registered singletons.
-		// 对于手动注册的单例，热切地检查单例缓冲。
-		// 通过bean名，获得单例对象。
 		Object sharedInstance = getSingleton(beanName);
-		// 如果共享实例不为null，并且入参为null
 		if (sharedInstance != null && args == null) {
-			// 如果日志器处于可追踪级别
 			if (logger.isTraceEnabled()) {
 				/*
 					以下不细究
@@ -281,27 +275,19 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 			}
 
-			// 获得用于bean实例的对象
 			bean = getObjectForBeanInstance(sharedInstance, name, beanName, null);
 		}
 
 		else {
 			// Fail if we're already creating this bean instance:
 			// We're assumably within a circular reference.
-			// 失败，如果我们已经创建了bean实例：
-			// 我们假定在一个循环引用里。
-
-			// 如果入参bean是当前正在创建原型
 			if (isPrototypeCurrentlyInCreation(beanName)) {
 				// 不细究
 				throw new BeanCurrentlyInCreationException(beanName);
 			}
 
 			// Check if bean definition exists in this factory.
-			// 检查bean定义在此工厂里是否存在。
-			// 获得父bean工厂
 			BeanFactory parentBeanFactory = getParentBeanFactory();
-			// 如果父bean工厂不为null，并且当前bean工厂不包含入参bean
 			if (parentBeanFactory != null && !containsBeanDefinition(beanName)) {
 				/*
 					不细究
@@ -325,23 +311,16 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 			}
 
-			// 如果不需要类型检查
 			if (!typeCheckOnly) {
-				// 标记bean为已创建
 				markBeanAsCreated(beanName);
 			}
 
 			try {
-				// 获得已合并的本地bean定义
 				RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
-				// 检查已合并bean定义
 				checkMergedBeanDefinition(mbd, beanName, args);
 
 				// Guarantee initialization of beans that the current bean depends on.
-				// 保证当前bean依赖的bean的初始化。
-				// 获得依赖的bean
 				String[] dependsOn = mbd.getDependsOn();
-				// 如果存在依赖的bean
 				if (dependsOn != null) {
 					/*
 						以下不细究
@@ -365,14 +344,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 
 				// Create bean instance.
-				// 创建bean实例。
 
-				// 如果合并bean定义为单例
 				if (mbd.isSingleton()) {
-					// 获得单例
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
-							// 实际的创建bean方法
 							return createBean(beanName, mbd, args);
 						}
 						catch (BeansException ex) {
@@ -384,10 +359,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 						}
 					});
 
-					// 获得用于bean实例的对象
 					bean = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);
 				}
-				// 如果合并bean定义为原型
 				else if (mbd.isPrototype()) {
 					/*
 						以下不细究
@@ -445,7 +418,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		}
 
 		// Check if required type matches the type of the actual bean instance.
-		// 检查是否需要的类型匹配了实际bean实例的类型。
 		if (requiredType != null && !requiredType.isInstance(bean)) {
 			/*
 				以下不细究
@@ -466,51 +438,38 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			}
 		}
 
-		// 转化为对应泛型的实例，然后返回
 		return (T) bean;
 	}
 
 	@Override
 	public boolean containsBean(String name) {
-		// 将入参名转换为bean名
 		String beanName = transformedBeanName(name);
-		// 如果当前bean工厂包含该单例，或者包含该bean定义
 		if (containsSingleton(beanName) || containsBeanDefinition(beanName)) {
 			// 不细究
 			return (!BeanFactoryUtils.isFactoryDereference(name) || isFactoryBean(name));
 		}
 
 		// Not found -> check parent.
-		// 没找到，则从父bean工厂中找
 		BeanFactory parentBeanFactory = getParentBeanFactory();
 		return (parentBeanFactory != null && parentBeanFactory.containsBean(originalBeanName(name)));
 	}
 
 	@Override
 	public boolean isSingleton(String name) throws NoSuchBeanDefinitionException {
-		// 获得转换之后的bean名
 		String beanName = transformedBeanName(name);
-		// 获得bean名对应的单例对象
 		Object beanInstance = getSingleton(beanName, false);
 
-		// 如果对应bean单例存在
 		if (beanInstance != null) {
-			// 如果bean实例是工厂bean类的实例
 			if (beanInstance instanceof FactoryBean) {
-				// 如果入参bean是工厂间接引用，或者是工厂bean单例
 				return (BeanFactoryUtils.isFactoryDereference(name) || ((FactoryBean<?>) beanInstance).isSingleton());
 			}
 			else {
-				// 返回入参bean是否是工厂间接引用
 				return !BeanFactoryUtils.isFactoryDereference(name);
 			}
 		}
 
 		// No singleton instance found -> check bean definition.
-		// 没有单例实例找到，则检查bean定义
-		// 获得父bean工厂
 		BeanFactory parentBeanFactory = getParentBeanFactory();
-		// 如果父bean工厂存在，并且不包含入参bean定义
 		if (parentBeanFactory != null && !containsBeanDefinition(beanName)) {
 			/*
 				以下不细究
@@ -519,13 +478,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			return parentBeanFactory.isSingleton(originalBeanName(name));
 		}
 
-		// 获得合并的本地bean定义
 		RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
 
 		// In case of FactoryBean, return singleton status of created object if not a dereference.
-		// 如果合并bean定义是单例的
 		if (mbd.isSingleton()) {
-			// 如果是工厂bean
 			if (isFactoryBean(beanName, mbd)) {
 				/*
 					以下不细究
@@ -537,7 +493,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				return factoryBean.isSingleton();
 			}
 			else {
-				// 返回入参bean是否是工厂间接引用
 				return !BeanFactoryUtils.isFactoryDereference(name);
 			}
 		}
@@ -1091,29 +1046,20 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
-		// 断言bean后置处理器必不为null。
 		Assert.notNull(beanPostProcessor, "BeanPostProcessor must not be null");
 
 		// Remove from old position, if any
-		// 从旧位置中移除，如果存在的话
 		this.beanPostProcessors.remove(beanPostProcessor);
 
 		// Track whether it is instantiation/destruction aware
-		// 跟踪是否是初始化/销毁感知
-		// 如果入参bean后置处理器是实例化感知bean后置处理器实例
 		if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
-			// 不细究
 			this.hasInstantiationAwareBeanPostProcessors = true;
 		}
-		// 如果入参bean后置处理器是销毁感知bean后置处理器实例
 		if (beanPostProcessor instanceof DestructionAwareBeanPostProcessor) {
-			// 设置当前bean工厂为有销毁感知bean后置处理器
 			this.hasDestructionAwareBeanPostProcessors = true;
 		}
 
 		// Add to end of list
-		// 添加到集合末尾
-		// 将入参bean后置处理器添加到bena后置处理器集的末尾
 		this.beanPostProcessors.add(beanPostProcessor);
 	}
 

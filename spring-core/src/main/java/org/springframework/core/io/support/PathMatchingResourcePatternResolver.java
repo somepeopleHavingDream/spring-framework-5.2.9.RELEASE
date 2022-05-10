@@ -281,14 +281,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 
 	@Override
 	public Resource[] getResources(String locationPattern) throws IOException {
-		// 断言路径模式必不为空
 		Assert.notNull(locationPattern, "Location pattern must not be null");
 
-		// 如果该路径模式以classpath*:开始
 		if (locationPattern.startsWith(CLASSPATH_ALL_URL_PREFIX)) {
-			/*
-				以下不细究
-			*/
 			// a class path resource (multiple resources for same name possible)
 			if (getPathMatcher().isPattern(locationPattern.substring(CLASSPATH_ALL_URL_PREFIX.length()))) {
 				// a class path resource pattern
@@ -302,12 +297,9 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 		else {
 			// Generally only look for a pattern after a prefix here,
 			// and on Tomcat only after the "*/" separator for its "war:" protocol.
-			// 通常在这里只查找前缀后面的模式，在tomcat上只在*/之后才使用”war:"协议
-			// 找到前缀结束的下一个索引下标位置
 			int prefixEnd = (locationPattern.startsWith("war:") ? locationPattern.indexOf("*/") + 1 :
 					locationPattern.indexOf(':') + 1);
 
-			// 获得当前路径匹配资源模式解析器的路径匹配器，用以检查路径是否是“模式”
 			if (getPathMatcher().isPattern(locationPattern.substring(prefixEnd))) {
 				/*
 					以下不细究
@@ -317,7 +309,6 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 			}
 			else {
 				// a single resource with the given name
-				// 给定名称的单个资源
 				return new Resource[] {getResourceLoader().getResource(locationPattern)};
 			}
 		}
@@ -508,7 +499,6 @@ public class PathMatchingResourcePatternResolver implements ResourcePatternResol
 	 * @see org.springframework.util.PathMatcher
 	 */
 	protected Resource[] findPathMatchingResources(String locationPattern) throws IOException {
-		// 根据路径模式决定根目录
 		String rootDirPath = determineRootDir(locationPattern);
 		String subPattern = locationPattern.substring(rootDirPath.length());
 		Resource[] rootDirResources = getResources(rootDirPath);
