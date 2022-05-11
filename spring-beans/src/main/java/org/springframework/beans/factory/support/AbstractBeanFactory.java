@@ -1657,9 +1657,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			throws CannotLoadBeanClassException {
 
 		try {
-			// 如果入参bean定义有bean类对象
 			if (mbd.hasBeanClass()) {
-				// 返回bean定义的bean类对象
 				return mbd.getBeanClass();
 			}
 

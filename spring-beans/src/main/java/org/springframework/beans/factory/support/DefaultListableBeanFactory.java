@@ -915,24 +915,19 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Override
 	public void clearMetadataCache() {
-		// 调用父类的清理元数据缓存
 		super.clearMetadataCache();
-		// 清理当前默认可列出bean工厂的合并bean定义拥有器
 		this.mergedBeanDefinitionHolders.clear();
-		// 通过类型缓存，做清理工作
 		clearByTypeCache();
 	}
 
 	@Override
 	public void freezeConfiguration() {
-		// 设置当前默认可列出bean工厂的是否配置冻结标记、冻结bean定义名称
 		this.configurationFrozen = true;
 		this.frozenBeanDefinitionNames = StringUtils.toStringArray(this.beanDefinitionNames);
 	}
 
 	@Override
 	public boolean isConfigurationFrozen() {
-		// 返回当前默认可列出bean工厂的配置是否被冻结
 		return this.configurationFrozen;
 	}
 

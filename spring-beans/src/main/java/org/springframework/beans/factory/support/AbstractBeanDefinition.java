@@ -1235,7 +1235,6 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	public void prepareMethodOverrides() throws BeanDefinitionValidationException {
 		// Check that lookup methods exist and determine their overloaded status.
-		// 返回当前bean定义是否有方法覆盖
 		if (hasMethodOverrides()) {
 			// 不细究
 			getMethodOverrides().getOverrides().forEach(this::prepareMethodOverride);
