@@ -79,24 +79,21 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 	@Override
 	@Nullable
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		// 如果满足以下条件
 		if (!(bean instanceof EnvironmentAware || bean instanceof EmbeddedValueResolverAware ||
 				bean instanceof ResourceLoaderAware || bean instanceof ApplicationEventPublisherAware ||
 				bean instanceof MessageSourceAware || bean instanceof ApplicationContextAware)){
-			// 返回入参bean
 			return bean;
 		}
 
-		/*
-			以下不细究
-		 */
 		AccessControlContext acc = null;
 
 		if (System.getSecurityManager() != null) {
+			// 不细究
 			acc = this.applicationContext.getBeanFactory().getAccessControlContext();
 		}
 
 		if (acc != null) {
+			// 不细究
 			AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
 				invokeAwareInterfaces(bean);
 				return null;
@@ -114,15 +111,18 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 			((EnvironmentAware) bean).setEnvironment(this.applicationContext.getEnvironment());
 		}
 		if (bean instanceof EmbeddedValueResolverAware) {
+			// 不细究
 			((EmbeddedValueResolverAware) bean).setEmbeddedValueResolver(this.embeddedValueResolver);
 		}
 		if (bean instanceof ResourceLoaderAware) {
 			((ResourceLoaderAware) bean).setResourceLoader(this.applicationContext);
 		}
 		if (bean instanceof ApplicationEventPublisherAware) {
+			// 不细究
 			((ApplicationEventPublisherAware) bean).setApplicationEventPublisher(this.applicationContext);
 		}
 		if (bean instanceof MessageSourceAware) {
+			// 不细究
 			((MessageSourceAware) bean).setMessageSource(this.applicationContext);
 		}
 		if (bean instanceof ApplicationContextAware) {
