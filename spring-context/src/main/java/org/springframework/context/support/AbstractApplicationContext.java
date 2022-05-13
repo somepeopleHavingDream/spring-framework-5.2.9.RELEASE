@@ -389,7 +389,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	@Override
 	public void publishEvent(ApplicationEvent event) {
-		// 发布事件
 		publishEvent(event, null);
 	}
 
@@ -414,17 +413,17 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @since 4.2
 	 */
 	protected void publishEvent(Object event, @Nullable ResolvableType eventType) {
-		// 断言：入参事件不为null
 		Assert.notNull(event, "Event must not be null");
 
 		// Decorate event as an ApplicationEvent if necessary
 		ApplicationEvent applicationEvent;
-		// 如果入参事件是应用事件
 		if (event instanceof ApplicationEvent) {
-			// 将入参事件强转为应用事件
 			applicationEvent = (ApplicationEvent) event;
 		}
 		else {
+			/*
+				以下不细究
+			 */
 			applicationEvent = new PayloadApplicationEvent<>(this, event);
 			if (eventType == null) {
 				eventType = ((PayloadApplicationEvent<?>) applicationEvent).getResolvableType();
@@ -432,18 +431,15 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 
 		// Multicast right now if possible - or lazily once the multicaster is initialized
-		// 如果当前应用上下文存在更早的应用事件
 		if (this.earlyApplicationEvents != null) {
 			// 不细究
 			this.earlyApplicationEvents.add(applicationEvent);
 		}
 		else {
-			// 获得应用事件多播器，广播事件
 			getApplicationEventMulticaster().multicastEvent(applicationEvent, eventType);
 		}
 
 		// Publish event via parent context as well...
-		// 如果当前应用上下文存在父应用上下文
 		if (this.parent != null) {
 			/*
 				以下不细究
@@ -463,7 +459,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @throws IllegalStateException if the context has not been initialized yet
 	 */
 	ApplicationEventMulticaster getApplicationEventMulticaster() throws IllegalStateException {
-		// 如果当前应用上下文的应用事件多播器不存在
 		if (this.applicationEventMulticaster == null) {
 			/*
 				以下不细究
@@ -472,7 +467,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 					"call 'refresh' before multicasting events via the context: " + this);
 		}
 
-		// 返回当前应用上下文的事件多播器
 		return this.applicationEventMulticaster;
 	}
 
@@ -482,14 +476,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @throws IllegalStateException if the context has not been initialized yet
 	 */
 	LifecycleProcessor getLifecycleProcessor() throws IllegalStateException {
-		// 如果当前应用上下文的生命周期处理器不存在
 		if (this.lifecycleProcessor == null) {
 			// 不细究
 			throw new IllegalStateException("LifecycleProcessor not initialized - " +
 					"call 'refresh' before invoking lifecycle methods via the context: " + this);
 		}
 
-		// 返回当前应用上下文的生命周期处理器
 		return this.lifecycleProcessor;
 	}
 
@@ -526,19 +518,15 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	@Override
 	public void setParent(@Nullable ApplicationContext parent) {
-		// 设置父类上下文
 		this.parent = parent;
 
-		// 如果父类上下文不为空，则做一些处理
 		if (parent != null) {
 			/*
 				以下不细究
 			 */
 
-			// 获得父类环境
 			Environment parentEnvironment = parent.getEnvironment();
 
-			// 如果父类环境实例是ConfigurableEnvironment类或者子类实例，则将父类环境与本实例的环境合并
 			if (parentEnvironment instanceof ConfigurableEnvironment) {
 				getEnvironment().merge((ConfigurableEnvironment) parentEnvironment);
 			}
@@ -880,9 +868,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see org.springframework.context.support.DefaultLifecycleProcessor
 	 */
 	protected void initLifecycleProcessor() {
-		// 获得当前应用上下文的bean工厂
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
-		// 如果bean工厂包含生命周期处理器bean
 		if (beanFactory.containsLocalBean(LIFECYCLE_PROCESSOR_BEAN_NAME)) {
 			/*
 				以下不细究
@@ -894,18 +880,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 		}
 		else {
-			// 实例化出一个默认生命周期处理器
 			DefaultLifecycleProcessor defaultProcessor = new DefaultLifecycleProcessor();
-			// 将bean工厂设置为默认生命周期处理器的bean工厂
 			defaultProcessor.setBeanFactory(beanFactory);
 
-			// 将实例化出的默认生命周期处理器设置为当前应用上下文的生命周期处理器
 			this.lifecycleProcessor = defaultProcessor;
 
-			// 将当前应用上下文的生命周期处理器注册到bean工厂中
 			beanFactory.registerSingleton(LIFECYCLE_PROCESSOR_BEAN_NAME, this.lifecycleProcessor);
 
-			// 如果日志器是可追踪的
 			if (logger.isTraceEnabled()) {
 				logger.trace("No '" + LIFECYCLE_PROCESSOR_BEAN_NAME + "' bean, using " +
 						"[" + this.lifecycleProcessor.getClass().getSimpleName() + "]");
@@ -1002,32 +983,24 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void finishRefresh() {
 		// Clear context-level resource caches (such as ASM metadata from scanning).
-		// 清理上下文级别的资源缓存（比如来自扫描的asm元数据）。
 		clearResourceCaches();
 
 		// Initialize lifecycle processor for this context.
-		// 为此上下文实例化生命周期处理器。
 		initLifecycleProcessor();
 
 		// Propagate refresh to lifecycle processor first.
-		// 首先将再刷新传播给生命周期处理器。
 		getLifecycleProcessor().onRefresh();
 
 		// Publish the final event.
-		// 发布最终的事件。
 		publishEvent(new ContextRefreshedEvent(this));
 
 		// Participate in LiveBeansView MBean, if active.
-		// 注册应用上下文
 		LiveBeansView.registerApplicationContext(this);
 	}
 
 	/**
 	 * Cancel this context's refresh attempt, resetting the {@code active} flag
 	 * after an exception got thrown.
-	 *
-	 * 取消此上下文的再刷新请求，
-	 * 在获得抛出实例后重置活跃标记。
 	 *
 	 * @param ex the exception that led to the cancellation 导致取消的异常
 	 */
@@ -1046,13 +1019,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see CachedIntrospectionResults#clearClassLoader(ClassLoader)
 	 */
 	protected void resetCommonCaches() {
-		// 引用工具类清除缓存
 		ReflectionUtils.clearCache();
-		// 注解工具类清除缓存
 		AnnotationUtils.clearCache();
-		// 可解析类清除缓存
 		ResolvableType.clearCache();
-		// 缓存内省结果清除类加载器
 		CachedIntrospectionResults.clearClassLoader(getClassLoader());
 	}
 
@@ -1184,15 +1153,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * right before or right after standard singleton destruction,
 	 * while the context's BeanFactory is still active.
 	 *
-	 * 销毁此上下文管理的所有bean的模板方法。
-	 * 默认实现销毁此上下文里所有已缓存的单例，调用DisposableBean.destroy()或者指定的摧毁方法。
-	 * 能够被覆写以在标准单例摧毁之前或之后添加特定上下文的bean摧毁步骤，与此同时上下文bean工厂仍然活跃。
-	 *
 	 * @see #getBeanFactory()
 	 * @see org.springframework.beans.factory.config.ConfigurableBeanFactory#destroySingletons()
 	 */
 	protected void destroyBeans() {
-		// 获得Bean工厂，销毁单例
 		getBeanFactory().destroySingletons();
 	}
 
@@ -1244,9 +1208,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	@Override
 	public Object getBean(String name) throws BeansException {
-		// 断言bean工厂有效
 		assertBeanFactoryActive();
-		// 获得Bean工厂，然后从根据bean名从Bean工厂中获得Bean
 		return getBeanFactory().getBean(name);
 	}
 
@@ -1439,8 +1401,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	@Nullable
 	protected BeanFactory getInternalParentBeanFactory() {
-		// 如果父类应用上下文实例是可配置应用上下文实例，则将此父类应用上下文实例强转为可配置应用上下文实例后再调用获得Bean工厂方法，
-		// 否则，直接调用获取父类应用上下文的方法。
 		return (getParent() instanceof ConfigurableApplicationContext ?
 				((ConfigurableApplicationContext) getParent()).getBeanFactory() : getParent());
 	}
@@ -1484,7 +1444,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	@Nullable
 	protected MessageSource getInternalParentMessageSource() {
-		// 获得内部父消息源
 		return (getParent() instanceof AbstractApplicationContext ?
 				((AbstractApplicationContext) getParent()).messageSource : getParent());
 	}

@@ -34,7 +34,6 @@ public class ContextRefreshedEvent extends ApplicationContextEvent {
 	 * or refreshed (must not be {@code null})
 	 */
 	public ContextRefreshedEvent(ApplicationContext source) {
-		// 调用父类的构造方法
 		super(source);
 	}
 

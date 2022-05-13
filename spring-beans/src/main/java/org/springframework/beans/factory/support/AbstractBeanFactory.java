@@ -351,6 +351,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 							return createBean(beanName, mbd, args);
 						}
 						catch (BeansException ex) {
+							/*
+								以下不细究
+							 */
 							// Explicitly remove instance from singleton cache: It might have been put there
 							// eagerly by the creation process, to allow for circular reference resolution.
 							// Also remove any beans that received a temporary reference to the bean.
@@ -2055,36 +2058,31 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	protected Object getObjectForBeanInstance(
 			Object beanInstance, String name, String beanName, @Nullable RootBeanDefinition mbd) {
 		// Don't let calling code try to dereference the factory if the bean isn't a factory.
-		// 如果入参名是工厂间接引用
 		if (BeanFactoryUtils.isFactoryDereference(name)) {
-			// 如果入参bean实例是NullBean类的实例
+			/*
+				以下不细究
+			 */
 			if (beanInstance instanceof NullBean) {
 				// 不细究
 				return beanInstance;
 			}
 
-			// 如果入参bean实例不是工厂bean类的实例
 			if (!(beanInstance instanceof FactoryBean)) {
 				// 不细究
 				throw new BeanIsNotAFactoryException(beanName, beanInstance.getClass());
 			}
 
-			// 如果合并bean定义不为null
 			if (mbd != null) {
-				// 将入参合并bean定义的是否是工厂bean标记置为真
 				mbd.isFactoryBean = true;
 			}
 
-			// 返回bean实例
 			return beanInstance;
 		}
 
 		// Now we have the bean instance, which may be a normal bean or a FactoryBean.
 		// If it's a FactoryBean, we use it to create a bean instance, unless the
 		// caller actually wants a reference to the factory.
-		// 如果入参bean实例不是工厂bean的实例
 		if (!(beanInstance instanceof FactoryBean)) {
-			// 直接返回入参bean实例
 			return beanInstance;
 		}
 

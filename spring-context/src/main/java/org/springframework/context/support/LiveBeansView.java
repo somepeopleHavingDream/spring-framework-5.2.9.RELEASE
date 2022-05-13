@@ -70,9 +70,7 @@ public class LiveBeansView implements LiveBeansViewMBean, ApplicationContextAwar
 
 
 	static void registerApplicationContext(ConfigurableApplicationContext applicationContext) {
-		// 获得spring.liveBeansView.mbeanDomain属性值
 		String mbeanDomain = applicationContext.getEnvironment().getProperty(MBEAN_DOMAIN_PROPERTY_NAME);
-		// 如果spring.liveBeansView.mbeanDomain属性值存在
 		if (mbeanDomain != null) {
 			/*
 				以下不细究
