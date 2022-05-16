@@ -165,6 +165,7 @@ public abstract class AnnotationUtils {
 	 */
 	public static boolean isCandidateClass(Class<?> clazz, String annotationName) {
 		if (annotationName.startsWith("java.")) {
+			// 不细究
 			return true;
 		}
 		if (AnnotationsScanner.hasPlainJavaAnnotationsOnly(clazz)) {

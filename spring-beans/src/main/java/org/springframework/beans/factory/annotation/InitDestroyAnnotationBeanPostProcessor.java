@@ -198,6 +198,9 @@ public class InitDestroyAnnotationBeanPostProcessor
 
 	private LifecycleMetadata findLifecycleMetadata(Class<?> clazz) {
 		if (this.lifecycleMetadataCache == null) {
+			/*
+				以下不细究
+			 */
 			// Happens after deserialization, during destruction...
 			return buildLifecycleMetadata(clazz);
 		}
@@ -218,6 +221,7 @@ public class InitDestroyAnnotationBeanPostProcessor
 
 	private LifecycleMetadata buildLifecycleMetadata(final Class<?> clazz) {
 		if (!AnnotationUtils.isCandidateClass(clazz, Arrays.asList(this.initAnnotationType, this.destroyAnnotationType))) {
+			// 不细究
 			return this.emptyLifecycleMetadata;
 		}
 
@@ -297,6 +301,9 @@ public class InitDestroyAnnotationBeanPostProcessor
 		public void checkConfigMembers(RootBeanDefinition beanDefinition) {
 			Set<LifecycleElement> checkedInitMethods = new LinkedHashSet<>(this.initMethods.size());
 			for (LifecycleElement element : this.initMethods) {
+				/*
+					以下不细究
+				 */
 				String methodIdentifier = element.getIdentifier();
 				if (!beanDefinition.isExternallyManagedInitMethod(methodIdentifier)) {
 					beanDefinition.registerExternallyManagedInitMethod(methodIdentifier);
@@ -308,6 +315,9 @@ public class InitDestroyAnnotationBeanPostProcessor
 			}
 			Set<LifecycleElement> checkedDestroyMethods = new LinkedHashSet<>(this.destroyMethods.size());
 			for (LifecycleElement element : this.destroyMethods) {
+				/*
+					以下不细究
+				 */
 				String methodIdentifier = element.getIdentifier();
 				if (!beanDefinition.isExternallyManagedDestroyMethod(methodIdentifier)) {
 					beanDefinition.registerExternallyManagedDestroyMethod(methodIdentifier);

@@ -342,6 +342,7 @@ public class CommonAnnotationBeanPostProcessor extends InitDestroyAnnotationBean
 				metadata = this.injectionMetadataCache.get(cacheKey);
 				if (InjectionMetadata.needsRefresh(metadata, clazz)) {
 					if (metadata != null) {
+						// 不细究
 						metadata.clear(pvs);
 					}
 					metadata = buildResourceMetadata(clazz);
@@ -354,6 +355,7 @@ public class CommonAnnotationBeanPostProcessor extends InitDestroyAnnotationBean
 
 	private InjectionMetadata buildResourceMetadata(final Class<?> clazz) {
 		if (!AnnotationUtils.isCandidateClass(clazz, resourceAnnotationTypes)) {
+			// 不细究
 			return InjectionMetadata.EMPTY;
 		}
 

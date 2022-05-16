@@ -449,6 +449,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 				metadata = this.injectionMetadataCache.get(cacheKey);
 				if (InjectionMetadata.needsRefresh(metadata, clazz)) {
 					if (metadata != null) {
+						// 不细究
 						metadata.clear(pvs);
 					}
 					metadata = buildAutowiringMetadata(clazz);
@@ -461,6 +462,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 
 	private InjectionMetadata buildAutowiringMetadata(final Class<?> clazz) {
 		if (!AnnotationUtils.isCandidateClass(clazz, this.autowiredAnnotationTypes)) {
+			// 不细究
 			return InjectionMetadata.EMPTY;
 		}
 
