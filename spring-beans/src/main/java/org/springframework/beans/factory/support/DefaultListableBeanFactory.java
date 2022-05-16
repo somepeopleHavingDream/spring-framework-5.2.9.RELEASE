@@ -882,9 +882,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Override
 	public BeanDefinition getBeanDefinition(String beanName) throws NoSuchBeanDefinitionException {
-		// 从当前默认可列出bean工厂的bean定义映射中通过bean名获得bean定义
 		BeanDefinition bd = this.beanDefinitionMap.get(beanName);
-		// 如果bean定义不存在
 		if (bd == null) {
 			/*
 				以下不细究
@@ -895,7 +893,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			throw new NoSuchBeanDefinitionException(beanName);
 		}
 
-		// 返回bean定义
 		return bd;
 	}
 
