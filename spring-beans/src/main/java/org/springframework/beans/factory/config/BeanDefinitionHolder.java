@@ -53,7 +53,6 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 	 * @param beanName the name of the bean, as specified for the bean definition
 	 */
 	public BeanDefinitionHolder(BeanDefinition beanDefinition, String beanName) {
-		// 调用本类的其他构造方法
 		this(beanDefinition, beanName, null);
 	}
 
@@ -64,11 +63,9 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 	 * @param aliases alias names for the bean, or {@code null} if none
 	 */
 	public BeanDefinitionHolder(BeanDefinition beanDefinition, String beanName, @Nullable String[] aliases) {
-		// 简单参数校验
 		Assert.notNull(beanDefinition, "BeanDefinition must not be null");
 		Assert.notNull(beanName, "Bean name must not be null");
 
-		// 设置该bean定义拥有器的bean定义和bean名称及别名数组
 		this.beanDefinition = beanDefinition;
 		this.beanName = beanName;
 		this.aliases = aliases;

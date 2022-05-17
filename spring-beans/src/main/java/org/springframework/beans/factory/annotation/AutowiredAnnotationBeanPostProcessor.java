@@ -476,6 +476,9 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 				MergedAnnotation<?> ann = findAutowiredAnnotation(field);
 				if (ann != null) {
 					if (Modifier.isStatic(field.getModifiers())) {
+						/*
+							以下不细究
+						 */
 						if (logger.isInfoEnabled()) {
 							logger.info("Autowired annotation is not supported on static fields: " + field);
 						}

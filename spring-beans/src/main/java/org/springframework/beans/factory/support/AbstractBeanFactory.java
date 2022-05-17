@@ -925,20 +925,17 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public boolean isCacheBeanMetadata() {
-		// 返回当前bean工厂是否缓存bean元数据
 		return this.cacheBeanMetadata;
 	}
 
 	@Override
 	public void setBeanExpressionResolver(@Nullable BeanExpressionResolver resolver) {
-		// 设置当前bean工厂的bean表达式解析器
 		this.beanExpressionResolver = resolver;
 	}
 
 	@Override
 	@Nullable
 	public BeanExpressionResolver getBeanExpressionResolver() {
-		// 返回当前bean工厂的bean表达式解析器
 		return this.beanExpressionResolver;
 	}
 
@@ -955,9 +952,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public void addPropertyEditorRegistrar(PropertyEditorRegistrar registrar) {
-		// 断言入参注册器不能为null
 		Assert.notNull(registrar, "PropertyEditorRegistrar must not be null");
-		// 往当前bean工厂的属性编辑器注册器集中添加注册器
 		this.propertyEditorRegistrars.add(registrar);
 	}
 
@@ -1018,9 +1013,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public void addEmbeddedValueResolver(StringValueResolver valueResolver) {
-		// 断言：入参值解析器不为null
 		Assert.notNull(valueResolver, "StringValueResolver must not be null");
-		// 将入参值解析器添加到当前bean工厂的内嵌值解析器中
 		this.embeddedValueResolvers.add(valueResolver);
 	}
 
@@ -1074,7 +1067,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * to beans created with this factory.
 	 */
 	public List<BeanPostProcessor> getBeanPostProcessors() {
-		// 返回当前bean工厂的bean后置处理器
 		return this.beanPostProcessors;
 	}
 
@@ -1085,7 +1077,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @see org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor
 	 */
 	protected boolean hasInstantiationAwareBeanPostProcessors() {
-		// 返回当前bean工厂是否有实例化感知bean后置处理器
 		return this.hasInstantiationAwareBeanPostProcessors;
 	}
 
@@ -1096,7 +1087,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @see org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor
 	 */
 	protected boolean hasDestructionAwareBeanPostProcessors() {
-		// 返回当前bean工厂是否有销毁感知bean后置处理器
 		return this.hasDestructionAwareBeanPostProcessors;
 	}
 
@@ -1206,18 +1196,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public boolean isFactoryBean(String name) throws NoSuchBeanDefinitionException {
-		// 获得转换后的bean名称
 		String beanName = transformedBeanName(name);
-		// 获得单例bean
 		Object beanInstance = getSingleton(beanName, false);
-		// 如果bean实例不存在
 		if (beanInstance != null) {
-			// 返回bean示例是否是工厂bean类的实例
 			return (beanInstance instanceof FactoryBean);
 		}
 
 		// No singleton instance found -> check bean definition.
-		// 如果当前bean工厂不包括指定bean名的bean定义，并且父bean工厂是可配置bean工厂的实例
 		if (!containsBeanDefinition(beanName) && getParentBeanFactory() instanceof ConfigurableBeanFactory) {
 			/*
 				以下不细究
@@ -1226,7 +1211,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			return ((ConfigurableBeanFactory) getParentBeanFactory()).isFactoryBean(name);
 		}
 
-		// 返回入参bean是否是工厂bean
 		return isFactoryBean(beanName, getMergedLocalBeanDefinition(beanName));
 	}
 
@@ -1241,9 +1225,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @param beanName the name of the bean
 	 */
 	protected boolean isPrototypeCurrentlyInCreation(String beanName) {
-		// 获得当前bean工厂当前正处于创建过程中的原型
 		Object curVal = this.prototypesCurrentlyInCreation.get();
-		// 返回入参bean名是否处于当前正在创建过程中
 		return (curVal != null &&
 				(curVal.equals(beanName) || (curVal instanceof Set && ((Set<?>) curVal).contains(beanName))));
 	}
@@ -1339,7 +1321,6 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @return the transformed bean name
 	 */
 	protected String transformedBeanName(String name) {
-		// 返回经典名
 		return canonicalName(BeanFactoryUtils.transformedBeanName(name));
 	}
 
