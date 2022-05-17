@@ -633,6 +633,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 			Field field = (Field) this.member;
 			Object value;
 			if (this.cached) {
+				// 不细究
 				value = resolvedCachedArgument(beanName, this.cachedFieldValue);
 			}
 			else {
@@ -645,6 +646,7 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 					value = beanFactory.resolveDependency(desc, beanName, autowiredBeanNames, typeConverter);
 				}
 				catch (BeansException ex) {
+					// 不细究
 					throw new UnsatisfiedDependencyException(null, beanName, new InjectionPoint(field), ex);
 				}
 				synchronized (this) {
