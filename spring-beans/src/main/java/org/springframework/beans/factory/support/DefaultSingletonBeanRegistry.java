@@ -206,9 +206,6 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 			singletonObject = this.earlySingletonObjects.get(beanName);
 
 			if (singletonObject == null && allowEarlyReference) {
-				/*
-					以下不细究
-				 */
 				synchronized (this.singletonObjects) {
 					// Consistent creation of early reference within full singleton lock
 					singletonObject = this.singletonObjects.get(beanName);
@@ -464,23 +461,18 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * @param dependentBeanName the name of the dependent bean
 	 */
 	public void registerDependentBean(String beanName, String dependentBeanName) {
-		// 将bean名转换为规范名
 		String canonicalName = canonicalName(beanName);
 
-		// 锁住依赖bean集
 		synchronized (this.dependentBeanMap) {
-			// 获得入参bean中所需的bean集
 			Set<String> dependentBeans =
 					this.dependentBeanMap.computeIfAbsent(canonicalName, k -> new LinkedHashSet<>(8));
-			// 依赖bean名集添加该依赖bean名
 			if (!dependentBeans.add(dependentBeanName)) {
+				// 不细究
 				return;
 			}
 		}
 
-		// 锁住所依赖bean集
 		synchronized (this.dependenciesForBeanMap) {
-			// 所依赖bean名集添加该依赖bean名
 			Set<String> dependenciesForBean =
 					this.dependenciesForBeanMap.computeIfAbsent(dependentBeanName, k -> new LinkedHashSet<>(8));
 			dependenciesForBean.add(canonicalName);
@@ -491,16 +483,12 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * Determine whether the specified dependent bean has been registered as
 	 * dependent on the given bean or on any of its transitive dependencies.
 	 *
-	 * 决定是否指定的依赖bean已经被注册为依赖给定bean或者任何它的传递依赖。
-	 *
 	 * @param beanName the name of the bean to check
 	 * @param dependentBeanName the name of the dependent bean
 	 * @since 4.0
 	 */
 	protected boolean isDependent(String beanName, String dependentBeanName) {
-		// 上锁
 		synchronized (this.dependentBeanMap) {
-			// 不细究
 			return isDependent(beanName, dependentBeanName, null);
 		}
 	}
@@ -617,7 +605,6 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 */
 	public void destroySingleton(String beanName) {
 		// Remove a registered singleton of the given name, if any.
-		// 移除给定名称的注册单例，如果有的话
 		removeSingleton(beanName);
 
 		// Destroy the corresponding DisposableBean instance.

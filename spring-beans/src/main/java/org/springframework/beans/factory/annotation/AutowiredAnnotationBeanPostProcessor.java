@@ -588,6 +588,9 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 					this.beanFactory.registerDependentBean(autowiredBeanName, beanName);
 				}
 				if (logger.isTraceEnabled()) {
+					/*
+						不细究
+					 */
 					logger.trace("Autowiring by type from bean name '" + beanName +
 							"' to bean named '" + autowiredBeanName + "'");
 				}

@@ -48,7 +48,6 @@ public abstract class AbstractTypeHierarchyTraversingFilter implements TypeFilte
 
 
 	protected AbstractTypeHierarchyTraversingFilter(boolean considerInherited, boolean considerInterfaces) {
-		// 设置当前类型层次遍历过滤器是否考虑继承、是否考虑接口
 		this.considerInherited = considerInherited;
 		this.considerInterfaces = considerInterfaces;
 	}
@@ -69,6 +68,9 @@ public abstract class AbstractTypeHierarchyTraversingFilter implements TypeFilte
 		}
 
 		if (this.considerInherited) {
+			/*
+				以下不细究
+			 */
 			String superClassName = metadata.getSuperClassName();
 			if (superClassName != null) {
 				// Optimization to avoid creating ClassReader for super class.
@@ -96,6 +98,9 @@ public abstract class AbstractTypeHierarchyTraversingFilter implements TypeFilte
 		}
 
 		if (this.considerInterfaces) {
+			/*
+				以下不细究
+			 */
 			for (String ifc : metadata.getInterfaceNames()) {
 				// Optimization to avoid creating ClassReader for super class
 				Boolean interfaceMatch = matchInterface(ifc);
