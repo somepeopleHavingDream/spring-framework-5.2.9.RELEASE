@@ -4,7 +4,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.yangxin.springdemo.controller.HelloController;
+import org.yangxin.springdemo.controller.HiController;
 import org.yangxin.springdemo.controller.WelcomeController;
 import org.yangxin.springdemo.entity.User;
 import org.yangxin.springdemo.service.WelcomeService;
@@ -16,6 +19,7 @@ import org.yangxin.springdemo.service.WelcomeService;
 @SuppressWarnings({"SpringFacetCodeInspection", "AlibabaRemoveCommentedCode", "CommentedOutCode"})
 @Configuration
 @ComponentScan("org.yangxin.springdemo")
+@EnableAspectJAutoProxy
 public class Entrance {
 
 //	public static void main(String[] args) {
@@ -55,18 +59,13 @@ public class Entrance {
 //	}
 
 	public static void main(String[] args) {
-		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Entrance.class);
-//		String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
-//		for (String beanDefinitionName : beanDefinitionNames) {
-//			System.out.println(beanDefinitionName);
-//		}
-//		WelcomeService welcomeService = (WelcomeService) applicationContext.getBean("welcomeServiceImpl");
-//		welcomeService.sayHello("强大的spring框架。");
+		ApplicationContext context = new AnnotationConfigApplicationContext(Entrance.class);
+		System.out.println("轮到AOP登场了");
 
-//		WelcomeController welcomeController = (WelcomeController) applicationContext.getBean("welcomeController");
-//		welcomeController.handleRequest();
-//
-//		User user5 = (User) applicationContext.getBean("user5");
-//		System.out.println("CustomizedBeanDefinitionRegistryPostProcessor创建的对象：" + user5);
+		HelloController helloController = context.getBean(HelloController.class);
+		helloController.handleRequest();
+
+		HiController hiController = context.getBean(HiController.class);
+		hiController.handleRequest();
 	}
 }
