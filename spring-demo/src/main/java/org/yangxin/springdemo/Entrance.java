@@ -10,6 +10,7 @@ import org.yangxin.springdemo.controller.HelloController;
 import org.yangxin.springdemo.controller.HiController;
 import org.yangxin.springdemo.controller.WelcomeController;
 import org.yangxin.springdemo.entity.User;
+import org.yangxin.springdemo.introduction.LittleUniverse;
 import org.yangxin.springdemo.service.WelcomeService;
 
 /**
@@ -62,10 +63,11 @@ public class Entrance {
 		ApplicationContext context = new AnnotationConfigApplicationContext(Entrance.class);
 		System.out.println("轮到AOP登场了");
 
-		HelloController helloController = context.getBean(HelloController.class);
-		helloController.handleRequest();
+//		HelloController helloController = context.getBean(HelloController.class);
+//		helloController.handleRequest();
 
 		HiController hiController = context.getBean(HiController.class);
-		hiController.handleRequest();
+//		hiController.handleRequest();
+		((LittleUniverse) hiController).burningUp();
 	}
 }

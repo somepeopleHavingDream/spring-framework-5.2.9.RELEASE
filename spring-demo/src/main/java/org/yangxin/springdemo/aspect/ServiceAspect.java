@@ -4,6 +4,8 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
+import org.yangxin.springdemo.introduction.LittleUniverse;
+import org.yangxin.springdemo.introduction.impl.LittleUniverseImpl;
 
 /**
  * @author yangxin
@@ -56,4 +58,7 @@ public class ServiceAspect {
 	public void afterThrowing(JoinPoint joinPoint, Exception exception) {
 		System.out.println("抛出异常通知" + joinPoint + " " + exception.getMessage());
 	}
+
+	@DeclareParents(value = "org.yangxin.springdemo.controller..*", defaultImpl = LittleUniverseImpl.class)
+	public LittleUniverse littleUniverse;
 }
