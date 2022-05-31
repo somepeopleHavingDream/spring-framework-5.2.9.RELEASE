@@ -3,6 +3,7 @@ package org.yangxin.springdemo.aspect;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.yangxin.springdemo.introduction.LittleUniverse;
 import org.yangxin.springdemo.introduction.impl.LittleUniverseImpl;
@@ -13,6 +14,7 @@ import org.yangxin.springdemo.introduction.impl.LittleUniverseImpl;
  */
 @Aspect
 @Component
+@Order(1)
 public class ServiceAspect {
 
 	@Pointcut("execution(* org.yangxin.springdemo.service..*.*(..))")

@@ -1,16 +1,16 @@
 package org.yangxin.springdemo;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.yangxin.springdemo.aspect.OutSide;
 import org.yangxin.springdemo.controller.HelloController;
 import org.yangxin.springdemo.controller.HiController;
 import org.yangxin.springdemo.controller.WelcomeController;
 import org.yangxin.springdemo.entity.User;
 import org.yangxin.springdemo.introduction.LittleUniverse;
+import org.yangxin.springdemo.service.HelloService;
+import org.yangxin.springdemo.service.HiService;
 import org.yangxin.springdemo.service.WelcomeService;
 
 /**
@@ -21,6 +21,7 @@ import org.yangxin.springdemo.service.WelcomeService;
 @Configuration
 @ComponentScan("org.yangxin.springdemo")
 @EnableAspectJAutoProxy
+@Import(OutSide.class)
 public class Entrance {
 
 //	public static void main(String[] args) {
@@ -61,13 +62,11 @@ public class Entrance {
 
 	public static void main(String[] args) {
 		ApplicationContext context = new AnnotationConfigApplicationContext(Entrance.class);
-		System.out.println("轮到AOP登场了");
 
-//		HelloController helloController = context.getBean(HelloController.class);
-//		helloController.handleRequest();
+		HiService hiService = context.getBean(HiService.class);
+		hiService.sayHi();
 
-		HiController hiController = context.getBean(HiController.class);
-//		hiController.handleRequest();
-		((LittleUniverse) hiController).burningUp();
+		HelloService helloService = context.getBean(HelloService.class);
+		helloService.sayHello();
 	}
 }
