@@ -230,7 +230,6 @@ final class PostProcessorRegistrationDelegate {
 				}
 			}
 			else if (beanFactory.isTypeMatch(ppName, Ordered.class)) {
-				// 不细究
 				orderedPostProcessorNames.add(ppName);
 			}
 			else {
@@ -245,9 +244,6 @@ final class PostProcessorRegistrationDelegate {
 		// Next, register the BeanPostProcessors that implement Ordered.
 		List<BeanPostProcessor> orderedPostProcessors = new ArrayList<>(orderedPostProcessorNames.size());
 		for (String ppName : orderedPostProcessorNames) {
-			/*
-				以下不细究
-			 */
 			BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
 			orderedPostProcessors.add(pp);
 			if (pp instanceof MergedBeanDefinitionPostProcessor) {

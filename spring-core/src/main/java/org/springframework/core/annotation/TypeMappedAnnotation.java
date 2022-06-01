@@ -304,7 +304,6 @@ final class TypeMappedAnnotation<A extends Annotation> extends AbstractMergedAnn
 
 		// 如果满足以下条件
 		if (Adapt.CLASS_TO_STRING.isIn(adaptations) && componentType == Class.class) {
-			// 不细究
 			return (attributeType.isArray() ? String[].class : String.class);
 		}
 

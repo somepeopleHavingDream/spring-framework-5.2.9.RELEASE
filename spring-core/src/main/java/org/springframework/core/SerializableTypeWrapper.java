@@ -104,21 +104,13 @@ final class SerializableTypeWrapper {
 	 */
 	@Nullable
 	static Type forTypeProvider(TypeProvider provider) {
-		// 获得入参类型提供者的类型
 		Type providedType = provider.getType();
 
-		// 如果提供的类型为null，或者提供的类型是可序列化实例
 		if (providedType == null || providedType instanceof Serializable) {
 			// No serializable type wrapping necessary (e.g. for java.lang.Class)
-			// 返回提供的类型
 			return providedType;
 		}
 
-		/*
-			以下不细究
-		 */
-
-		// 如果满足以下条件
 		if (GraalDetector.inImageCode() || !Serializable.class.isAssignableFrom(Class.class)) {
 			// Let's skip any wrapping attempts if types are generally not serializable in
 			// the current runtime environment (even java.lang.Class itself, e.g. on Graal)

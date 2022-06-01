@@ -103,7 +103,6 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 	public boolean isPresent(String annotationType) {
 		// 如果注解过滤器匹配了入参注解类型
 		if (this.annotationFilter.matches(annotationType)) {
-			// 不细究
 			return false;
 		}
 
