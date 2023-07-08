@@ -65,9 +65,6 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 			}
 		}
 		catch (Throwable ex) {
-			/*
-				以下不细究
-			 */
 			// Thrown from the FactoryBean's getObjectType implementation.
 			logger.info("FactoryBean threw exception from getObjectType, despite the contract saying " +
 					"that it should return null if the type of its object cannot be determined yet", ex);

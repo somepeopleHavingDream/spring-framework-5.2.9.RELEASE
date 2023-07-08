@@ -136,9 +136,6 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 		synchronized (this.singletonObjects) {
 			Object oldObject = this.singletonObjects.get(beanName);
 			if (oldObject != null) {
-				/*
-					以下不细究
-				 */
 				throw new IllegalStateException("Could not register object [" + singletonObject +
 						"] under bean name '" + beanName + "': there is already object [" + oldObject + "] bound");
 			}
@@ -244,14 +241,12 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 
 			if (singletonObject == null) {
 				if (this.singletonsCurrentlyInDestruction) {
-					// 不细究
 					throw new BeanCreationNotAllowedException(beanName,
 							"Singleton bean creation not allowed while singletons of this factory are in destruction " +
 							"(Do not request a bean from a BeanFactory in a destroy method implementation!)");
 				}
 
 				if (logger.isDebugEnabled()) {
-					// 不细究
 					logger.debug("Creating shared instance of singleton bean '" + beanName + "'");
 				}
 
@@ -268,9 +263,6 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					newSingleton = true;
 				}
 				catch (IllegalStateException ex) {
-					/*
-						以下不细究
-					 */
 					// Has the singleton object implicitly appeared in the meantime ->
 					// if yes, proceed with it since the exception indicates that state.
 					singletonObject = this.singletonObjects.get(beanName);
@@ -279,9 +271,6 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 					}
 				}
 				catch (BeanCreationException ex) {
-					/*
-						不细究
-					 */
 					if (recordSuppressedExceptions) {
 						for (Exception suppressedException : this.suppressedExceptions) {
 							ex.addRelatedCause(suppressedException);
@@ -396,7 +385,6 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 */
 	protected void beforeSingletonCreation(String beanName) {
 		if (!this.inCreationCheckExclusions.contains(beanName) && !this.singletonsCurrentlyInCreation.add(beanName)) {
-			// 不细究
 			throw new BeanCurrentlyInCreationException(beanName);
 		}
 	}
@@ -409,7 +397,6 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 */
 	protected void afterSingletonCreation(String beanName) {
 		if (!this.inCreationCheckExclusions.contains(beanName) && !this.singletonsCurrentlyInCreation.remove(beanName)) {
-			// 不细究
 			throw new IllegalStateException("Singleton '" + beanName + "' isn't currently in creation");
 		}
 	}
@@ -454,9 +441,6 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * Register a dependent bean for the given bean,
 	 * to be destroyed before the given bean is destroyed.
 	 *
-	 * 为给定bean注册依赖bean，
-	 * 在给定bean被销毁前销毁。
-	 *
 	 * @param beanName the name of the bean
 	 * @param dependentBeanName the name of the dependent bean
 	 */
@@ -467,7 +451,6 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 			Set<String> dependentBeans =
 					this.dependentBeanMap.computeIfAbsent(canonicalName, k -> new LinkedHashSet<>(8));
 			if (!dependentBeans.add(dependentBeanName)) {
-				// 不细究
 				return;
 			}
 		}

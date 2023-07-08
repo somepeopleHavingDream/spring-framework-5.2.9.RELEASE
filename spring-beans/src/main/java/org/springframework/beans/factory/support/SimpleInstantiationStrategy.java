@@ -67,12 +67,10 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 				if (constructorToUse == null) {
 					final Class<?> clazz = bd.getBeanClass();
 					if (clazz.isInterface()) {
-						// 不细究
 						throw new BeanInstantiationException(clazz, "Specified class is an interface");
 					}
 					try {
 						if (System.getSecurityManager() != null) {
-							// 不细究
 							constructorToUse = AccessController.doPrivileged(
 									(PrivilegedExceptionAction<Constructor<?>>) clazz::getDeclaredConstructor);
 						}
@@ -82,7 +80,6 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 						bd.resolvedConstructorOrFactoryMethod = constructorToUse;
 					}
 					catch (Throwable ex) {
-						// 不细究
 						throw new BeanInstantiationException(clazz, "No default constructor found", ex);
 					}
 				}
@@ -90,9 +87,6 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 			return BeanUtils.instantiateClass(constructorToUse);
 		}
 		else {
-			/*
-				以下不细究
-			 */
 			// Must generate CGLIB subclass.
 			return instantiateWithMethodInjection(bd, beanName, owner);
 		}

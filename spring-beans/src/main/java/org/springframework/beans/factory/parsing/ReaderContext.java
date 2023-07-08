@@ -47,7 +47,6 @@ public class ReaderContext {
 	 */
 	public ReaderContext(Resource resource, ProblemReporter problemReporter,
 			ReaderEventListener eventListener, SourceExtractor sourceExtractor) {
-		// 设置该阅读器上下文的资源、问题报告器、事件监听器、源提取器
 		this.resource = resource;
 		this.problemReporter = problemReporter;
 		this.eventListener = eventListener;
@@ -55,7 +54,6 @@ public class ReaderContext {
 	}
 
 	public final Resource getResource() {
-		// 返回当前阅读器上下文的资源
 		return this.resource;
 	}
 
@@ -156,7 +154,6 @@ public class ReaderContext {
 	 * Fire a defaults-registered event.
 	 */
 	public void fireDefaultsRegistered(DefaultsDefinition defaultsDefinition) {
-		// 向当前阅读器上下文的事件监听器注册默认定义
 		this.eventListener.defaultsRegistered(defaultsDefinition);
 	}
 
@@ -164,8 +161,6 @@ public class ReaderContext {
 	 * Fire a component-registered event.
 	 */
 	public void fireComponentRegistered(ComponentDefinition componentDefinition) {
-		// 一般componentRegistered方法都是空实现
-		// 事件监听器触发注册组件
 		this.eventListener.componentRegistered(componentDefinition);
 	}
 

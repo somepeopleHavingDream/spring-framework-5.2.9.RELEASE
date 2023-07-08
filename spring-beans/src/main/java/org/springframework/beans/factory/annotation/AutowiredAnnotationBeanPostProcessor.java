@@ -449,7 +449,6 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 				metadata = this.injectionMetadataCache.get(cacheKey);
 				if (InjectionMetadata.needsRefresh(metadata, clazz)) {
 					if (metadata != null) {
-						// 不细究
 						metadata.clear(pvs);
 					}
 					metadata = buildAutowiringMetadata(clazz);
@@ -462,7 +461,6 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 
 	private InjectionMetadata buildAutowiringMetadata(final Class<?> clazz) {
 		if (!AnnotationUtils.isCandidateClass(clazz, this.autowiredAnnotationTypes)) {
-			// 不细究
 			return InjectionMetadata.EMPTY;
 		}
 
@@ -476,9 +474,6 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 				MergedAnnotation<?> ann = findAutowiredAnnotation(field);
 				if (ann != null) {
 					if (Modifier.isStatic(field.getModifiers())) {
-						/*
-							以下不细究
-						 */
 						if (logger.isInfoEnabled()) {
 							logger.info("Autowired annotation is not supported on static fields: " + field);
 						}
@@ -588,9 +583,6 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 					this.beanFactory.registerDependentBean(autowiredBeanName, beanName);
 				}
 				if (logger.isTraceEnabled()) {
-					/*
-						不细究
-					 */
 					logger.trace("Autowiring by type from bean name '" + beanName +
 							"' to bean named '" + autowiredBeanName + "'");
 				}
@@ -636,7 +628,6 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 			Field field = (Field) this.member;
 			Object value;
 			if (this.cached) {
-				// 不细究
 				value = resolvedCachedArgument(beanName, this.cachedFieldValue);
 			}
 			else {
@@ -649,7 +640,6 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 					value = beanFactory.resolveDependency(desc, beanName, autowiredBeanNames, typeConverter);
 				}
 				catch (BeansException ex) {
-					// 不细究
 					throw new UnsatisfiedDependencyException(null, beanName, new InjectionPoint(field), ex);
 				}
 				synchronized (this) {

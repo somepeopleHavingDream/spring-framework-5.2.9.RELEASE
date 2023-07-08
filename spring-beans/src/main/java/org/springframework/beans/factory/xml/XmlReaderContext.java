@@ -63,12 +63,9 @@ public class XmlReaderContext extends ReaderContext {
 			Resource resource, ProblemReporter problemReporter,
 			ReaderEventListener eventListener, SourceExtractor sourceExtractor,
 			XmlBeanDefinitionReader reader, NamespaceHandlerResolver namespaceHandlerResolver) {
-		// 调用父类的构造方法
 		super(resource, problemReporter, eventListener, sourceExtractor);
 
-		// 设置可扩展标记语言Bean定义阅读器
 		this.reader = reader;
-		// 设置命名空间处理者解析器
 		this.namespaceHandlerResolver = namespaceHandlerResolver;
 	}
 
@@ -86,7 +83,6 @@ public class XmlReaderContext extends ReaderContext {
 	 * @see XmlBeanDefinitionReader#XmlBeanDefinitionReader(BeanDefinitionRegistry)
 	 */
 	public final BeanDefinitionRegistry getRegistry() {
-		// 通过当前可扩展标记语言阅读器上下文的阅读器，获得注册表
 		return this.reader.getRegistry();
 	}
 
@@ -106,9 +102,6 @@ public class XmlReaderContext extends ReaderContext {
 	 * Return the bean class loader to use, if any.
 	 * <p>Note that this will be null in regular scenarios,
 	 * as an indication to lazily resolve bean classes.
-	 *
-	 * 返回要使用的bean类，如果有的话。
-	 * 注意：在常规场景下这将会是null，因为懒解析bean类的指示。
 	 *
 	 * @see XmlBeanDefinitionReader#setBeanClassLoader
 	 */

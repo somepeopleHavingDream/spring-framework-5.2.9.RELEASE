@@ -67,18 +67,13 @@ public class BeanComponentDefinition extends BeanDefinitionHolder implements Com
 	 * the bean definition as well as the name of the bean
 	 */
 	public BeanComponentDefinition(BeanDefinitionHolder beanDefinitionHolder) {
-		// 调用父类的构造方法
 		super(beanDefinitionHolder);
 
 		List<BeanDefinition> innerBeans = new ArrayList<>();
 		List<BeanReference> references = new ArrayList<>();
 
-		// 获得属性集合
 		PropertyValues propertyValues = beanDefinitionHolder.getBeanDefinition().getPropertyValues();
 		for (PropertyValue propertyValue : propertyValues.getPropertyValues()) {
-			/*
-				以下不细究
-			 */
 			Object value = propertyValue.getValue();
 
 			if (value instanceof BeanDefinitionHolder) {
@@ -92,7 +87,6 @@ public class BeanComponentDefinition extends BeanDefinitionHolder implements Com
 			}
 		}
 
-		// 设置当前bean组件定义的内部bean定义、bean引用
 		this.innerBeanDefinitions = innerBeans.toArray(new BeanDefinition[0]);
 		this.beanReferences = references.toArray(new BeanReference[0]);
 	}

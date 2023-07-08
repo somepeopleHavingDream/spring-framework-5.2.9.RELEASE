@@ -433,6 +433,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		if (namedBean != null) {
 			return namedBean.getBeanInstance();
 		}
+
+		/*
+			以下暂不细究
+		 */
+
 		BeanFactory parent = getParentBeanFactory();
 		if (parent instanceof DefaultListableBeanFactory) {
 			return ((DefaultListableBeanFactory) parent).resolveBean(requiredType, args, nonUniqueAsNull);
@@ -491,6 +496,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		if (resolved != null && !type.hasGenerics()) {
 			return getBeanNamesForType(resolved, includeNonSingletons, allowEagerInit);
 		}
+
+		/*
+			以下暂不细究
+		 */
+
 		else {
 			return doGetBeanNamesForType(type, includeNonSingletons, allowEagerInit);
 		}
@@ -511,7 +521,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				(includeNonSingletons ? this.allBeanNamesByType : this.singletonBeanNamesByType);
 		String[] resolvedBeanNames = cache.get(type);
 		if (resolvedBeanNames != null) {
-			// 不细究
 			return resolvedBeanNames;
 		}
 		resolvedBeanNames = doGetBeanNamesForType(ResolvableType.forRawClass(type), includeNonSingletons, true);
@@ -548,9 +557,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 							}
 						}
 						else {
-							/*
-								以下不细究
-							 */
 							if (includeNonSingletons || isNonLazyDecorated ||
 									(allowFactoryBeanInit && isSingleton(beanName, mbd, dbd))) {
 								matchFound = isTypeMatch(beanName, type, allowFactoryBeanInit);
@@ -569,9 +575,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 					}
 				}
 				catch (CannotLoadBeanClassException | BeanDefinitionStoreException ex) {
-					/*
-						以下不细究
-					 */
 					if (allowEagerInit) {
 						throw ex;
 					}
@@ -584,7 +587,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 					onSuppressedException(ex);
 				}
 				catch (NoSuchBeanDefinitionException ex) {
-					// 不细究
 					// Bean definition got removed while we were iterating -> ignore.
 				}
 			}
@@ -595,9 +597,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			try {
 				// In case of FactoryBean, match object created by FactoryBean.
 				if (isFactoryBean(beanName)) {
-					/*
-						以下不细究
-					 */
 					if ((includeNonSingletons || isSingleton(beanName)) && isTypeMatch(beanName, type)) {
 						result.add(beanName);
 						// Match found for this bean: do not match FactoryBean itself anymore.
@@ -613,9 +612,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				}
 			}
 			catch (NoSuchBeanDefinitionException ex) {
-				/*
-					以下不细究
-				 */
 				// Shouldn't happen - probably a result of circular reference resolution...
 				logger.trace(LogMessage.format(
 						"Failed to check manually registered singleton with name '%s'", beanName), ex);
@@ -768,7 +764,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		if (autowiredValue != null) {
 			if (!(autowiredValue instanceof ObjectFactory || dependencyType.isInstance(autowiredValue))) {
-				// 不细究
 				throw new IllegalArgumentException("Value [" + autowiredValue +
 						"] does not implement specified dependency type [" + dependencyType.getName() + "]");
 			}
@@ -846,9 +841,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	public BeanDefinition getBeanDefinition(String beanName) throws NoSuchBeanDefinitionException {
 		BeanDefinition bd = this.beanDefinitionMap.get(beanName);
 		if (bd == null) {
-			/*
-				以下不细究
-			 */
 			if (logger.isTraceEnabled()) {
 				logger.trace("No bean named '" + beanName + "' found in " + this);
 			}
@@ -903,7 +895,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	@Override
 	public void preInstantiateSingletons() throws BeansException {
 		if (logger.isTraceEnabled()) {
-			// 不细究
 			logger.trace("Pre-instantiating singletons in " + this);
 		}
 
@@ -917,9 +908,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 			if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
 				if (isFactoryBean(beanName)) {
-					/*
-						以下不细究
-					 */
 					Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
 
 					if (bean instanceof FactoryBean) {
@@ -927,9 +915,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 						boolean isEagerInit;
 
 						if (System.getSecurityManager() != null && factory instanceof SmartFactoryBean) {
-							/*
-								以下不细究
-							 */
 							isEagerInit = AccessController.doPrivileged(
 									(PrivilegedAction<Boolean>) ((SmartFactoryBean<?>) factory)::isEagerInit,
 									getAccessControlContext());
@@ -940,7 +925,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 						}
 
 						if (isEagerInit) {
-							// 不细究
 							getBean(beanName);
 						}
 					}
@@ -958,9 +942,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			if (singletonInstance instanceof SmartInitializingSingleton) {
 				SmartInitializingSingleton smartSingleton = (SmartInitializingSingleton) singletonInstance;
 				if (System.getSecurityManager() != null) {
-					/*
-						以下不细究
-					 */
 					AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
 						smartSingleton.afterSingletonsInstantiated();
 						return null;
@@ -989,7 +970,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				((AbstractBeanDefinition) beanDefinition).validate();
 			}
 			catch (BeanDefinitionValidationException ex) {
-				// 不细究
 				throw new BeanDefinitionStoreException(beanDefinition.getResourceDescription(), beanName,
 						"Validation of bean definition failed", ex);
 			}
@@ -998,9 +978,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
 
 		if (existingDefinition != null) {
-			/*
-				以下不细究
-			 */
 			if (!isAllowBeanDefinitionOverriding()) {
 				throw new BeanDefinitionOverrideException(beanName, beanDefinition, existingDefinition);
 			}
@@ -1054,11 +1031,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 
 		if (existingDefinition != null || containsSingleton(beanName)) {
-			// 不细究
 			resetBeanDefinition(beanName);
 		}
 		else if (isConfigurationFrozen()) {
-			// 不细究
 			clearByTypeCache();
 		}
 	}
@@ -1227,6 +1202,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		String[] candidateNames = getBeanNamesForType(requiredType);
 
 		if (candidateNames.length > 1) {
+
 			List<String> autowireCandidates = new ArrayList<>(candidateNames.length);
 			for (String beanName : candidateNames) {
 				if (!containsBeanDefinition(beanName) || getBeanDefinition(beanName).isAutowireCandidate()) {
@@ -1242,6 +1218,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			String beanName = candidateNames[0];
 			return new NamedBeanHolder<>(beanName, (T) getBean(beanName, requiredType.toClass(), args));
 		}
+
 		else if (candidateNames.length > 1) {
 			Map<String, Object> candidates = new LinkedHashMap<>(candidateNames.length);
 			for (String beanName : candidateNames) {
@@ -1279,16 +1256,13 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		descriptor.initParameterNameDiscovery(getParameterNameDiscoverer());
 		if (Optional.class == descriptor.getDependencyType()) {
-			// 不细究
 			return createOptionalDependency(descriptor, requestingBeanName);
 		}
 		else if (ObjectFactory.class == descriptor.getDependencyType() ||
 				ObjectProvider.class == descriptor.getDependencyType()) {
-			// 不细究
 			return new DependencyObjectProvider(descriptor, requestingBeanName);
 		}
 		else if (javaxInjectProviderClass == descriptor.getDependencyType()) {
-			// 不细究
 			return new Jsr330Factory().createDependencyProvider(descriptor, requestingBeanName);
 		}
 		else {
@@ -1309,16 +1283,12 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		try {
 			Object shortcut = descriptor.resolveShortcut(this);
 			if (shortcut != null) {
-				// 不细究
 				return shortcut;
 			}
 
 			Class<?> type = descriptor.getDependencyType();
 			Object value = getAutowireCandidateResolver().getSuggestedValue(descriptor);
 			if (value != null) {
-				/*
-					以下不细究
-				 */
 				if (value instanceof String) {
 					String strVal = resolveEmbeddedValue((String) value);
 					BeanDefinition bd = (beanName != null && containsBean(beanName) ?
@@ -1339,15 +1309,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 			Object multipleBeans = resolveMultipleBeans(descriptor, beanName, autowiredBeanNames, typeConverter);
 			if (multipleBeans != null) {
-				// 不细究
 				return multipleBeans;
 			}
 
 			Map<String, Object> matchingBeans = findAutowireCandidates(beanName, type, descriptor);
 			if (matchingBeans.isEmpty()) {
-				/*
-					以下不细究
-				 */
 				if (isRequired(descriptor)) {
 					raiseNoMatchingBeanFound(type, descriptor.getResolvableType(), descriptor);
 				}
@@ -1358,9 +1324,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			Object instanceCandidate;
 
 			if (matchingBeans.size() > 1) {
-				/*
-					以下不细究
-				 */
 				autowiredBeanName = determineAutowireCandidate(matchingBeans, descriptor);
 				if (autowiredBeanName == null) {
 					if (isRequired(descriptor) || !indicatesMultipleBeans(type)) {
@@ -1390,16 +1353,12 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 			Object result = instanceCandidate;
 			if (result instanceof NullBean) {
-				/*
-					以下不细究
-				 */
 				if (isRequired(descriptor)) {
 					raiseNoMatchingBeanFound(type, descriptor.getResolvableType(), descriptor);
 				}
 				result = null;
 			}
 			if (!ClassUtils.isAssignableValue(type, result)) {
-				// 不细究
 				throw new BeanNotOfRequiredTypeException(autowiredBeanName, type, instanceCandidate.getClass());
 			}
 			return result;
@@ -1562,9 +1521,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		for (Map.Entry<Class<?>, Object> classObjectEntry : this.resolvableDependencies.entrySet()) {
 			Class<?> autowiringType = classObjectEntry.getKey();
 			if (autowiringType.isAssignableFrom(requiredType)) {
-				/*
-					以下不细究
-				 */
 				Object autowiringValue = classObjectEntry.getValue();
 				autowiringValue = AutowireUtils.resolveAutowiringValue(autowiringValue, requiredType);
 				if (requiredType.isInstance(autowiringValue)) {
@@ -1579,9 +1535,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 		}
 		if (result.isEmpty()) {
-			/*
-				以下不细究
-			 */
 			boolean multiple = indicatesMultipleBeans(requiredType);
 			// Consider fallback matches if the first pass failed to find anything...
 			DependencyDescriptor fallbackDescriptor = descriptor.forFallbackMatch();
@@ -1614,9 +1567,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			DependencyDescriptor descriptor, Class<?> requiredType) {
 
 		if (descriptor instanceof MultiElementDescriptor) {
-			/*
-				以下不细究
-			 */
 			Object beanInstance = descriptor.resolveCandidate(candidateName, requiredType, this);
 			if (!(beanInstance instanceof NullBean)) {
 				candidates.put(candidateName, beanInstance);
@@ -1624,9 +1574,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 		else if (containsSingleton(candidateName) || (descriptor instanceof StreamDependencyDescriptor &&
 				((StreamDependencyDescriptor) descriptor).isOrdered())) {
-			/*
-				以下不细究
-			 */
 			Object beanInstance = descriptor.resolveCandidate(candidateName, requiredType, this);
 			candidates.put(candidateName, (beanInstance instanceof NullBean ? null : beanInstance));
 		}

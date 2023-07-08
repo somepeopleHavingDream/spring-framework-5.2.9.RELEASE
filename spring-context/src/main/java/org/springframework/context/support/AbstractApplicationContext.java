@@ -605,9 +605,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 
 			catch (BeansException ex) {
-				/*
-					以下不细究
-				 */
 				if (logger.isWarnEnabled()) {
 					logger.warn("Exception encountered during context initialization - " +
 							"cancelling refresh attempt: " + ex);
@@ -642,9 +639,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		this.active.set(true);
 
 		if (logger.isDebugEnabled()) {
-			/*
-				以下不细究
-			 */
 			if (logger.isTraceEnabled()) {
 				logger.trace("Refreshing " + this);
 			}
@@ -666,9 +660,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			this.earlyApplicationListeners = new LinkedHashSet<>(this.applicationListeners);
 		}
 		else {
-			/*
-				以下不细究
-			 */
 			// Reset local application listeners to pre-refresh state.
 			this.applicationListeners.clear();
 			this.applicationListeners.addAll(this.earlyApplicationListeners);
@@ -687,7 +678,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	protected void initPropertySources() {
 		// For subclasses: do nothing by default.
-		// 用于子类：默认不做任何事
 	}
 
 	/**
@@ -737,9 +727,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// Detect a LoadTimeWeaver and prepare for weaving, if found.
 		if (beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
-			/*
-				以下不细究
-			 */
 			beanFactory.addBeanPostProcessor(new LoadTimeWeaverAwareProcessor(beanFactory));
 			// Set a temporary ClassLoader for type matching.
 			beanFactory.setTempClassLoader(new ContextTypeMatchClassLoader(beanFactory.getBeanClassLoader()));
@@ -779,9 +766,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// (e.g. through an @Bean method registered by ConfigurationClassPostProcessor)
 
 		if (beanFactory.getTempClassLoader() == null && beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
-			/*
-				以下不细究
-			 */
 			beanFactory.addBeanPostProcessor(new LoadTimeWeaverAwareProcessor(beanFactory));
 			beanFactory.setTempClassLoader(new ContextTypeMatchClassLoader(beanFactory.getBeanClassLoader()));
 		}
@@ -803,9 +787,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void initMessageSource() {
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
 		if (beanFactory.containsLocalBean(MESSAGE_SOURCE_BEAN_NAME)) {
-			/*
-				以下不细究
-			 */
 			this.messageSource = beanFactory.getBean(MESSAGE_SOURCE_BEAN_NAME, MessageSource.class);
 			// Make MessageSource aware of parent MessageSource.
 			if (this.parent != null && this.messageSource instanceof HierarchicalMessageSource) {
@@ -829,7 +810,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			beanFactory.registerSingleton(MESSAGE_SOURCE_BEAN_NAME, this.messageSource);
 
 			if (logger.isTraceEnabled()) {
-				// 不细究
 				logger.trace("No '" + MESSAGE_SOURCE_BEAN_NAME + "' bean, using [" + this.messageSource + "]");
 			}
 		}
@@ -843,9 +823,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void initApplicationEventMulticaster() {
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
 		if (beanFactory.containsLocalBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME)) {
-			/*
-				以下不细究
-			 */
 			this.applicationEventMulticaster =
 					beanFactory.getBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, ApplicationEventMulticaster.class);
 			if (logger.isTraceEnabled()) {
@@ -870,9 +847,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void initLifecycleProcessor() {
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
 		if (beanFactory.containsLocalBean(LIFECYCLE_PROCESSOR_BEAN_NAME)) {
-			/*
-				以下不细究
-			 */
 			this.lifecycleProcessor =
 					beanFactory.getBean(LIFECYCLE_PROCESSOR_BEAN_NAME, LifecycleProcessor.class);
 			if (logger.isTraceEnabled()) {
@@ -912,7 +886,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	protected void registerListeners() {
 		// Register statically specified listeners first.
 		for (ApplicationListener<?> listener : getApplicationListeners()) {
-			// 不细究
 			getApplicationEventMulticaster().addApplicationListener(listener);
 		}
 
@@ -920,7 +893,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// uninitialized to let post-processors apply to them!
 		String[] listenerBeanNames = getBeanNamesForType(ApplicationListener.class, true, false);
 		for (String listenerBeanName : listenerBeanNames) {
-			// 不细究
 			getApplicationEventMulticaster().addApplicationListenerBean(listenerBeanName);
 		}
 
@@ -929,9 +901,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		this.earlyApplicationEvents = null;
 
 		if (!CollectionUtils.isEmpty(earlyEventsToProcess)) {
-			/*
-				以下不细究
-			 */
 			for (ApplicationEvent earlyEvent : earlyEventsToProcess) {
 				getApplicationEventMulticaster().multicastEvent(earlyEvent);
 			}
@@ -946,7 +915,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Initialize conversion service for this context.
 		if (beanFactory.containsBean(CONVERSION_SERVICE_BEAN_NAME) &&
 				beanFactory.isTypeMatch(CONVERSION_SERVICE_BEAN_NAME, ConversionService.class)) {
-			// 不细究
 			beanFactory.setConversionService(
 					beanFactory.getBean(CONVERSION_SERVICE_BEAN_NAME, ConversionService.class));
 		}
@@ -962,7 +930,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Initialize LoadTimeWeaverAware beans early to allow for registering their transformers early.
 		String[] weaverAwareNames = beanFactory.getBeanNamesForType(LoadTimeWeaverAware.class, false, false);
 		for (String weaverAwareName : weaverAwareNames) {
-			// 不细究
 			getBean(weaverAwareName);
 		}
 
@@ -1187,11 +1154,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * no-op if {@link #getBeanFactory()} itself throws an exception in such a case.
 	 */
 	protected void assertBeanFactoryActive() {
-		// 如果当前应用上下文不是活跃状态
 		if (!this.active.get()) {
-			/*
-				以下不细究
-			 */
 			if (this.closed.get()) {
 				throw new IllegalStateException(getDisplayName() + " has been closed already");
 			}

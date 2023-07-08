@@ -239,18 +239,15 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 			AbstractBeanDefinition originalAbd = (AbstractBeanDefinition) original;
 
 			if (originalAbd.hasBeanClass()) {
-				// 不细究
 				setBeanClass(originalAbd.getBeanClass());
 			}
 			if (originalAbd.hasConstructorArgumentValues()) {
-				// 不细究
 				setConstructorArgumentValues(new ConstructorArgumentValues(original.getConstructorArgumentValues()));
 			}
 			if (originalAbd.hasPropertyValues()) {
 				setPropertyValues(new MutablePropertyValues(original.getPropertyValues()));
 			}
 			if (originalAbd.hasMethodOverrides()) {
-				// 不细究
 				setMethodOverrides(new MethodOverrides(originalAbd.getMethodOverrides()));
 			}
 
@@ -276,9 +273,6 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 			setResource(originalAbd.getResource());
 		}
 		else {
-			/*
-				以下不细究
-			 */
 			setConstructorArgumentValues(new ConstructorArgumentValues(original.getConstructorArgumentValues()));
 			setPropertyValues(new MutablePropertyValues(original.getPropertyValues()));
 			setLazyInit(original.isLazyInit());
@@ -391,7 +385,6 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public void setBeanClassName(@Nullable String beanClassName) {
-		// 设置当前bean定义的bean类
 		this.beanClass = beanClassName;
 	}
 
@@ -445,7 +438,6 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 			throw new IllegalStateException("No bean class specified on bean definition");
 		}
 		if (!(beanClassObject instanceof Class)) {
-			// 不细究
 			throw new IllegalStateException(
 					"Bean class name [" + beanClassObject + "] has not been resolved into an actual Class");
 		}
@@ -886,7 +878,6 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	@Override
 	public boolean hasConstructorArgumentValues() {
-		// 返回当前bean定义的构造器参数值是否存在
 		return (this.constructorArgumentValues != null && !this.constructorArgumentValues.isEmpty());
 	}
 
@@ -1130,14 +1121,12 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 */
 	public void validate() throws BeanDefinitionValidationException {
 		if (hasMethodOverrides() && getFactoryMethodName() != null) {
-			// 不细究
 			throw new BeanDefinitionValidationException(
 					"Cannot combine factory method with container-generated method overrides: " +
 					"the factory method must create the concrete bean instance.");
 		}
 
 		if (hasBeanClass()) {
-			// 不细究
 			prepareMethodOverrides();
 		}
 	}
@@ -1150,7 +1139,6 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	public void prepareMethodOverrides() throws BeanDefinitionValidationException {
 		// Check that lookup methods exist and determine their overloaded status.
 		if (hasMethodOverrides()) {
-			// 不细究
 			getMethodOverrides().getOverrides().forEach(this::prepareMethodOverride);
 		}
 	}

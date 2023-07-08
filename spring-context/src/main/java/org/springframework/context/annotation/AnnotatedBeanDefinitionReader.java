@@ -255,7 +255,6 @@ public class AnnotatedBeanDefinitionReader {
 			@Nullable BeanDefinitionCustomizer[] customizers) {
 		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(beanClass);
 		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) {
-			// 以下不细究
 			return;
 		}
 
@@ -269,9 +268,6 @@ public class AnnotatedBeanDefinitionReader {
 		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
 
 		if (qualifiers != null) {
-			/*
-				以下不细究
-			 */
 			for (Class<? extends Annotation> qualifier : qualifiers) {
 				if (Primary.class == qualifier) {
 					abd.setPrimary(true);
@@ -286,9 +282,6 @@ public class AnnotatedBeanDefinitionReader {
 		}
 
 		if (customizers != null) {
-			/*
-				以下不细究
-			 */
 			for (BeanDefinitionCustomizer customizer : customizers) {
 				customizer.customize(abd);
 			}

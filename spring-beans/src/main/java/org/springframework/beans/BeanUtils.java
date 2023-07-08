@@ -193,7 +193,6 @@ public abstract class BeanUtils {
 			ReflectionUtils.makeAccessible(ctor);
 
 			if (KotlinDetector.isKotlinReflectPresent() && KotlinDetector.isKotlinType(ctor.getDeclaringClass())) {
-				// 不细究
 				return KotlinDelegate.instantiateClass(ctor, args);
 			}
 			else {
@@ -203,9 +202,6 @@ public abstract class BeanUtils {
 
 				Object[] argsWithDefaultValues = new Object[args.length];
 				for (int i = 0 ; i < args.length; i++) {
-					/*
-						以下不细究
-					 */
 					if (args[i] == null) {
 						Class<?> parameterType = parameterTypes[i];
 						argsWithDefaultValues[i] = (parameterType.isPrimitive() ? DEFAULT_TYPE_VALUES.get(parameterType) : null);
@@ -219,19 +215,15 @@ public abstract class BeanUtils {
 			}
 		}
 		catch (InstantiationException ex) {
-			// 以下不细究
 			throw new BeanInstantiationException(ctor, "Is it an abstract class?", ex);
 		}
 		catch (IllegalAccessException ex) {
-			// 以下不细究
 			throw new BeanInstantiationException(ctor, "Is the constructor accessible?", ex);
 		}
 		catch (IllegalArgumentException ex) {
-			// 以下不细究
 			throw new BeanInstantiationException(ctor, "Illegal arguments for constructor", ex);
 		}
 		catch (InvocationTargetException ex) {
-			// 以下不细究
 			throw new BeanInstantiationException(ctor, "Constructor threw exception", ex.getTargetException());
 		}
 	}
@@ -247,10 +239,8 @@ public abstract class BeanUtils {
 	 */
 	@Nullable
 	public static <T> Constructor<T> findPrimaryConstructor(Class<T> clazz) {
-		// 断言，入参类对象不为null
 		Assert.notNull(clazz, "Class must not be null");
 
-		// 如果侦测到当前是Kotlin反射，并且入参类对象类型是Kotlin类型，则调用Kotlin委托的相关方法
 		if (KotlinDetector.isKotlinReflectPresent() && KotlinDetector.isKotlinType(clazz)) {
 			Constructor<T> kotlinPrimaryConstructor = KotlinDelegate.findPrimaryConstructor(clazz);
 			if (kotlinPrimaryConstructor != null) {
@@ -258,7 +248,6 @@ public abstract class BeanUtils {
 			}
 		}
 
-		// 如果上述情况不符合，则返回null
 		return null;
 	}
 

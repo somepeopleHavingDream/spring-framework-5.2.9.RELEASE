@@ -151,9 +151,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	 * @see #setBeanClass
 	 */
 	public RootBeanDefinition(@Nullable Class<?> beanClass) {
-		// 调用父类的构造方法
 		super();
-		// 给当前根bean定义设置bean类对象
 		setBeanClass(beanClass);
 	}
 
@@ -264,7 +262,6 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	 * @param original the original bean definition to copy from
 	 */
 	RootBeanDefinition(BeanDefinition original) {
-		// 调用父类的构造方法
 		super(original);
 	}
 
@@ -293,7 +290,6 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	 */
 	@Nullable
 	public BeanDefinitionHolder getDecoratedDefinition() {
-		// 返回当前bean定义的已装饰bean定义
 		return this.decoratedDefinition;
 	}
 
@@ -341,15 +337,11 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	 */
 	@Nullable
 	public Class<?> getTargetType() {
-		// 如果当前bean定义的已解析目标类型不为null
 		if (this.resolvedTargetType != null) {
-			// 返回当前bean定义的已解析目标类型
 			return this.resolvedTargetType;
 		}
 
-		// 获得当前bean定义的目标类型
 		ResolvableType targetType = this.targetType;
-		// 如果目标类型不为null，则目标类型做解析操作，否则返回null
 		return (targetType != null ? targetType.resolve() : null);
 	}
 
@@ -462,9 +454,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	}
 
 	public boolean isExternallyManagedInitMethod(String initMethod) {
-		// 拿到当前根bean定义的后置处理锁
 		synchronized (this.postProcessingLock) {
-			// 返回当前根bean定义是否是外部管理的初始化方法
 			return (this.externallyManagedInitMethods != null &&
 					this.externallyManagedInitMethods.contains(initMethod));
 		}

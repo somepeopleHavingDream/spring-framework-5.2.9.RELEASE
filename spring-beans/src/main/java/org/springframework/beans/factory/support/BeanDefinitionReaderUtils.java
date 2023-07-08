@@ -57,26 +57,19 @@ public abstract class BeanDefinitionReaderUtils {
 	 */
 	public static AbstractBeanDefinition createBeanDefinition(
 			@Nullable String parentName, @Nullable String className, @Nullable ClassLoader classLoader) throws ClassNotFoundException {
-		// 实例化一个通用Bean定义
 		GenericBeanDefinition bd = new GenericBeanDefinition();
 
-		// 为通用bean定义设置父bean名
 		bd.setParentName(parentName);
 
-		// 如果类名不为null
 		if (className != null) {
-			// 入参类加载器不为null，则为该通用Bean定义设置该Bean实例
 			if (classLoader != null) {
-				// 不细究
 				bd.setBeanClass(ClassUtils.forName(className, classLoader));
 			}
 			else {
-				// 为通用bean定义设置bean类名
 				bd.setBeanClassName(className);
 			}
 		}
 
-		// 返回上面设置好的通用Bean定义
 		return bd;
 	}
 
@@ -177,9 +170,6 @@ public abstract class BeanDefinitionReaderUtils {
 		// Register aliases for bean name, if any.
 		String[] aliases = definitionHolder.getAliases();
 		if (aliases != null) {
-			/*
-				以下不细究
-			 */
 			for (String alias : aliases) {
 				registry.registerAlias(beanName, alias);
 			}
