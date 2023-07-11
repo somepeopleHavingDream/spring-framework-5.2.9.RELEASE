@@ -19,7 +19,7 @@ public class HiServiceAspect {
 
 	@Before("plugin()")
 	public void before(JoinPoint joinPoint) {
-		System.out.println("进行before拦截" + joinPoint);
+		System.out.println("org.yangxin.springdemo.aspect.HiServiceAspect.before " + joinPoint);
 	}
 
 	@After("plugin()")

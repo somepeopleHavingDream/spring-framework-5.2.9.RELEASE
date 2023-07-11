@@ -259,7 +259,6 @@ final class PostProcessorRegistrationDelegate {
 			BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
 			nonOrderedPostProcessors.add(pp);
 			if (pp instanceof MergedBeanDefinitionPostProcessor) {
-				// 不细究
 				internalPostProcessors.add(pp);
 			}
 		}

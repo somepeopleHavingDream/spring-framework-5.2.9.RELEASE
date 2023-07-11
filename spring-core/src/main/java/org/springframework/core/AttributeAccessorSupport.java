@@ -59,9 +59,7 @@ public abstract class AttributeAccessorSupport implements AttributeAccessor, Ser
 	@Override
 	@Nullable
 	public Object getAttribute(String name) {
-		// 断言入参属性名称必不为null
 		Assert.notNull(name, "Name must not be null");
-		// 获取属性值
 		return this.attributes.get(name);
 	}
 

@@ -12,6 +12,7 @@ import org.yangxin.springdemo.introduction.impl.LittleUniverseImpl;
  * @author yangxin
  * 2022/5/23 22:28
  */
+@SuppressWarnings("ALL")
 @Aspect
 @Component
 @Order(1)
@@ -22,7 +23,7 @@ public class ServiceAspect {
 
 	@Before("embed()")
 	public void before(JoinPoint joinPoint) {
-		System.out.println("开始调用" + joinPoint);
+		System.out.println("org.yangxin.springdemo.aspect.ServiceAspect.before " + joinPoint);
 	}
 
 	@After("embed()")
@@ -35,17 +36,17 @@ public class ServiceAspect {
 		long startTime = System.currentTimeMillis();
 
 		Object returnValue = null;
-		System.out.println("开始计时" + joinPoint);
+		System.out.println("1 " + joinPoint);
 
 		try {
 			returnValue = joinPoint.proceed();
-			System.out.println("执行成功，结束计时" + joinPoint);
+			System.out.println("2 " + joinPoint);
 		} catch (Throwable e) {
 			e.printStackTrace();
-			System.out.println("执行失败，结束计时" + joinPoint);
+			System.out.println("3 " + joinPoint);
 		} finally {
 			long endTime = System.currentTimeMillis();
-			System.out.println("总耗时" + joinPoint + "[" + (endTime - startTime) + "]ms");
+			System.out.println("4 " + joinPoint + "[" + (endTime - startTime) + "]ms");
 		}
 
 		return returnValue;
@@ -61,6 +62,6 @@ public class ServiceAspect {
 		System.out.println("抛出异常通知" + joinPoint + " " + exception.getMessage());
 	}
 
-	@DeclareParents(value = "org.yangxin.springdemo.controller..*", defaultImpl = LittleUniverseImpl.class)
-	public LittleUniverse littleUniverse;
+//	@DeclareParents(value = "org.yangxin.springdemo.controller..*", defaultImpl = LittleUniverseImpl.class)
+//	public LittleUniverse littleUniverse;
 }

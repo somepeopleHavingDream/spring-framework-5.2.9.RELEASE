@@ -13,6 +13,7 @@ import org.yangxin.springdemo.entity.User;
  * @author yangxin
  * 2022/4/30 19:18
  */
+@SuppressWarnings("NullableProblems")
 @Configuration
 public class CustomizedBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
 

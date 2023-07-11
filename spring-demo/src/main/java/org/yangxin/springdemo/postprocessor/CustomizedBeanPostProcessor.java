@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
  * @author yangxin
  * 2022/4/30 19:29
  */
+@SuppressWarnings("NullableProblems")
 @Configuration
 public class CustomizedBeanPostProcessor implements BeanPostProcessor {
 

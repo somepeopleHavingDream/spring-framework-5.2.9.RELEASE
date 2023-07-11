@@ -17,7 +17,7 @@ import org.yangxin.springdemo.service.WelcomeService;
  * @author yangxin
  * 2020/10/20 20:18
  */
-@SuppressWarnings({"SpringFacetCodeInspection", "AlibabaRemoveCommentedCode", "CommentedOutCode"})
+@SuppressWarnings({"AlibabaRemoveCommentedCode", "CommentedOutCode"})
 @Configuration
 @ComponentScan("org.yangxin.springdemo")
 @EnableAspectJAutoProxy
@@ -66,7 +66,7 @@ public class Entrance {
 		HiService hiService = context.getBean(HiService.class);
 		hiService.sayHi();
 
-		HelloService helloService = context.getBean(HelloService.class);
-		helloService.sayHello();
+//		HelloService helloService = context.getBean(HelloService.class);
+//		helloService.sayHello();
 	}
 }
