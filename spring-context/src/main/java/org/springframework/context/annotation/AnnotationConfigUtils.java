@@ -186,9 +186,6 @@ public abstract class AnnotationConfigUtils {
 
 		// Check for JPA support, and if present add the PersistenceAnnotationBeanPostProcessor.
 		if (jpaPresent && !registry.containsBeanDefinition(PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME)) {
-			/*
-				以下不细究
-			 */
 			RootBeanDefinition def = new RootBeanDefinition();
 			try {
 				def.setBeanClass(ClassUtils.forName(PERSISTENCE_ANNOTATION_PROCESSOR_CLASS_NAME,
@@ -229,18 +226,13 @@ public abstract class AnnotationConfigUtils {
 
 	@Nullable
 	private static DefaultListableBeanFactory unwrapDefaultListableBeanFactory(BeanDefinitionRegistry registry) {
-		// 如果入参bean定义注册表是默认可列出bean工厂实例
 		if (registry instanceof DefaultListableBeanFactory) {
-			// 不细究
 			return (DefaultListableBeanFactory) registry;
 		}
-		// 如果入参bean定义注册表是通用应用上下文实例
 		else if (registry instanceof GenericApplicationContext) {
-			// 将入参bean定义注册表强转为通用应用上下文实例，再调用获取默认可列出bean工厂方法
 			return ((GenericApplicationContext) registry).getDefaultListableBeanFactory();
 		}
 		else {
-			// 不细究
 			return null;
 		}
 	}
@@ -293,13 +285,11 @@ public abstract class AnnotationConfigUtils {
 
 	@Nullable
 	static AnnotationAttributes attributesFor(AnnotatedTypeMetadata metadata, Class<?> annotationClass) {
-		// 返回注解属性
 		return attributesFor(metadata, annotationClass.getName());
 	}
 
 	@Nullable
 	static AnnotationAttributes attributesFor(AnnotatedTypeMetadata metadata, String annotationClassName) {
-		// 返回注解属性
 		return AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(annotationClassName, false));
 	}
 
