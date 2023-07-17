@@ -64,9 +64,6 @@ final class PostProcessorRegistrationDelegate {
 			List<BeanDefinitionRegistryPostProcessor> registryProcessors = new ArrayList<>();
 
 			for (BeanFactoryPostProcessor postProcessor : beanFactoryPostProcessors) {
-				/*
-					以下不细究
-				 */
 				if (postProcessor instanceof BeanDefinitionRegistryPostProcessor) {
 					BeanDefinitionRegistryPostProcessor registryProcessor =
 							(BeanDefinitionRegistryPostProcessor) postProcessor;
@@ -104,9 +101,6 @@ final class PostProcessorRegistrationDelegate {
 			postProcessorNames = beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.class, true, false);
 			for (String ppName : postProcessorNames) {
 				if (!processedBeans.contains(ppName) && beanFactory.isTypeMatch(ppName, Ordered.class)) {
-					/*
-						以下不细究
-					 */
 					currentRegistryProcessors.add(beanFactory.getBean(ppName, BeanDefinitionRegistryPostProcessor.class));
 					processedBeans.add(ppName);
 				}
@@ -144,9 +138,6 @@ final class PostProcessorRegistrationDelegate {
 		}
 
 		else {
-			/*
-				以下不细究
-			 */
 			// Invoke factory processors registered with the context instance.
 			invokeBeanFactoryPostProcessors(beanFactoryPostProcessors, beanFactory);
 		}
@@ -167,11 +158,9 @@ final class PostProcessorRegistrationDelegate {
 				// skip - already processed in first phase above
 			}
 			else if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
-				// 不细究
 				priorityOrderedPostProcessors.add(beanFactory.getBean(ppName, BeanFactoryPostProcessor.class));
 			}
 			else if (beanFactory.isTypeMatch(ppName, Ordered.class)) {
-				// 不细究
 				orderedPostProcessorNames.add(ppName);
 			}
 			else {
@@ -186,7 +175,6 @@ final class PostProcessorRegistrationDelegate {
 		// Next, invoke the BeanFactoryPostProcessors that implement Ordered.
 		List<BeanFactoryPostProcessor> orderedPostProcessors = new ArrayList<>(orderedPostProcessorNames.size());
 		for (String postProcessorName : orderedPostProcessorNames) {
-			// 不细究
 			orderedPostProcessors.add(beanFactory.getBean(postProcessorName, BeanFactoryPostProcessor.class));
 		}
 		sortPostProcessors(orderedPostProcessors, beanFactory);
@@ -278,10 +266,6 @@ final class PostProcessorRegistrationDelegate {
 		if (postProcessors.size() <= 1) {
 			return;
 		}
-
-		/*
-			以下不细究
-		 */
 
 		Comparator<Object> comparatorToUse = null;
 		if (beanFactory instanceof DefaultListableBeanFactory) {
