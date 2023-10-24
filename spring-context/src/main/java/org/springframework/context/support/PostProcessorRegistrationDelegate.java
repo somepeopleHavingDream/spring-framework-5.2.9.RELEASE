@@ -267,7 +267,6 @@ final class PostProcessorRegistrationDelegate {
 			return;
 		}
 
-
 		Comparator<Object> comparatorToUse = null;
 		if (beanFactory instanceof DefaultListableBeanFactory) {
 			comparatorToUse = ((DefaultListableBeanFactory) beanFactory).getDependencyComparator();
