@@ -84,7 +84,6 @@ class ComponentScanAnnotationParser {
 
 		ScopedProxyMode scopedProxyMode = componentScan.getEnum("scopedProxy");
 		if (scopedProxyMode != ScopedProxyMode.DEFAULT) {
-			// 不细究
 			scanner.setScopedProxyMode(scopedProxyMode);
 		}
 		else {
@@ -95,17 +94,11 @@ class ComponentScanAnnotationParser {
 		scanner.setResourcePattern(componentScan.getString("resourcePattern"));
 
 		for (AnnotationAttributes filter : componentScan.getAnnotationArray("includeFilters")) {
-			/*
-				以下不细究
-			 */
 			for (TypeFilter typeFilter : typeFiltersFor(filter)) {
 				scanner.addIncludeFilter(typeFilter);
 			}
 		}
 		for (AnnotationAttributes filter : componentScan.getAnnotationArray("excludeFilters")) {
-			/*
-				以下不细究
-			 */
 			for (TypeFilter typeFilter : typeFiltersFor(filter)) {
 				scanner.addExcludeFilter(typeFilter);
 			}
@@ -113,7 +106,6 @@ class ComponentScanAnnotationParser {
 
 		boolean lazyInit = componentScan.getBoolean("lazyInit");
 		if (lazyInit) {
-			// 不细究
 			scanner.getBeanDefinitionDefaults().setLazyInit(true);
 		}
 
@@ -125,11 +117,9 @@ class ComponentScanAnnotationParser {
 			Collections.addAll(basePackages, tokenized);
 		}
 		for (Class<?> clazz : componentScan.getClassArray("basePackageClasses")) {
-			// 不细究
 			basePackages.add(ClassUtils.getPackageName(clazz));
 		}
 		if (basePackages.isEmpty()) {
-			// 不细究
 			basePackages.add(ClassUtils.getPackageName(declaringClass));
 		}
 

@@ -69,7 +69,6 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 	private TypeMappedAnnotations(AnnotatedElement element, SearchStrategy searchStrategy,
 			RepeatableContainers repeatableContainers, AnnotationFilter annotationFilter) {
-
 		this.source = element;
 		this.element = element;
 		this.searchStrategy = searchStrategy;
@@ -80,7 +79,6 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 	private TypeMappedAnnotations(@Nullable Object source, Annotation[] annotations,
 			RepeatableContainers repeatableContainers, AnnotationFilter annotationFilter) {
-		// 设置当前类型映射注解的源、元素、搜索策略、注解、可重复容器、注解过滤器
 		this.source = source;
 		this.element = null;
 		this.searchStrategy = null;
@@ -101,7 +99,6 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 	@Override
 	public boolean isPresent(String annotationType) {
-		// 如果注解过滤器匹配了入参注解类型
 		if (this.annotationFilter.matches(annotationType)) {
 			return false;
 		}
@@ -236,18 +233,12 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 	@Nullable
 	private <C, R> R scan(C criteria, AnnotationsProcessor<C, R> processor) {
-		// 如果当前类型匹配注解不为null
 		if (this.annotations != null) {
-			/*
-				以下不细究
-			 */
 			R result = processor.doWithAnnotations(criteria, 0, this.source, this.annotations);
 			return processor.finish(result);
 		}
 
-		// 如果当前类型匹配注解的元素不为null，并且当前类型匹配注解的搜索策略不为null
 		if (this.element != null && this.searchStrategy != null) {
-			// 注解扫描器做扫描工作
 			return AnnotationsScanner.scan(criteria, this.element, this.searchStrategy, processor);
 		}
 		return null;
@@ -256,13 +247,10 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 	static MergedAnnotations from(AnnotatedElement element, SearchStrategy searchStrategy,
 			RepeatableContainers repeatableContainers, AnnotationFilter annotationFilter) {
-		// 如果已知为空
 		if (AnnotationsScanner.isKnownEmpty(element, searchStrategy)) {
-			// 返回
 			return NONE;
 		}
 
-		// 实例化并返回类型匹配注解实例
 		return new TypeMappedAnnotations(element, searchStrategy, repeatableContainers, annotationFilter);
 	}
 
@@ -357,22 +345,15 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 				AnnotationFilter annotationFilter, boolean directOnly) {
 
 			// Use a single shared instance for common combinations
-			// 如果入参注解过滤器为plain
 			if (annotationFilter == AnnotationFilter.PLAIN) {
-				// 如果入参可重复容器为none
 				if (repeatableContainers == RepeatableContainers.none()) {
-					// 返回共享的IsPresent对象
 					return SHARED[directOnly ? 0 : 1];
 				}
-				/*
-					以下不细究
-				 */
 				if (repeatableContainers == RepeatableContainers.standardRepeatables()) {
 					return SHARED[directOnly ? 2 : 3];
 				}
 			}
 
-			// 不细究
 			return new IsPresent(repeatableContainers, annotationFilter, directOnly);
 		}
 	}

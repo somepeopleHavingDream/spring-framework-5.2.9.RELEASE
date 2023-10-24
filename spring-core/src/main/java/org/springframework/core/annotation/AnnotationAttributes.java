@@ -108,10 +108,8 @@ public class AnnotationAttributes extends LinkedHashMap<String, Object> {
 	 * @since 4.2
 	 */
 	public AnnotationAttributes(Class<? extends Annotation> annotationType) {
-		// 断言，入参注解类型不为null
 		Assert.notNull(annotationType, "'annotationType' must not be null");
 
-		// 赋值当前注解属性的注解类型和展示名称
 		this.annotationType = annotationType;
 		this.displayName = annotationType.getName();
 	}
@@ -424,19 +422,14 @@ public class AnnotationAttributes extends LinkedHashMap<String, Object> {
 	 */
 	@Nullable
 	public static AnnotationAttributes fromMap(@Nullable Map<String, Object> map) {
-		// 如果入参map为null
 		if (map == null) {
-			// 返回null
 			return null;
 		}
 
-		// 如果入参map是注解属性实例
 		if (map instanceof AnnotationAttributes) {
-			// 将入参map强转为注解属性后返回
 			return (AnnotationAttributes) map;
 		}
 
-		// 不细究
 		return new AnnotationAttributes(map);
 	}
 

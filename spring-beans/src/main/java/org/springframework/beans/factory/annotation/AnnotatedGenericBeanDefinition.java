@@ -96,7 +96,6 @@ public class AnnotatedGenericBeanDefinition extends GenericBeanDefinition implem
 
 	@Override
 	public final AnnotationMetadata getMetadata() {
-		// 返回当前注解通用bean定义的元数据
 		return this.metadata;
 	}
 

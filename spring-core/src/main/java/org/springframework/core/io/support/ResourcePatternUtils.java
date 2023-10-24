@@ -59,14 +59,9 @@ public abstract class ResourcePatternUtils {
 	 * @see PathMatchingResourcePatternResolver
 	 */
 	public static ResourcePatternResolver getResourcePatternResolver(@Nullable ResourceLoader resourceLoader) {
-		// 如果入参资源加载器是资源模式解析器的实例
 		if (resourceLoader instanceof ResourcePatternResolver) {
-			// 将入参资源加载器强转为资源模式解析器，然后返回
 			return (ResourcePatternResolver) resourceLoader;
 		}
-		/*
-			以下不细究
-		 */
 		else if (resourceLoader != null) {
 			return new PathMatchingResourcePatternResolver(resourceLoader);
 		}

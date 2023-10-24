@@ -81,10 +81,6 @@ class ConditionEvaluator {
 			return false;
 		}
 
-		/*
-			以下不细究
-		 */
-
 		if (phase == null) {
 			if (metadata instanceof AnnotationMetadata &&
 					ConfigurationClassUtils.isConfigurationCandidate((AnnotationMetadata) metadata)) {
@@ -165,17 +161,11 @@ class ConditionEvaluator {
 				return (((ConfigurableApplicationContext) source).getBeanFactory());
 			}
 
-			// 不细究
 			return null;
 		}
 
 		private Environment deduceEnvironment(@Nullable BeanDefinitionRegistry source) {
-			/*
-				以下不细究
-			 */
-
 			if (source instanceof EnvironmentCapable) {
-				// 不细究
 				return ((EnvironmentCapable) source).getEnvironment();
 			}
 			return new StandardEnvironment();
@@ -186,7 +176,6 @@ class ConditionEvaluator {
 				return (ResourceLoader) source;
 			}
 
-			// 不细究
 			return new DefaultResourceLoader();
 		}
 
@@ -204,7 +193,6 @@ class ConditionEvaluator {
 				return beanFactory.getBeanClassLoader();
 			}
 
-			// 不细究
 			return ClassUtils.getDefaultClassLoader();
 		}
 

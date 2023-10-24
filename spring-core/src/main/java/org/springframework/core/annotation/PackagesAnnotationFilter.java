@@ -37,36 +37,28 @@ final class PackagesAnnotationFilter implements AnnotationFilter {
 
 
 	PackagesAnnotationFilter(String... packages) {
-		// 断言，入参包不为null
 		Assert.notNull(packages, "Packages array must not be null");
 
-		// 构建包前缀
 		this.prefixes = new String[packages.length];
 		for (int i = 0; i < packages.length; i++) {
 			String pkg = packages[i];
 			Assert.hasText(pkg, "Packages array must not have empty elements");
 			this.prefixes[i] = pkg + ".";
 		}
-		// 排序包前缀
 		Arrays.sort(this.prefixes);
 
-		// 设置当前包注解过滤器的哈希码
 		this.hashCode = Arrays.hashCode(this.prefixes);
 	}
 
 
 	@Override
 	public boolean matches(String annotationType) {
-		// 遍历当前包注解过滤器的所有前缀
 		for (String prefix : this.prefixes) {
-			// 如果入参注解类型与当前前缀匹配上了
 			if (annotationType.startsWith(prefix)) {
-				// 返回真，代表匹配上了
 				return true;
 			}
 		}
 
-		// 返回假，代表没匹配上
 		return false;
 	}
 

@@ -99,18 +99,12 @@ public abstract class ClassUtils {
 	/**
 	 * Map with primitive type name as key and corresponding primitive
 	 * type as value, for example: "int" -> "int.class".
-	 *
-	 * 以原始类型为键和以原始类型类对象为值的映射，
-	 * 例如："int" -> "int.class"
 	 */
 	private static final Map<String, Class<?>> primitiveTypeNameMap = new HashMap<>(32);
 
 	/**
 	 * Map with common Java language class name as key and corresponding Class as value.
 	 * Primarily for efficient deserialization of remote invocations.
-	 *
-	 * 与公共Java语言类名为键和键对应的类对象为值的映射。
-	 * 主要用于远程调用的高效反序列化。
 	 */
 	private static final Map<String, Class<?>> commonClassCache = new HashMap<>(64);
 
@@ -193,44 +187,30 @@ public abstract class ClassUtils {
 	 */
 	@Nullable
 	public static ClassLoader getDefaultClassLoader() {
-		// 声明一个类加载器
 		ClassLoader cl = null;
 
 		try {
-			// 获得当前线程的上下文类加载器
 			cl = Thread.currentThread().getContextClassLoader();
 		}
 		catch (Throwable ex) {
 			// Cannot access thread context ClassLoader - falling back...
-			// 不能访问线程上下文类加载器 - 失败回滚
 		}
 
-		// 如果类加载器为空
 		if (cl == null) {
-			/*
-				以下不细究
-			 */
-
 			// No thread context class loader -> use class loader of this class.
-			// 如果没有线程上下文类加载器，则使用此类的类加载器
 			cl = ClassUtils.class.getClassLoader();
 
-			// 如果此类的类加载器也为空
 			if (cl == null) {
 				// getClassLoader() returning null indicates the bootstrap ClassLoader
-				// getClassLoader()返回空指示引导类加载器
 				try {
-					// 获得系统类加载器
 					cl = ClassLoader.getSystemClassLoader();
 				}
 				catch (Throwable ex) {
 					// Cannot access system ClassLoader - oh well, maybe the caller can live with null...
-					// 不能访问系统类加载器？好吧，也许调用者能忍受空（返回空值）……
 				}
 			}
 		}
 
-		// 返回类加载器
 		return cl;
 	}
 
@@ -269,67 +249,48 @@ public abstract class ClassUtils {
 	 */
 	public static Class<?> forName(String name, @Nullable ClassLoader classLoader)
 			throws ClassNotFoundException, LinkageError {
-		// 断言：入参名必不为null
 		Assert.notNull(name, "Name must not be null");
 
-		// 解析原始类名，以获得该类的类对象
 		Class<?> clazz = resolvePrimitiveClassName(name);
 		if (clazz == null) {
-			// 如果上述获取到的类对象为null，则尝试从公共类对象缓存中获取对应类对象
 			clazz = commonClassCache.get(name);
 		}
 
-		// 如果上述获取到的字节码不为null，则直接返回
 		if (clazz != null) {
 			return clazz;
 		}
 
 		// "java.lang.String[]" style arrays
-		// 如果入参名称以数组后缀结尾
 		if (name.endsWith(ARRAY_SUFFIX)) {
-			/*
-				以下不细究
-			 */
 			String elementClassName = name.substring(0, name.length() - ARRAY_SUFFIX.length());
 			Class<?> elementClass = forName(elementClassName, classLoader);
 			return Array.newInstance(elementClass, 0).getClass();
 		}
 
 		// "[Ljava.lang.String;" style arrays
-		// 如果入参名称是以[L开始，并且以分号结尾
 		if (name.startsWith(NON_PRIMITIVE_ARRAY_PREFIX) && name.endsWith(";")) {
-			/*
-				以下不细究
-			 */
 			String elementName = name.substring(NON_PRIMITIVE_ARRAY_PREFIX.length(), name.length() - 1);
 			Class<?> elementClass = forName(elementName, classLoader);
 			return Array.newInstance(elementClass, 0).getClass();
 		}
 
 		// "[[I" or "[[Ljava.lang.String;" style arrays
-		// 如果入参名称是以[开头的
 		if (name.startsWith(INTERNAL_ARRAY_PREFIX)) {
 			String elementName = name.substring(INTERNAL_ARRAY_PREFIX.length());
 			Class<?> elementClass = forName(elementName, classLoader);
 			return Array.newInstance(elementClass, 0).getClass();
 		}
 
-		// 获得将要使用的类加载器
 		ClassLoader clToUse = classLoader;
 		if (clToUse == null) {
-			// 如果类加载器为null，则获得默认的类加载器
 			clToUse = getDefaultClassLoader();
 		}
 		try {
-			// 用给定的类加载器加载类对象（不初始化）
 			return Class.forName(name, false, clToUse);
 		}
 		catch (ClassNotFoundException ex) {
-			// 计算出最后一个点号的下标位置
 			int lastDotIndex = name.lastIndexOf(PACKAGE_SEPARATOR);
-			// 如果最后点号的下标位置不等于-1
 			if (lastDotIndex != -1) {
-				// 获得内部类名
 				String innerClassName =
 						name.substring(0, lastDotIndex) + INNER_CLASS_SEPARATOR + name.substring(lastDotIndex + 1);
 				try {
@@ -337,11 +298,9 @@ public abstract class ClassUtils {
 				}
 				catch (ClassNotFoundException ex2) {
 					// Swallow - let original exception get through
-					// 吞掉异常，让原异常通过
 				}
 			}
 
-			// 抛出异常
 			throw ex;
 		}
 	}
@@ -398,21 +357,15 @@ public abstract class ClassUtils {
 	 */
 	public static boolean isPresent(String className, @Nullable ClassLoader classLoader) {
 		try {
-			// 做实例化操作
 			forName(className, classLoader);
-			// 返回真，代表存在入参类
 			return true;
 		}
 		catch (IllegalAccessError err) {
-			/*
-				以下不细究
-			 */
 			throw new IllegalStateException("Readability mismatch in inheritance hierarchy of class [" +
 					className + "]: " + err.getMessage(), err);
 		}
 		catch (Throwable ex) {
 			// Typically ClassNotFoundException or NoClassDefFoundError...
-			// 返回假，代表入参类不存在
 			return false;
 		}
 	}
@@ -517,16 +470,11 @@ public abstract class ClassUtils {
 		// Most class names will be quite long, considering that they
 		// SHOULD sit in a package, so a length check is worthwhile.
 
-		/*
-			大多数类名相当长，考虑它们应该被存入一个包里，这样包检查是有价值的。
-		 */
 		if (name != null && name.length() <= 7) {
 			// Could be a primitive - likely.
-			// 可能是原始类型 - 可能。
 			result = primitiveTypeNameMap.get(name);
 		}
 
-		// 返回原始类型类对象
 		return result;
 	}
 
@@ -585,7 +533,6 @@ public abstract class ClassUtils {
 	 * @return the original class, or a primitive wrapper for the original primitive type
 	 */
 	public static Class<?> resolvePrimitiveIfNecessary(Class<?> clazz) {
-		// 断言，入参类对象不为null
 		Assert.notNull(clazz, "Class must not be null");
 		return (clazz.isPrimitive() && clazz != void.class ? primitiveTypeToWrapperMap.get(clazz) : clazz);
 	}
@@ -1008,9 +955,6 @@ public abstract class ClassUtils {
 	 * @throws IllegalArgumentException if the className is empty
 	 */
 	public static String getShortName(String className) {
-		/*
-			以下不细究
-		 */
 		Assert.hasLength(className, "Class name must not be empty");
 		int lastDotIndex = className.lastIndexOf(PACKAGE_SEPARATOR);
 		int nameEndIndex = className.indexOf(CGLIB_CLASS_SEPARATOR);

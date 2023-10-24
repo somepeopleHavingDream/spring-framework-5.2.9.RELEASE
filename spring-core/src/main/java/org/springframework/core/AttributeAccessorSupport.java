@@ -43,12 +43,9 @@ public abstract class AttributeAccessorSupport implements AttributeAccessor, Ser
 
 	@Override
 	public void setAttribute(String name, @Nullable Object value) {
-		// 断言入参属性名不能为null
 		Assert.notNull(name, "Name must not be null");
 
-		// 如果入参值不为null
 		if (value != null) {
-			// 不细究
 			this.attributes.put(name, value);
 		}
 		else {
@@ -78,7 +75,6 @@ public abstract class AttributeAccessorSupport implements AttributeAccessor, Ser
 
 	@Override
 	public String[] attributeNames() {
-		// 以字符串数组形式返回当前属性
 		return StringUtils.toStringArray(this.attributes.keySet());
 	}
 
@@ -88,15 +84,10 @@ public abstract class AttributeAccessorSupport implements AttributeAccessor, Ser
 	 * @param source the AttributeAccessor to copy from
 	 */
 	protected void copyAttributesFrom(AttributeAccessor source) {
-		// 断言入参属性访问器不为null
 		Assert.notNull(source, "Source must not be null");
 
-		// 获得属性访问器的所有属性
 		String[] attributeNames = source.attributeNames();
 		for (String attributeName : attributeNames) {
-			/*
-				以下不细究
-			 */
 			setAttribute(attributeName, source.getAttribute(attributeName));
 		}
 	}

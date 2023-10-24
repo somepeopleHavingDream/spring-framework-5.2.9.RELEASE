@@ -97,15 +97,12 @@ public interface AnnotatedTypeMetadata {
 	@Nullable
 	default Map<String, Object> getAnnotationAttributes(String annotationName,
 			boolean classValuesAsString) {
-		// 计算出合并注解
 		MergedAnnotation<Annotation> annotation = getAnnotations().get(annotationName,
 				null, MergedAnnotationSelectors.firstDirectlyDeclared());
 		if (!annotation.isPresent()) {
-			// 返回null
 			return null;
 		}
 
-		// 将注解属性转换为map返回
 		return annotation.asAnnotationAttributes(Adapt.values(classValuesAsString, true));
 	}
 

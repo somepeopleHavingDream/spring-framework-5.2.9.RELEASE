@@ -230,7 +230,6 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	@Override
 	public Resource[] getResources(String locationPattern) throws IOException {
 		if (this.resourceLoader instanceof ResourcePatternResolver) {
-			// 不细究
 			return ((ResourcePatternResolver) this.resourceLoader).getResources(locationPattern);
 		}
 		return super.getResources(locationPattern);
@@ -264,9 +263,6 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	@Override
 	protected final void refreshBeanFactory() throws IllegalStateException {
 		if (!this.refreshed.compareAndSet(false, true)) {
-			/*
-				以下不细究
-			 */
 			throw new IllegalStateException(
 					"GenericApplicationContext does not support multiple refresh attempts: just call 'refresh' once");
 		}
@@ -306,7 +302,6 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	 * @return the internal bean factory (as DefaultListableBeanFactory)
 	 */
 	public final DefaultListableBeanFactory getDefaultListableBeanFactory() {
-		// 返回当前通用应用上下文的bean工厂
 		return this.beanFactory;
 	}
 

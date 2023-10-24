@@ -275,16 +275,11 @@ final class TypeMappedAnnotation<A extends Annotation> extends AbstractMergedAnn
 
 	@Override
 	public <T extends Map<String, Object>> T asMap(Function<MergedAnnotation<?>, T> factory, Adapt... adaptations) {
-		// 使用工厂方法获得map
 		T map = factory.apply(this);
-		// 断言，map不为null
 		Assert.state(map != null, "Factory used to create MergedAnnotation Map must not return null");
 
-		// 从当前类型匹配注解的映射中获得属性方法
 		AttributeMethods attributes = this.mapping.getAttributes();
-		// 遍历所有属性
 		for (int i = 0; i < attributes.size(); i++) {
-			// 获得属性
 			Method attribute = attributes.get(i);
 			Object value = (isFiltered(attribute.getName()) ? null :
 					getValue(i, getTypeForMapOptions(attribute, adaptations)));
@@ -297,17 +292,13 @@ final class TypeMappedAnnotation<A extends Annotation> extends AbstractMergedAnn
 	}
 
 	private Class<?> getTypeForMapOptions(Method attribute, Adapt[] adaptations) {
-		// 获得属性类型
 		Class<?> attributeType = attribute.getReturnType();
-		// 获得组件类型
 		Class<?> componentType = (attributeType.isArray() ? attributeType.getComponentType() : attributeType);
 
-		// 如果满足以下条件
 		if (Adapt.CLASS_TO_STRING.isIn(adaptations) && componentType == Class.class) {
 			return (attributeType.isArray() ? String[].class : String.class);
 		}
 
-		// 返回对象类对象
 		return Object.class;
 	}
 
@@ -373,68 +364,45 @@ final class TypeMappedAnnotation<A extends Annotation> extends AbstractMergedAnn
 
 	@Nullable
 	private <T> T getValue(int attributeIndex, Class<T> type) {
-		// 获得对应的方法属性
 		Method attribute = this.mapping.getAttributes().get(attributeIndex);
-		// 获得值
 		Object value = getValue(attributeIndex, true, false);
-		// 如果值为null
 		if (value == null) {
-			// 不细究
 			value = attribute.getDefaultValue();
 		}
 
-		// 做适配操作，返回值
 		return adapt(attribute, value, type);
 	}
 
 	@Nullable
 	private Object getValue(int attributeIndex, boolean useConventionMapping, boolean forMirrorResolution) {
-		// 获得当前类映射注解的注解类型映射
 		AnnotationTypeMapping mapping = this.mapping;
-		// 如果当前类型映射注解使用合并值
 		if (this.useMergedValues) {
-			// 获得映射的索引
 			int mappedIndex = this.mapping.getAliasMapping(attributeIndex);
-			// 如果索引值为-1，并且使用约定映射
 			if (mappedIndex == -1 && useConventionMapping) {
-				// 获得使用约定映射的映射下标
 				mappedIndex = this.mapping.getConventionMapping(attributeIndex);
 			}
-			// 如果索引值不等于-1
 			if (mappedIndex != -1) {
-				/*
-					以下不细究
-				 */
 				mapping = mapping.getRoot();
 				attributeIndex = mappedIndex;
 			}
 		}
 
-		// 如果不镜像解析
 		if (!forMirrorResolution) {
-			// 获得属性下标
 			attributeIndex =
 					(mapping.getDistance() != 0 ? this.resolvedMirrors : this.resolvedRootMirrors)[attributeIndex];
 		}
 
-		// 如果属性下标为-1
 		if (attributeIndex == -1) {
-			// 不细究
 			return null;
 		}
 
-		// 如果映射的距离为0
 		if (mapping.getDistance() == 0) {
-			// 获得属性值
 			Method attribute = mapping.getAttributes().get(attributeIndex);
-			// 值提取器提取出结果
 			Object result = this.valueExtractor.extract(attribute, this.rootAttributes);
 
-			// 如果结果不为null，则返回结果，否则返回属性的默认值
 			return (result != null ? result : attribute.getDefaultValue());
 		}
 
-		// 以下不细究
 		return getValueFromMetaAnnotation(attributeIndex, forMirrorResolution);
 	}
 
@@ -461,13 +429,10 @@ final class TypeMappedAnnotation<A extends Annotation> extends AbstractMergedAnn
 	@SuppressWarnings("unchecked")
 	@Nullable
 	private <T> T adapt(Method attribute, @Nullable Object value, Class<T> type) {
-		// 如果入参值为null
 		if (value == null) {
-			// 不细究
 			return null;
 		}
 
-		// 获得适配之后的属性值
 		value = adaptForAttribute(attribute, value);
 		type = getAdaptType(attribute, type);
 		if (value instanceof Class && type == String.class) {
@@ -513,7 +478,6 @@ final class TypeMappedAnnotation<A extends Annotation> extends AbstractMergedAnn
 
 	@SuppressWarnings("unchecked")
 	private Object adaptForAttribute(Method attribute, Object value) {
-		// 获得属性类型
 		Class<?> attributeType = ClassUtils.resolvePrimitiveIfNecessary(attribute.getReturnType());
 		if (attributeType.isArray() && !value.getClass().isArray()) {
 			Object array = Array.newInstance(value.getClass(), 1);
@@ -606,13 +570,10 @@ final class TypeMappedAnnotation<A extends Annotation> extends AbstractMergedAnn
 	}
 
 	private boolean isFiltered(String attributeName) {
-		// 如果当前类型匹配注解的属性过滤器不存在
 		if (this.attributeFilter != null) {
-			// 不细究
 			return !this.attributeFilter.test(attributeName);
 		}
 
-		// 返回假，代表不需要过滤
 		return false;
 	}
 

@@ -417,7 +417,6 @@ final class AnnotationTypeMapping {
 	 * @return the distance of the mapping
 	 */
 	int getDistance() {
-		// 返回当前注解类型映射的距离
 		return this.distance;
 	}
 
@@ -448,7 +447,6 @@ final class AnnotationTypeMapping {
 	 * @return the attribute methods
 	 */
 	AttributeMethods getAttributes() {
-		// 返回当前注解类型映射的属性
 		return this.attributes;
 	}
 
@@ -461,7 +459,6 @@ final class AnnotationTypeMapping {
 	 * @return the mapped attribute index or {@code -1}
 	 */
 	int getAliasMapping(int attributeIndex) {
-		// 返回索引在当前注解类型映射的别名映射中的值
 		return this.aliasMappings[attributeIndex];
 	}
 
@@ -474,7 +471,6 @@ final class AnnotationTypeMapping {
 	 * @return the mapped attribute index or {@code -1}
 	 */
 	int getConventionMapping(int attributeIndex) {
-		// 返回入参属性下标在当前约定映射里的值
 		return this.conventionMappings[attributeIndex];
 	}
 

@@ -140,7 +140,6 @@ public class ResolvableType implements Serializable {
 	 */
 	private ResolvableType(
 			Type type, @Nullable TypeProvider typeProvider, @Nullable VariableResolver variableResolver) {
-		// 设置当前可解析类型的类型、类型提供者、变脸解析器、组件类型、哈希、解析类对象
 		this.type = type;
 		this.typeProvider = typeProvider;
 		this.variableResolver = variableResolver;
@@ -156,7 +155,6 @@ public class ResolvableType implements Serializable {
 	 */
 	private ResolvableType(Type type, @Nullable TypeProvider typeProvider,
 			@Nullable VariableResolver variableResolver, @Nullable Integer hash) {
-		// 设置当前可解析类型实例的类型、类型提供者、变量解析器、组件类型、哈希、已解析类对象
 		this.type = type;
 		this.typeProvider = typeProvider;
 		this.variableResolver = variableResolver;
@@ -171,7 +169,6 @@ public class ResolvableType implements Serializable {
 	 */
 	private ResolvableType(Type type, @Nullable TypeProvider typeProvider,
 			@Nullable VariableResolver variableResolver, @Nullable ResolvableType componentType) {
-		// 设置当前可选类型的类型、类型提供者、变量解析器、组件类型、哈希、解析类对象
 		this.type = type;
 		this.typeProvider = typeProvider;
 		this.variableResolver = variableResolver;
@@ -186,7 +183,6 @@ public class ResolvableType implements Serializable {
 	 * @since 4.2
 	 */
 	private ResolvableType(@Nullable Class<?> clazz) {
-		// 设置当前可解析类型的解析字节码、类型、类型提供者、变量解析器、成员类型、哈希
 		this.resolved = (clazz != null ? clazz : Object.class);
 		this.type = this.resolved;
 		this.typeProvider = null;
@@ -794,7 +790,6 @@ public class ResolvableType implements Serializable {
 	 */
 	@Nullable
 	public Class<?> resolve() {
-		// 返回当前可解析类型是否已被解析过
 		return this.resolved;
 	}
 
@@ -815,28 +810,19 @@ public class ResolvableType implements Serializable {
 
 	@Nullable
 	private Class<?> resolveClass() {
-		// 如果当前可解析类型的类型的是空类型实例
 		if (this.type == EmptyType.INSTANCE) {
-			// 返回null
 			return null;
 		}
 
-		// 如果当前可解析类型的类型是Class实例
 		if (this.type instanceof Class) {
-			// 将当前可解析类型的类型变量强转为Class对象后，再返回
 			return (Class<?>) this.type;
 		}
 
-		// 如果当前可解析类型的类型是通用数组类型
 		if (this.type instanceof GenericArrayType) {
-			/*
-				以下不细究
-			 */
 			Class<?> resolvedComponent = getComponentType().resolve();
 			return (resolvedComponent != null ? Array.newInstance(resolvedComponent, 0).getClass() : null);
 		}
 
-		// 获得解析类型，做解析处理
 		return resolveType().resolve();
 	}
 
@@ -846,9 +832,7 @@ public class ResolvableType implements Serializable {
 	 * as it cannot be serialized.
 	 */
 	ResolvableType resolveType() {
-		// 如果当前可解析类型是参数化类型
 		if (this.type instanceof ParameterizedType) {
-			// 返回类型
 			return forType(((ParameterizedType) this.type).getRawType(), this.variableResolver);
 		}
 		if (this.type instanceof WildcardType) {
@@ -952,9 +936,6 @@ public class ResolvableType implements Serializable {
 	}
 
 	private int calculateHashCode() {
-		/*
-			以下不细究
-		 */
 		int hashCode = ObjectUtils.nullSafeHashCode(this.type);
 		if (this.typeProvider != null) {
 			hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode(this.typeProvider.getType());
@@ -1026,7 +1007,6 @@ public class ResolvableType implements Serializable {
 	 * @see #forClassWithGenerics(Class, Class...)
 	 */
 	public static ResolvableType forClass(@Nullable Class<?> clazz) {
-		// 实例化并返回可解析类型
 		return new ResolvableType(clazz);
 	}
 
@@ -1043,7 +1023,6 @@ public class ResolvableType implements Serializable {
 	 * @see #getRawClass()
 	 */
 	public static ResolvableType forRawClass(@Nullable Class<?> clazz) {
-		// 实例化并返回可解析类型
 		return new ResolvableType(clazz) {
 			@Override
 			public ResolvableType[] getGenerics() {
@@ -1130,21 +1109,15 @@ public class ResolvableType implements Serializable {
 	 * @see ResolvableTypeProvider
 	 */
 	public static ResolvableType forInstance(Object instance) {
-		// 断言：入参实例不为null
 		Assert.notNull(instance, "Instance must not be null");
 
-		// 如果入参实例是可解析类型提供者实例
 		if (instance instanceof ResolvableTypeProvider) {
-			/*
-				不细究
-			 */
 			ResolvableType type = ((ResolvableTypeProvider) instance).getResolvableType();
 			if (type != null) {
 				return type;
 			}
 		}
 
-		// 实例化出一个可解析类型
 		return ResolvableType.forClass(instance.getClass());
 	}
 
@@ -1432,7 +1405,6 @@ public class ResolvableType implements Serializable {
 	 * @return a {@link ResolvableType} for the specified {@link Type} and {@link VariableResolver}
 	 */
 	static ResolvableType forType(@Nullable Type type, @Nullable VariableResolver variableResolver) {
-		// 返回类型
 		return forType(type, null, variableResolver);
 	}
 
@@ -1446,45 +1418,32 @@ public class ResolvableType implements Serializable {
 	 */
 	static ResolvableType forType(
 			@Nullable Type type, @Nullable TypeProvider typeProvider, @Nullable VariableResolver variableResolver) {
-		// 如果入参类型为null，并且入参类型提供者不为null
 		if (type == null && typeProvider != null) {
-			// 通过可序列化类型包装器返回类型
 			type = SerializableTypeWrapper.forTypeProvider(typeProvider);
 		}
 
-		// 如果入参类型为null
 		if (type == null) {
-			// 不细究
 			return NONE;
 		}
 
 		// For simple Class references, build the wrapper right away -
 		// no expensive resolution necessary, so not worth caching...
-		// 如果入参类型是类对象实例
 		if (type instanceof Class) {
-			// 实例化并返回可解析类型
 			return new ResolvableType(type, typeProvider, variableResolver, (ResolvableType) null);
 		}
 
 		// Purge empty entries on access since we don't have a clean-up thread or the like.
-		// 清除缓冲中未被引用的条目
 		cache.purgeUnreferencedEntries();
 
 		// Check the cache - we may have a ResolvableType which has been resolved before...
-		// 实例化一个可解析类型
 		ResolvableType resultType = new ResolvableType(type, typeProvider, variableResolver);
-		// 从缓存中获得可解析类型
 		ResolvableType cachedType = cache.get(resultType);
-		// 如果缓存的类型为null
 		if (cachedType == null) {
-			// 实例化一个可解析类型，存入缓存中
 			cachedType = new ResolvableType(type, typeProvider, variableResolver, resultType.hash);
 			cache.put(cachedType, cachedType);
 		}
-		// 将返回类型的已解析类对象赋值为缓存类型的已解析类对象
 		resultType.resolved = cachedType.resolved;
 
-		// 返回结果类型
 		return resultType;
 	}
 
@@ -1493,9 +1452,7 @@ public class ResolvableType implements Serializable {
 	 * @since 4.2
 	 */
 	public static void clearCache() {
-		// 清除当前可解析类型缓存
 		cache.clear();
-		// 清除可序列化类型包装器的缓存
 		SerializableTypeWrapper.cache.clear();
 	}
 
