@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group = 'org.springframework'
+version = '5.2.0.RELEASE'
+
+sourceCompatibility = 1.8
+
+repositories {
+    maven { url 'https://maven.aliyun.com/repository/public' }
+    maven { url 'https://maven.aliyun.com/repository/central'}
+    maven { url 'https://maven.aliyun.com/repository/google'}
+    mavenCentral()
+    maven { url "https://repo.spring.io/libs-spring-framework-build" }
+}
+
+dependencies {
+//    testImplementation platform('org.junit:junit-bom:5.9.1')
+//    testImplementation 'org.junit.jupiter:junit-jupiter'
+    compile(project(":spring-webmvc"))
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    compile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.3.3'
+    //noinspection VulnerableLibrariesLocal
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+//test {
+//    useJUnitPlatform()
+//}
