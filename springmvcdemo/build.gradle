@@ -17,15 +17,9 @@ repositories {
 }
 
 dependencies {
-//    testImplementation platform('org.junit:junit-bom:5.9.1')
-//    testImplementation 'org.junit.jupiter:junit-jupiter'
     compile(project(":spring-webmvc"))
     compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
     compile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.3.3'
     //noinspection VulnerableLibrariesLocal
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
-
-//test {
-//    useJUnitPlatform()
-//}

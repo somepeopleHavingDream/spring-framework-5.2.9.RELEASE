@@ -65,7 +65,6 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 	 * Create a new SimpleApplicationEventMulticaster for the given BeanFactory.
 	 */
 	public SimpleApplicationEventMulticaster(BeanFactory beanFactory) {
-		// 设置当前简单应用事件多播器的bean工厂
 		setBeanFactory(beanFactory);
 	}
 
@@ -134,9 +133,6 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 		Executor executor = getTaskExecutor();
 
 		for (ApplicationListener<?> listener : getApplicationListeners(event, type)) {
-			/*
-				以下不细究
-			 */
 			if (executor != null) {
 				executor.execute(() -> invokeListener(listener, event));
 			}
